@@ -30,3 +30,17 @@ class Field {
 
   print(toString2())
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
