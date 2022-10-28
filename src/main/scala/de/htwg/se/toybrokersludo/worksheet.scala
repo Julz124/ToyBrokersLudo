@@ -1,6 +1,7 @@
 package de.htwg.se.toybrokersludo
 
 class Field {
+  
   val map: List[List[Boolean]] = List(
     List(true, false, true, false, true, true, true, false, true, false, true),
     List(false, false, false, false, true, true, true, false, false, false, false),
@@ -27,6 +28,8 @@ class Field {
 
   def toString2(): String =
     mash().mkString
+
+
 
   print(toString2())
 }

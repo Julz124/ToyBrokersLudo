@@ -10,16 +10,15 @@ class fieldSpec extends AnyWordSpec with Matchers {
   val eol = "\n"
 
   "field" should {
-
     "have scale horizontal" in
-      field.horizontal(List(true, false, true),2) == (List("+--+", "    ", "+--+"))
-      field.horizontal(List(true, false, true), 4) == (List("+----+", "      ", "+----+"))
-      field.horizontal(List(true, false, true), 6) == (List("+------+", "        ", "+------+"))
+      field.horizontal(List(true, false, true), 2) == (List("+--+", "    ", "+--+"))
+    field.horizontal(List(true, false, true), 4) == (List("+----+", "      ", "+----+"))
+    field.horizontal(List(true, false, true), 6) == (List("+------+", "        ", "+------+"))
 
     "have scale vertical" in
       field.vertical(List(true, false, true), 2) == (List("|  |", "    ", "|  |"))
-      field.vertical(List(true, false, true), 4) == (List("|    |", "      ", "|    |"))
-      field.vertical(List(true, false, true), 6) == (List("|      |", "        ", "|      |"))
+    field.vertical(List(true, false, true), 4) == (List("|    |", "      ", "|    |"))
+    field.vertical(List(true, false, true), 6) == (List("|      |", "        ", "|      |"))
 
 
     "can merge the lines" in field.mash(List(List(true, false), List(false, true)), 4) == (
@@ -32,14 +31,42 @@ class fieldSpec extends AnyWordSpec with Matchers {
         "      +----+")
       )
 
-    "can convert to String" in field.toString(List(List(true, false), List(false, true))) == (
-      "+----+      " + eol +
-        "|    |      " + eol +
-        "+----+      " + eol +
-        "      +----+" + eol +
-        "      |    |" + eol +
-        "      +----+" + eol
-      )
+    "can convert a map to String" in 
+      field.toString() == (
+      "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        |    ||    ||    |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        |    ||    ||    |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "+----+      +----+      +----+      +----+      +----+      +----+" + eol +
+        "|    |      |    |      |    |      |    |      |    |      |    |" + eol +
+        "+----+      +----+      +----+      +----+      +----+      +----+" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        |    ||    ||    |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        |    ||    ||    |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol
+    )
   }
 }
 
