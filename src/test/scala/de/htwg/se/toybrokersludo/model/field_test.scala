@@ -4,11 +4,9 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.toybrokersludo.model.field
 
-class field_test {
+class field_test extends WordSpec with Matchers{
   val field = new field
   val eol = "\n"
-
-
 
   "have scale horizontal" in {
     field.horizontal(List[true, false, true], 2) should ("+--+    +--+")
@@ -26,7 +24,6 @@ class field_test {
     field.mash(List(List(true, false), List(false, true)), 4) should ("+----+    " + eol +
                                                                       "|    |      " + eol) +
                                                                         "+----+    " + eol +
-
 
   }
 
