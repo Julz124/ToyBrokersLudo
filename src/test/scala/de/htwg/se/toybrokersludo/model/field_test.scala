@@ -21,14 +21,23 @@ class field_test extends WordSpec with Matchers{
   }
 
   "can merge the lines" in {
-    field.mash(List(List(true, false), List(false, true)), 4) should ("+----+    " + eol +
-                                                                      "|    |      " + eol) +
-                                                                        "+----+    " + eol +
-
+    field.mash(List(List(true, false), List(false, true)), 4) should (
+      List(
+        "+----+      ",
+        "|    |      ",
+        "+----+      ",
+        "      +----+",
+        "      |    |",
+        "      +----+")
   }
 
-
-
-
-
+  "can convert to String" in {
+    field.toString(field.mash(List(List(true, false), List(false, true))) should (
+      "+----+      " + eol +
+      "|    |      " + eol +
+      "+----+      " + eol +
+      "      +----+" + eol +
+      "      |    |" + eol +
+      "      +----+" + eol)
+  }
 }

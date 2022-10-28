@@ -25,9 +25,7 @@ class field {
   def mash(map: List[List[Boolean]] = map, size: Int = 4): List[String] =
     for (list <- map) yield horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol
 
-  def toString2(): String =
+  override def toString(): String =
     mash().mkString
 
-
-  print(toString2())
 }
