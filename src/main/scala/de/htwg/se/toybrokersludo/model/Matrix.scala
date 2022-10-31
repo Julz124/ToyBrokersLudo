@@ -2,8 +2,8 @@ package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo.model.Stone
 
-class Matrix {
-  
+class Matrix() {
+
   val map: Vector[Vector[Stone]] = Vector(
     Vector(
       Stone(true, 0, None), Stone(false, -1, None),
@@ -80,5 +80,5 @@ class Matrix {
         "|10  |      |11  |      |51  ||50  || 49 |      |  14  |    | 15   |" + eol +
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol
       )
-  *//
+  */
 }

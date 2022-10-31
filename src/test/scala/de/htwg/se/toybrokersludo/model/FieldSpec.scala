@@ -6,7 +6,10 @@ import de.htwg.se.toybrokersludo.model.Field
 import org.scalatest.matchers.should.Matchers.should
 
 class FieldSpec extends AnyWordSpec with Matchers {
+  /*
+
   val field = new Field
+
   val eol = "\n"
 
   "field" should {
@@ -69,6 +72,8 @@ class FieldSpec extends AnyWordSpec with Matchers {
     )
   }
 }
+
+
 
 
 
