@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.model
 
-class field {
+class Field {
   val map: List[List[Boolean]] = List(
     List(true, false, true, false, true, true, true, false, true, false, true),
     List(false, false, false, false, true, true, true, false, false, false, false),
