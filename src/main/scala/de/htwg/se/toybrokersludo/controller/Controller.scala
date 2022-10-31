@@ -10,8 +10,10 @@ import de.htwg.se.toybrokersludo.aview.TUI
 case class Controller(var field : Field) {
 
 
-  def doAndPublish(move : Move, tui: TUI): Unit =
-    field
+  def doAndPublish(doThis: Move => Field, move: Move) =
+    field = doThis(move)
 
+  def put(move: Move): Field =
+    field.put(move)
 
 }

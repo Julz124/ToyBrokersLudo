@@ -17,7 +17,7 @@ class TUI(controller: Controller) {
 
   def inputLoop(): Unit =
     analyseInput(readLine) match
-      case Some(move) => controller.doAndPublish(move)
+      case Some(move) => controller.doAndPublish(controller.put, move)
       case None =>
     inputLoop()
 
