@@ -2,9 +2,11 @@ package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo.model.Stone
 
+import scala.language.postfixOps
+
 class Matrix() {
 
-  val map: List[List[Stone]] = List(
+  var map: List[List[Stone]] = List(
     List(
       Stone(true, 0, Option(Player(1))), Stone(false, -1, None), Stone(true, 1, None), Stone(false, -1, None),
       Stone(true, 28, None), Stone(true, 29, None), Stone(true, 30, None),
@@ -51,18 +53,15 @@ class Matrix() {
       Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None))
     )
 
-  def put(move : Move): Unit =
-    map.flatMap(_.filter(_.index == move.number)).find(_ => true) match
-      case None =>
-      case Some(stone) => stone = Stone(stone.isAPlayField, stone.index, Option(move.player))
+  def put(move : Move): Matrix =
+    val a = map.indexWhere((list : List[Stone]) => list.exists((stone : Stone) => stone.index == move.number))
+    val stone = map(a)(map(a).indexWhere((stone : Stone) => stone.index == move.number))
+    val list = map(a).updated(map(a).indexWhere((stone : Stone) => stone.index == move.number),
+      Stone(stone.isAPlayField, stone.index, Option(move.player)))
+    map = map.updated(a, list)
+    this
 
-
-
-
-
-
-
-
+  
   // index 0 - 16 is for start, 20 - 60 for we play field and 70 - 86 for stop
 
   /*"can convert a map to String" in
