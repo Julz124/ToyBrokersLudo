@@ -3,12 +3,8 @@ package de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.model.Stone
 
 class Matrix {
-
-  // index 0 - 16 is for start, 20 - 60 for we play field and 70 - 86 for stop
-
-
-
-  val map2: Vector[Vector[Stone]] = Vector(
+  
+  val map: Vector[Vector[Stone]] = Vector(
     Vector(
       Stone(true, 0, None), Stone(false, -1, None),
       Stone(true, 1, None), Stone(false, -1, None),
@@ -46,8 +42,9 @@ class Matrix {
       Stone(false, -1, None), Stone(false, -1, None),
     ))
 
+  // index 0 - 16 is for start, 20 - 60 for we play field and 70 - 86 for stop
 
-  "can convert a map to String" in
+  /*"can convert a map to String" in
     field.toString() == (
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
         "|  0  |   |  1  |       | 29 ||30  || 31 |      |  4  |      |  5  |" + eol +
@@ -83,4 +80,5 @@ class Matrix {
         "|10  |      |11  |      |51  ||50  || 49 |      |  14  |    | 15   |" + eol +
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol
       )
+  *//
 }
