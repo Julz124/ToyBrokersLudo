@@ -4,51 +4,51 @@ import de.htwg.se.toybrokersludo.model.Stone
 
 class Matrix {
 
-/*
-  val map: Vector[Vector[Stone]] = List(
-    List(true, false, true, false, true, true, true, false, true, false, true),
-    List(false, false, false, false, true, true, true, false, false, false, false),
-    List(true, false, true, false, true, true, true, false, true, false, true),
-    List(false, false, false, false, true, true, true, false, false, false, false),
-    List(true, true, true, true, true, true, true, true, true, true, true),
-    List(true, true, true, true, true, false, true, true, true, true, true),
-    List(true, true, true, true, true, true, true, true, true, true, true),
-    List(false, false, false, false, true, true, true, false, false, false, false),
-    List(true, false, true, false, true, true, true, false, true, false, true),
-    List(false, false, false, false, true, true, true, false, false, false, false),
-    List(true, false, true, false, true, true, true, false, true, false, true))
-*/
+  // index 0 - 16 is for start, 20 - 60 for we play field and 70 - 86 for stop
+
+
 
   val map2: Vector[Vector[Stone]] = Vector(
     Vector(
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
-      Stone(true, 1, None), Stone(true, 1, None),
+      Stone(true, 0, None), Stone(false, -1, None),
+      Stone(true, 1, None), Stone(false, -1, None),
     ))
+
+
+  "can convert a map to String" in
+    field.toString() == (
+      "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|  0  |      |  2  |  | 29 ||30  || 31 |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        | 28 ||    || 32 |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|  3  |      |  4  |    | 27  ||    || 33 |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        |25  ||    ||34  |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|20  | 21   | 22 |  23  | 24 ||    || 35 |  36  | 37 | 38   |39 |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "+----+      +----+      +----+      +----+      +----+      +----+" + eol +
+        "| 60 |      |    |      |    |      |    |      |    |      |40 |" + eol +
+        "+----+      +----+      +----+      +----+      +----+      +----+" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "| 59 |  58  |57  |   56 | 55 ||    ||45  |  44  |43  |42    |41  |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        |  54||    ||46  |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      | 53 ||    || 47 |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "                        +----++----++----+                        " + eol +
+        "                        | 52 ||    || 48 |                        " + eol +
+        "                        +----++----++----+                        " + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+        "|    |      |    |      |51  ||50  || 49 |      |    |      |    |" + eol +
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol
+      )
 }
