@@ -9,7 +9,6 @@ import scala.io.StdIn.readLine
 
 class TUI(controller: Controller) {
 
-
   def run() =
     println(controller.field.toString)
     inputLoop()
@@ -23,7 +22,11 @@ class TUI(controller: Controller) {
     inputLoop()
 
   def analyseInput(input: String): Option[Move] =
-    input match
-      case "" => None
-      case "R 1 4" => Option(Move(Player(1), 4))
+    val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
+    pattern.findFirstIn(input) match
+      case Some(_) => Option(Move(Player((input.split(" ")(1).toInt),
+        input.split(" ")(0).toString), input.split(" ")(2).toInt))
+      case None => None
+
+
 }
