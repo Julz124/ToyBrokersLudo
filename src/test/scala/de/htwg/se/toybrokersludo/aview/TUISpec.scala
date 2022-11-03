@@ -37,7 +37,7 @@ class TUISpec extends AnyWordSpec with Matchers {
       tui.analyseInput("B 0 4") == (Option(Move(Player(0, "B"), 4)))
 
     "recognize the input Y 3 4 as put of move from player Y3 to index 20 in field" in
-      tui.analyseInput("Y 3 4") == (Some(model.Move(Player(3, "Y"), 20)))
+      tui.analyseInput("Y 3 4") == (Some(Move(Player(3, "Y"), 20)))
 
   }
 }

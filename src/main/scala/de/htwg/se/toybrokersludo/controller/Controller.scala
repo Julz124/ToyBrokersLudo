@@ -1,6 +1,7 @@
 package de.htwg.se.toybrokersludo.controller
 
 import de.htwg.se.toybrokersludo.model.{Field, Move, Player}
+import de.htwg.se.toybrokersludo.aview.TUI
 
 
 case class Controller(var field : Field) {
@@ -11,6 +12,6 @@ case class Controller(var field : Field) {
     tui.update()
 
   def put(move: Move): Field =
-    field = field.put(move)
+    field.put(move)
 
 }

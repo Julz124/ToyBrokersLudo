@@ -2,7 +2,7 @@ package de.htwg.se.toybrokersludo.aview
 
 import de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.model.{Move, Player}
-
+import de.htwg.se.toybrokersludo.controller.Controller
 import scala.io.StdIn.readLine
 
 class TUI(controller: Controller) {
