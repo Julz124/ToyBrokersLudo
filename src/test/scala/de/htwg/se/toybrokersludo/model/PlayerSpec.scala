@@ -1,6 +1,5 @@
 package de.htwg.se.toybrokersludo.model
 
-import de.htwg.se.toybrokersludo.{Player, Stone}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

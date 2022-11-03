@@ -1,6 +1,7 @@
 package de.htwg.se.toybrokersludo.aview
 
-import de.htwg.se.toybrokersludo.{Move, Player}
+import de.htwg.se.toybrokersludo.model
+import de.htwg.se.toybrokersludo.model.{Move, Player}
 
 import scala.io.StdIn.readLine
 
@@ -21,7 +22,7 @@ class TUI(controller: Controller) {
   def analyseInput(input: String): Option[Move] =
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     pattern.findFirstIn(input) match
-      case Some(_) => Option(Move(Player(input.split(" ")(1).toInt,
+      case Some(_) => Option(model.Move(Player(input.split(" ")(1).toInt,
         input.split(" ")(0)), input.split(" ")(2).toInt))
       case None => None
 
