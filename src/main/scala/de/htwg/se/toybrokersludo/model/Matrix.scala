@@ -1,10 +1,7 @@
 package de.htwg.se.toybrokersludo.model
 
-import de.htwg.se.toybrokersludo.model.Stone
 
-import scala.language.postfixOps
-
-class Matrix(var map: List[List[Stone]] = List(
+case class Matrix(var map: List[List[Stone]] = List(
   List(
     Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None), Stone(false, -1, None),
     Stone(true, 28, None), Stone(true, 29, None), Stone(true, 30, None),

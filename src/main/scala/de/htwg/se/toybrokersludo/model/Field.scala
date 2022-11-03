@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.model
 
-case class Field(matrix: Matrix) {
+case class Field(var matrix: Matrix) {
   
   val eol: String = "\n"
 
