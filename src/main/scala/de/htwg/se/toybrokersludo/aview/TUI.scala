@@ -1,9 +1,6 @@
 package de.htwg.se.toybrokersludo.aview
 
-import de.htwg.se.toybrokersludo.controller.Controller
-import de.htwg.se.toybrokersludo.model.Move
-import de.htwg.se.toybrokersludo.model.Player
-
+import de.htwg.se.toybrokersludo.{Move, Player}
 
 import scala.io.StdIn.readLine
 

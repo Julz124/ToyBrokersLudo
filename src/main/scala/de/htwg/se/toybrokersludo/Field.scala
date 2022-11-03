@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.model
+package de.htwg.se.toybrokersludo
 
 case class Field(var matrix: Matrix) {
   

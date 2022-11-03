@@ -1,8 +1,8 @@
 package de.htwg.se.toybrokersludo.model
 
+import de.htwg.se.toybrokersludo.{Field, Matrix, Move, Player, Stone}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.toybrokersludo.model.Field
 import org.scalatest.matchers.should.Matchers.should
 
 class FieldSpec extends AnyWordSpec with Matchers {

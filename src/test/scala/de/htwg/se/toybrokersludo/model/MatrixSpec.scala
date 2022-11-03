@@ -1,9 +1,6 @@
-package de.htwg.se.toybrokersludo.model.model
+package de.htwg.se.toybrokersludo.model
 
-import de.htwg.se.toybrokersludo.model.Matrix
-import de.htwg.se.toybrokersludo.model.Stone
-import de.htwg.se.toybrokersludo.model.Move
-import de.htwg.se.toybrokersludo.model.Player
+import de.htwg.se.toybrokersludo.{Matrix, Move, Player, Stone}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

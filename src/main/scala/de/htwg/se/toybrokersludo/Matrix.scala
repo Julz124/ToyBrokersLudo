@@ -1,5 +1,4 @@
-package de.htwg.se.toybrokersludo.model
-
+package de.htwg.se.toybrokersludo
 
 case class Matrix(var map: List[List[Stone]] = List(
   List(
