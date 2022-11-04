@@ -6,6 +6,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
 
+import scala.collection.mutable
+
 class TUISpec extends AnyWordSpec with Matchers {
 
   val map : List[List[Stone]] = List(
@@ -22,16 +24,9 @@ class TUISpec extends AnyWordSpec with Matchers {
   "The Tui" should {
 
 
-    /*
-    "have a def run" in
-      tui.run()
-
-    "have a def update" in
-      tui.update().toString == field.toString
-
-    "have d def inputLoop" in
-      tui.inputLoop()
-    */
+    
+    "have a input loop" in
+      tui.inputLoop(mutable.Queue("R 0 0", "q")) == "q"
 
     "recognize the input B 0 4 as put of move from player B0 to index 4 in field" in
       tui.analyseInput("B 0 4") == (Option(Move(Player(0, "B"), 4)))
@@ -39,5 +34,7 @@ class TUISpec extends AnyWordSpec with Matchers {
     "recognize the input Y 3 4 as put of move from player Y3 to index 20 in field" in
       tui.analyseInput("Y 3 4") == (Some(Move(Player(3, "Y"), 20)))
 
+    "recognize false input as None" in
+      tui.analyseInput("xyz") == None
   }
 }

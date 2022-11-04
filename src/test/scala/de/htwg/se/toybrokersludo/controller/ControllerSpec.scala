@@ -18,7 +18,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
   val controller = Controller(field)
   val tui = TUI(controller)
 
-  controller.doAndPublish(controller.put, Move(Player(0, "B"), 0), tui)
+  controller.doAndPublish(controller.put, Move(Player(0, "B"), 0))
 
   "The Controller" should  {
     "can put" in
