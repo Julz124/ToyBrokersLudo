@@ -12,8 +12,9 @@ class TUI(controller: Controller) extends Observer {
 
   controller.add(this)
 
-  def run() =
+  def run(testparameter: String = "") : String =
     println(controller.field.toString)
+    if (testparameter.equals("only one time")) return "successful"
     inputLoop()
 
   override def update = println(controller.field.toString)

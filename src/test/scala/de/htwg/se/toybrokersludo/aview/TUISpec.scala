@@ -25,9 +25,24 @@ class TUISpec extends AnyWordSpec with Matchers {
   "The Tui" should {
 
 
-    
+    /*
     "have a input loop" in
       tui.inputLoop(mutable.Queue("R 0 0", "q")) == "q"
+    */
+
+
+    "have a run only one time" in
+      tui.run("only one time") == "successful"
+      tui.inputLoop(mutable.Queue("q"))
+
+
+    "have a input loop" in
+      tui.inputLoop(mutable.Queue("R 0 0", "", "q"))
+      field.matrix.map == (List(
+      List(Stone(true, 0, Option(Player(0, "R"))), Stone(false, -1, None)),
+      List(Stone(true, 1, None), Stone(false, -1, None))))
+
+
 
     "recognize the input B 0 4 as put of move from player B0 to index 4 in field" in
       tui.analyseInput("B 0 4") == (Option(Move(Player(0, "B"), 4)))
