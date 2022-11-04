@@ -1,5 +1,7 @@
 package de.htwg.se.toybrokersludo
 
+import de.htwg.se.toybrokersludo.aview.TUI
+import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.model.{Field, Matrix}
 
 @main def run: Unit =

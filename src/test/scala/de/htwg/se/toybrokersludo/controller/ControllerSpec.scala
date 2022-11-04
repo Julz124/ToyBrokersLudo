@@ -1,6 +1,7 @@
 package de.htwg.se.toybrokersludo.controller
 
 import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Player, Stone}
+import de.htwg.se.toybrokersludo.aview.TUI
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
