@@ -3,6 +3,8 @@ package de.htwg.se.toybrokersludo.aview
 import de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.model.{Move, Player}
 import de.htwg.se.toybrokersludo.controller.Controller
+
+import scala.collection.mutable
 import scala.io.StdIn.readLine
 
 class TUI(controller: Controller) {
@@ -13,8 +15,11 @@ class TUI(controller: Controller) {
 
   def update() = println(controller.field.toString)
 
-  def inputLoop(): Unit =
-    analyseInput(readLine) match
+  def inputLoop(testparameter : mutable.Queue[String] = mutable.Queue[String]()): Unit =
+    var input = ""
+    if (testparameter.isEmpty) input = readLine() else input = testparameter.dequeue()
+    if (input.equals("q")) return
+    analyseInput(input) match
       case Some(move) => controller.doAndPublish(controller.put, move, this)
       case None =>
     inputLoop()
