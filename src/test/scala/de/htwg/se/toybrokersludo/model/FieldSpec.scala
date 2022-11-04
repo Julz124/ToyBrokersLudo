@@ -13,13 +13,13 @@ class FieldSpec extends AnyWordSpec with Matchers {
   "field" should {
     "have scale horizontal" in
       field.horizontal(List(Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None), Stone(false, -1, None)), 2) == (List("+--+","    ","+--+","    "))
-    field.horizontal(List(Stone(false, -1, None), Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None)), 4) == (List("      ","+----+","      ","+----+"))
-    field.horizontal(List(Stone(true, 0, None), Stone(true, 1, None), Stone(false, -1, None), Stone(false, -1, None)), 6) == (List("+------+","+------+","        ","        "))
+      field.horizontal(List(Stone(false, -1, None), Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None)), 4) == (List("      ","+----+","      ","+----+"))
+      field.horizontal(List(Stone(true, 0, None), Stone(true, 1, None), Stone(false, -1, None), Stone(false, -1, None)), 6) == (List("+------+","+------+","        ","        "))
 
     "have scale vertical" in
       field.vertical(List(Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None), Stone(false, -1, None)), 2) == (List("|  |","    ","|  |","    "))
-    field.vertical(List(Stone(false, -1, None), Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None)), 4) == (List("      ","|    |","      ","|    |"))
-    field.vertical(List(Stone(true, 0, None), Stone(true, 1, None), Stone(false, -1, None), Stone(false, -1, None)), 6) == (List("|      |", "|      |", "        ", "        "))
+      field.vertical(List(Stone(false, -1, None), Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None)), 4) == (List("      ","|    |","      ","|    |"))
+      field.vertical(List(Stone(true, 0, None), Stone(true, 1, None), Stone(false, -1, None), Stone(false, -1, None)), 6) == (List("|      |", "|      |", "        ", "        "))
 
 
     "can merge the lines" in
