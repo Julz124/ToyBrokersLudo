@@ -25,32 +25,28 @@ class TUISpec extends AnyWordSpec with Matchers {
   "The Tui" should {
 
 
-    /*
-    "have a input loop" in
-      tui.inputLoop(mutable.Queue("R 0 0", "q")) == "q"
-    */
+    "have a run only one" in {
+      tui.run(mutable.Queue("q")) should equal("q")
+      tui.inputLoop(mutable.Queue("q")) should equal("q")
+    }
 
-
-    "have a run only one time" in
-      tui.run("only one time") == "successful"
-      tui.inputLoop(mutable.Queue("q"))
-
-
-    "have a input loop" in
+    "have a input loop" in {
       tui.inputLoop(mutable.Queue("R 0 0", "", "q"))
-      field.matrix.map == (List(
-      List(Stone(true, 0, Option(Player(0, "R"))), Stone(false, -1, None)),
-      List(Stone(true, 1, None), Stone(false, -1, None))))
+      field.matrix.map should equal(List(
+        List(Stone(true, 0, Option(Player(0, "R"))), Stone(false, -1, None)),
+        List(Stone(true, 1, None), Stone(false, -1, None))))
+    }
 
+    "recognize the input B 0 4 as put of move from player B0 to index 4 in field" in {
+      tui.analyseInput("B 0 4") should equal(Option(Move(Player(0, "B"), 4)))
+    }
 
+    "recognize the input Y 3 4 as put of move from player Y3 to index 20 in field" in {
+      tui.analyseInput("Y 3 4") should equal(Some(Move(Player(3, "Y"), 4)))
+    }
 
-    "recognize the input B 0 4 as put of move from player B0 to index 4 in field" in
-      tui.analyseInput("B 0 4") == (Option(Move(Player(0, "B"), 4)))
-
-    "recognize the input Y 3 4 as put of move from player Y3 to index 20 in field" in
-      tui.analyseInput("Y 3 4") == (Some(Move(Player(3, "Y"), 20)))
-
-    "recognize false input as None" in
-      tui.analyseInput("xyz") == None
+    "recognize false input as None" in {
+      tui.analyseInput("xyz") should equal(None)
+    }
   }
 }

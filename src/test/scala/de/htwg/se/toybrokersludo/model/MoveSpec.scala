@@ -12,7 +12,5 @@ class MoveSpec extends AnyWordSpec with Matchers {
       move.player should be(Player(1,"B"))
       move.number should be(0)
     }
-
   }
-
 }

@@ -22,9 +22,11 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
   controller.doAndPublish(controller.put, Move(Player(0, "B"), 0))
 
   "The Controller" should  {
-    "can put" in
-      controller.field.matrix.map == List(
+    "can put" in {
+      controller.field.matrix.map should equal(List(
         List(Stone(true, 0, Option(Player(0, "B"))), Stone(false, -1, None)),
         List(Stone(true, 1, None), Stone(false, -1, None)))
+      )
+    }
   }
 }

@@ -9,7 +9,6 @@ import org.scalatest.wordspec.AnyWordSpec
 class StoneSpec extends AnyWordSpec with Matchers {
 
   "move" should {
-
     "have a Bool, a Index and Player" in {
       val stone = Stone(true, 0, Option(Player(1,"B")))
       stone.isAPlayField should be (true)
@@ -17,5 +16,4 @@ class StoneSpec extends AnyWordSpec with Matchers {
       stone.player == (Player(1,"B"))
     }
   }
-
 }
