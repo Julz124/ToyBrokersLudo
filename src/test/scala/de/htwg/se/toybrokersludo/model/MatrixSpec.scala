@@ -13,9 +13,12 @@ class MatrixSpec extends AnyWordSpec with Matchers{
     List(Stone(true, 1, None), Stone(false, -1, None))))
 
   "matrix" should {
-    "build Matrix correctly" in
+    "build Matrix correctly" in {
       matrix.put(Move(Player(1, "B"), 0)).map == (List(
         List(Stone(true, 0, Option(Player(1, "B"))), Stone(false, -1, None)),
         List(Stone(true, 1, None), Stone(false, -1, None))))
+    }
   }
+
+
 }
