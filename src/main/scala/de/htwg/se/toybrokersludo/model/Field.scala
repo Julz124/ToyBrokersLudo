@@ -2,6 +2,10 @@ package de.htwg.se.toybrokersludo.model
 
 case class Field(var matrix: Matrix) {
 
+  val player : Int = 0
+  val turn : Int = 0;
+
+
   val eol: String = "\n"
 
   def horizontal(list: List[Stone], size: Int): List[String] =
@@ -22,6 +26,10 @@ case class Field(var matrix: Matrix) {
 
   def put(move: Move): Field =
     matrix = matrix.put(move)
+    this
+
+  def put(moves : List[Move]) =
+    for(move <- moves) matrix = matrix.put(move)
     this
 
 
