@@ -1,0 +1,1520 @@
+<html>
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title id="title">
+          de/htwg/se/toybrokersludo/model/Field.scala.html
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.20.1/css/theme.default.min.css" type="text/css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.20.1/js/jquery.tablesorter.min.js"></script><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css"/><script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script><script type="text/javascript">
+        $(document).ready(function() {$(".tablesorter").tablesorter();});
+      </script>
+        <style>
+          table.codegrid { font-family: monospace; font-size: 12px; width: auto!important; }table.statementlist { width: auto!important; font-size: 13px; } table.codegrid td { padding: 0!important; border: 0!important } table td.linenumber { width: 40px!important; } 
+        </style>
+      </head>
+      <body style="font-family: monospace;">
+        <ul class="nav nav-tabs">
+          <li>
+            <a href="#codegrid" data-toggle="tab">Codegrid</a>
+          </li>
+          <li>
+            <a href="#statementlist" data-toggle="tab">Statement List</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="codegrid">
+            <pre style='font-size: 12pt; font-family: courier, monospace;'>1 <span style=''>package de.htwg.se.toybrokersludo.model
+</span>2 <span style=''>
+</span>3 <span style=''>case class Field(var matrix: Matrix) {
+</span>4 <span style=''>
+</span>5 <span style=''>  val player : Int = 0
+</span>6 <span style=''>  val turn : Int = 0;
+</span>7 <span style=''>
+</span>8 <span style=''>
+</span>9 <span style=''>  val eol: String = &quot;\n&quot;
+</span>10 <span style=''>
+</span>11 <span style=''>  </span><span style='background: #AEF1AE'>def horizontal</span><span style=''>(list: List[Stone], size: Int): List[String] =
+</span>12 <span style=''>    </span><span style='background: #AEF1AE'>list.map((s: Stone) =&gt; if (s.isAPlayField) &quot;+&quot; + &quot;-&quot; * size + &quot;+&quot; else &quot; &quot; + &quot; &quot; * size + &quot; &quot;)</span><span style=''>
+</span>13 <span style=''>
+</span>14 <span style=''>  </span><span style='background: #AEF1AE'>def vertical</span><span style=''>(list: List[Stone], size: Int): List[String] =
+</span>15 <span style=''>    </span><span style='background: #AEF1AE'>list.map((s: Stone) =&gt; if (s.isAPlayField) &quot;|&quot; + player(size, s.player) + &quot;|&quot; else &quot; &quot; + &quot; &quot; * size + &quot; &quot;)</span><span style=''>
+</span>16 <span style=''>
+</span>17 <span style=''>  </span><span style='background: #AEF1AE'>def player</span><span style=''>(size: Int, player: Option[Player]): String =
+</span>18 <span style=''>    player match {
+</span>19 <span style=''>      </span><span style='background: #AEF1AE'>case Some(player)</span><span style=''> =&gt; </span><span style='background: #AEF1AE'>&quot; &quot; * (size / 2 - 1) + player.toString + &quot; &quot; * (size / 2 - 1)</span><span style=''>
+</span>20 <span style=''>      </span><span style='background: #AEF1AE'>case None</span><span style=''> =&gt; </span><span style='background: #AEF1AE'>&quot; &quot; * size</span><span style=''>
+</span>21 <span style=''>    }
+</span>22 <span style=''>
+</span>23 <span style=''>  </span><span style='background: #AEF1AE'>def mash</span><span style=''>(map: List[List[Stone]] = matrix.map, size: Int = 4): List[String] =
+</span>24 <span style=''>    </span><span style='background: #AEF1AE'>for (list &lt;- map) yield horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol</span><span style=''>
+</span>25 <span style=''>
+</span>26 <span style=''>
+</span>27 <span style=''>  </span><span style='background: #AEF1AE'>def put</span><span style=''>(move: Move): Field =
+</span>28 <span style=''>    matrix = </span><span style='background: #AEF1AE'>matrix.put(move)</span><span style=''>
+</span>29 <span style=''>    this
+</span>30 <span style=''>
+</span>31 <span style=''>  </span><span style='background: #AEF1AE'>def put</span><span style=''>(moves : List[Move]) =
+</span>32 <span style=''>    </span><span style='background: #AEF1AE'>for(move &lt;- moves) matrix = matrix.put(move)</span><span style=''>
+</span>33 <span style=''>    this
+</span>34 <span style=''>
+</span>35 <span style=''>
+</span>36 <span style=''>  </span><span style='background: #AEF1AE'>override def toString</span><span style=''>: String =
+</span>37 <span style=''>    </span><span style='background: #AEF1AE'>mash().mkString</span><span style=''>
+</span>38 <span style=''>}
+</span></pre>
+          </div>
+          <div class="tab-pane" id="statementlist">
+            <table cellspacing="0" cellpadding="0" class="table statementlist">
+      <tr>
+        <th>Line</th>
+        <th>Stmt Id</th>
+        <th>Pos</th>
+        <th>Tree</th>
+        <th>Symbol</th>
+        <th>Tests</th>
+        <th>Code</th>
+      </tr><tr>
+        <td>
+          10
+        </td>
+        <td>
+          91
+        </td>
+        <td>
+          156
+          -
+          170
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          horizontal
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def horizontal
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          83
+        </td>
+        <td>
+          264
+          -
+          286
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;+&quot; + &quot;-&quot; * size + &quot;+&quot;
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          86
+        </td>
+        <td>
+          298
+          -
+          308
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          *
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          89
+        </td>
+        <td>
+          292
+          -
+          314
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; + &quot; &quot; * size + &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          80
+        </td>
+        <td>
+          270
+          -
+          273
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;-&quot;
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          82
+        </td>
+        <td>
+          264
+          -
+          280
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;+&quot; + &quot;-&quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          85
+        </td>
+        <td>
+          298
+          -
+          301
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          88
+        </td>
+        <td>
+          292
+          -
+          314
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; + &quot; &quot; * size + &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          87
+        </td>
+        <td>
+          292
+          -
+          308
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; + &quot; &quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          90
+        </td>
+        <td>
+          221
+          -
+          315
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          list.map((s: Stone) =&gt; if (s.isAPlayField) &quot;+&quot; + &quot;-&quot; * size + &quot;+&quot; else &quot; &quot; + &quot; &quot; * size + &quot; &quot;)
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          81
+        </td>
+        <td>
+          270
+          -
+          280
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          *
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;-&quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          11
+        </td>
+        <td>
+          84
+        </td>
+        <td>
+          264
+          -
+          286
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;+&quot; + &quot;-&quot; * size + &quot;+&quot;
+        </td>
+      </tr><tr>
+        <td>
+          13
+        </td>
+        <td>
+          102
+        </td>
+        <td>
+          319
+          -
+          331
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          vertical
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def vertical
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          92
+        </td>
+        <td>
+          431
+          -
+          453
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          player
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          player(size, s.player)
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          101
+        </td>
+        <td>
+          382
+          -
+          488
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          list.map((s: Stone) =&gt; if (s.isAPlayField) &quot;|&quot; + player(size, s.player) + &quot;|&quot; else &quot; &quot; + &quot; &quot; * size + &quot; &quot;)
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          95
+        </td>
+        <td>
+          425
+          -
+          459
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;|&quot; + player(size, s.player) + &quot;|&quot;
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          98
+        </td>
+        <td>
+          465
+          -
+          481
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; + &quot; &quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          100
+        </td>
+        <td>
+          465
+          -
+          487
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; + &quot; &quot; * size + &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          94
+        </td>
+        <td>
+          425
+          -
+          459
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;|&quot; + player(size, s.player) + &quot;|&quot;
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          97
+        </td>
+        <td>
+          471
+          -
+          481
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          *
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          96
+        </td>
+        <td>
+          471
+          -
+          474
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          99
+        </td>
+        <td>
+          465
+          -
+          487
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; + &quot; &quot; * size + &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          14
+        </td>
+        <td>
+          93
+        </td>
+        <td>
+          425
+          -
+          453
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot;|&quot; + player(size, s.player)
+        </td>
+      </tr><tr>
+        <td>
+          16
+        </td>
+        <td>
+          114
+        </td>
+        <td>
+          492
+          -
+          502
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          player
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def player
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          110
+        </td>
+        <td>
+          573
+          -
+          590
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          case Some(player)
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          104
+        </td>
+        <td>
+          594
+          -
+          613
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          *
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * (size / 2 - 1
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          107
+        </td>
+        <td>
+          635
+          -
+          638
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          106
+        </td>
+        <td>
+          594
+          -
+          632
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * (size / 2 - 1) + player.toString
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          109
+        </td>
+        <td>
+          594
+          -
+          655
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * (size / 2 - 1) + player.toString + &quot; &quot; * (size / 2 - 1)
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          103
+        </td>
+        <td>
+          594
+          -
+          597
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          105
+        </td>
+        <td>
+          617
+          -
+          632
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          toString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          player.toString
+        </td>
+      </tr><tr>
+        <td>
+          18
+        </td>
+        <td>
+          108
+        </td>
+        <td>
+          635
+          -
+          654
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          *
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * (size / 2 - 1
+        </td>
+      </tr><tr>
+        <td>
+          19
+        </td>
+        <td>
+          113
+        </td>
+        <td>
+          662
+          -
+          671
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          case None
+        </td>
+      </tr><tr>
+        <td>
+          19
+        </td>
+        <td>
+          112
+        </td>
+        <td>
+          675
+          -
+          685
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          *
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot; * size
+        </td>
+      </tr><tr>
+        <td>
+          19
+        </td>
+        <td>
+          111
+        </td>
+        <td>
+          675
+          -
+          678
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          &quot; &quot;
+        </td>
+      </tr><tr>
+        <td>
+          22
+        </td>
+        <td>
+          128
+        </td>
+        <td>
+          729
+          -
+          729
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          mash$default$1
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          
+        </td>
+      </tr><tr>
+        <td>
+          22
+        </td>
+        <td>
+          127
+        </td>
+        <td>
+          695
+          -
+          703
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          mash
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def mash
+        </td>
+      </tr><tr>
+        <td>
+          22
+        </td>
+        <td>
+          129
+        </td>
+        <td>
+          753
+          -
+          753
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          mash$default$2
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          119
+        </td>
+        <td>
+          840
+          -
+          869
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mkString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          vertical(list, size).mkString
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          122
+        </td>
+        <td>
+          878
+          -
+          900
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          horizontal
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size)
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          125
+        </td>
+        <td>
+          800
+          -
+          915
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          116
+        </td>
+        <td>
+          800
+          -
+          831
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mkString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          124
+        </td>
+        <td>
+          800
+          -
+          909
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          115
+        </td>
+        <td>
+          800
+          -
+          822
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          horizontal
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size)
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          118
+        </td>
+        <td>
+          840
+          -
+          860
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          vertical
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          vertical(list, size)
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          121
+        </td>
+        <td>
+          800
+          -
+          875
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          120
+        </td>
+        <td>
+          800
+          -
+          869
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString + eol + vertical(list, size).mkString
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          123
+        </td>
+        <td>
+          878
+          -
+          909
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mkString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          126
+        </td>
+        <td>
+          776
+          -
+          915
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          for (list &lt;- map) yield horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol
+        </td>
+      </tr><tr>
+        <td>
+          23
+        </td>
+        <td>
+          117
+        </td>
+        <td>
+          800
+          -
+          837
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          horizontal(list, size).mkString + eol
+        </td>
+      </tr><tr>
+        <td>
+          26
+        </td>
+        <td>
+          131
+        </td>
+        <td>
+          920
+          -
+          927
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          put
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def put
+        </td>
+      </tr><tr>
+        <td>
+          27
+        </td>
+        <td>
+          130
+        </td>
+        <td>
+          962
+          -
+          978
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          put
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          matrix.put(move)
+        </td>
+      </tr><tr>
+        <td>
+          30
+        </td>
+        <td>
+          134
+        </td>
+        <td>
+          991
+          -
+          998
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          put
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def put
+        </td>
+      </tr><tr>
+        <td>
+          31
+        </td>
+        <td>
+          133
+        </td>
+        <td>
+          1025
+          -
+          1069
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          foreach
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          for(move &lt;- moves) matrix = matrix.put(move)
+        </td>
+      </tr><tr>
+        <td>
+          31
+        </td>
+        <td>
+          132
+        </td>
+        <td>
+          1053
+          -
+          1069
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          put
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          matrix.put(move)
+        </td>
+      </tr><tr>
+        <td>
+          35
+        </td>
+        <td>
+          139
+        </td>
+        <td>
+          1083
+          -
+          1104
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          toString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          override def toString
+        </td>
+      </tr><tr>
+        <td>
+          36
+        </td>
+        <td>
+          137
+        </td>
+        <td>
+          1119
+          -
+          1125
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          mash
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          mash()
+        </td>
+      </tr><tr>
+        <td>
+          36
+        </td>
+        <td>
+          136
+        </td>
+        <td>
+          1119
+          -
+          1123
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mash$default$2
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          mash
+        </td>
+      </tr><tr>
+        <td>
+          36
+        </td>
+        <td>
+          138
+        </td>
+        <td>
+          1119
+          -
+          1134
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mkString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          mash().mkString
+        </td>
+      </tr><tr>
+        <td>
+          36
+        </td>
+        <td>
+          135
+        </td>
+        <td>
+          1119
+          -
+          1123
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mash$default$1
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          mash
+        </td>
+      </tr>
+    </table>
+          </div>
+        </div>
+      </body>
+    </html>

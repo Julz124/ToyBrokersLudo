@@ -1,0 +1,43 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.aview.TUISpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.model.MoveSpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.model.StoneSpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.model.PlayerSpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.controller.ControllerSpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.model.MatrixSpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(de.htwg.se.toybrokersludo.model.FieldSpec, org.scalatest.tools.Framework$$anon$1@2e2c01e4, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mMatrixSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mmatrix[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should build Matrix correctly[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mStoneSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mmove[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should have a Bool, a Index and Player[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mPlayerSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mplayer[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should have a number and color[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mMoveSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mmove[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should have a Player and number[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mFieldSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mfield[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should have scale horizontal[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should have scale vertical[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should can merge the lines[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should can insert player into field[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should can convert a map to String[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should can insert player into rantom field[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mControllerSpec:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mThe Controller[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should can put[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m- should can startup *** FAILED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  java.lang.IndexOutOfBoundsException: -1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.collection.LinearSeqOps.apply(LinearSeq.scala:115)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.collection.LinearSeqOps.apply$(LinearSeq.scala:114)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.collection.immutable.List.apply(List.scala:79)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at de.htwg.se.toybrokersludo.model.Matrix.put(Matrix.scala:53)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at de.htwg.se.toybrokersludo.model.Field.put$$anonfun$1(Field.scala:32)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.collection.immutable.List.foreach(List.scala:333)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at de.htwg.se.toybrokersludo.model.Field.put(Field.scala:32)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at de.htwg.se.toybrokersludo.controller.Controller.startup(Controller.scala:19)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  ...[0m[0m

@@ -1,0 +1,21 @@
+[0m[[0m[0minfo[0m] [0m[0mInstrumenting 19 classes to /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/jacoco/instrumented-classes[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting products: /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/ToybrokersLudo$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/util/Observer.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/util/Observable.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/aview/TUI.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/controller/Controller.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/controller/Controller$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Move.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Stone$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Matrix$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Player$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Move$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Field.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Matrix.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Player.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Stone.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/model/Field$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/run.class[0m
+[0m[[0m[0mdebug[0m] [0m[0minstrumenting /Users/felixfischer/Documents/HTWG/ToyBrokersLudo/target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/ToybrokersLudo$package.class[0m
