@@ -22,7 +22,7 @@ class FieldSpec extends AnyWordSpec with Matchers {
       field.vertical(List(Stone(true, 0, None), Stone(true, 1, None), Stone(false, -1, None), Stone(false, -1, None)), 6) should be(List("|      |", "|      |", "        ", "        "))
     }
 
-    "can merge the lines" in
+    "can merge the lines" in {
       field.mash(List(
         List(Stone(true, 0, None), Stone(false, -1, None)),
         List(Stone(false, -1, None), Stone(true, 1, None))), 4) should be(
