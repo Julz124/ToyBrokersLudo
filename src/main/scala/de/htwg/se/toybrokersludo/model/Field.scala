@@ -24,9 +24,7 @@ case class Field(var matrix: Matrix) {
     for (list <- map) yield horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol
 
 
-  def put(move: Move): Field =
-    matrix = matrix.put(move)
-    this
+  def put(move: Move): Field = this.copy(matrix.put(move))
 
   def put(moves : List[Move]) =
     for(move <- moves) matrix = matrix.put(move)
