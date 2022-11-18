@@ -25,10 +25,12 @@ class TUISpec extends AnyWordSpec with Matchers {
   "The Tui" should {
 
 
+    /*
     "have a run only one" in {
       tui.run(mutable.Queue("q")) should equal("q")
       tui.inputLoop(mutable.Queue("q")) should equal("q")
     }
+    */
 
     "have a input loop" in {
       tui.inputLoop(mutable.Queue("R 0 0", "", "q"))
