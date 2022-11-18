@@ -31,7 +31,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
     }
 
     "can startup" in {
-      controller.startup(1) should equal(
+      controller.startup(1).toString should equal(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
         "| G1 |      | G2 |      |    ||    ||    |      |    |      |    |" + eol +
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
