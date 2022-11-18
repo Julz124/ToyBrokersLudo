@@ -63,3 +63,5 @@ target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/util/Observable.class
 target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/util/Observable.tasty
 target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/util/Observer.class
 target/scala-3.2.0/classes/de/htwg/se/toybrokersludo/util/Observer.tasty
+*.class
+*.log
