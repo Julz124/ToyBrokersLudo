@@ -1,12 +1,30 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
+val scala3Version = "3.1.3"
 
-ThisBuild / scalaVersion := "3.2.0"
-
-lazy val root = (project in file("."))
+lazy val root = project
+  .in(file("."))
   .settings(
     name := "ToyBrokersLudo",
-    libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test",
-    libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.4",
-    libraryDependencies +="org.apache.commons" % "commons-io" % "1.3.2"
-)
+    version := "0.1.0-SNAPSHOT",
+    scalaVersion := scala3Version,
+    javacOptions ++= Seq("-encoding", "UTF-8"),
+    libraryDependencies ++= Seq(
+      "org.scalactic" %% "scalactic" % "3.2.13",
+      "org.scalatest" %% "scalatest" % "3.2.13" % "test"
+    ),
+    jacocoReportSettings := JacocoReportSettings(
+      "Jacoco Coverage Report",
+      None,
+      JacocoThresholds(),
+      Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
+      "utf-8"
+    ),
+    jacocoExcludes := Seq(
+      "de.htwg.se.mill.Mill*",
+      "de.htwg.se.mill.util*"
+    ),
+    jacocoCoverallsServiceName := "github-actions",
+    jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
+    jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
+    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
+  )
+  .enablePlugins(JacocoCoverallsPlugin)
