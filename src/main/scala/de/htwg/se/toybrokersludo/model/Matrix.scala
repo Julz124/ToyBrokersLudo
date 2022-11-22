@@ -49,13 +49,19 @@ case class Matrix(var map: List[List[Stone]] = List(
 
 
   def put(move: Move): Matrix =
-    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
-    val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
-    val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.index == move.number),
-      Stone(stone.isAPlayField, stone.index, Option(move.player)))
-    map = map.updated(a, list)
-    this
+    this.copy(map.updated(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)),
+      map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).updated(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number), Stone(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).isAPlayField, map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).index, Option(move.player)))))
+  
 
+  /*
+    def put(move: Move): Matrix =
+      val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
+      val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
+      val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.index == move.number),
+        Stone(stone.isAPlayField, stone.index, Option(move.player)))
+      map = map.updated(a, list)
+      this
+  */
 
   // index 0 - 16 is for start, 20 - 60 for we play field and 70 - 86 for stop
 

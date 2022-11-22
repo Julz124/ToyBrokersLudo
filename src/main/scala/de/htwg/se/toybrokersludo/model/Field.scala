@@ -23,13 +23,7 @@ case class Field(var matrix: Matrix) {
   def mash(map: List[List[Stone]] = matrix.map, size: Int = 4): List[String] =
     for (list <- map) yield horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol
 
-
   def put(move: Move): Field = this.copy(matrix.put(move))
-
-  def put(moves : List[Move]) =
-    for(move <- moves) matrix = matrix.put(move)
-    this
-
 
   override def toString: String =
     mash().mkString

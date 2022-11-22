@@ -10,10 +10,10 @@ class TUI(controller: Controller) extends Observer {
 
   controller.add(this)
 
-  def run(testparameter : mutable.Queue[String] = mutable.Queue[String]()) : String =
+  def run() : String =
     menu()
     println(controller.field.toString)
-    inputLoop(testparameter)
+    inputLoop()
 
   override def update = println(controller.field.toString)
 
@@ -29,12 +29,9 @@ class TUI(controller: Controller) extends Observer {
       case None => None
 
 
-  def inputLoop(testparameter: mutable.Queue[String] = mutable.Queue[String]()): String =
-    var input = ""
-    if (testparameter.isEmpty) input = readLine() else input = testparameter.dequeue()
-    if (input.equals("q")) return input
-    analyseInput(input) match
+  def inputLoop(): String =
+    analyseInput(readLine()) match
       case Some(move) => controller.doAndPublish(controller.put, move)
-      case None =>
-    inputLoop(testparameter)
+      case None => inputLoop()
+    inputLoop()
 }
