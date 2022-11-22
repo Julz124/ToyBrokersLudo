@@ -1,9 +1,0 @@
-#Successful Tests
-#Fri Nov 11 10:56:44 CET 2022
-de.htwg.se.toybrokersludo.model.FieldSpec=1668160604467
-de.htwg.se.toybrokersludo.model.StoneSpec=1668160604467
-de.htwg.se.toybrokersludo.model.PlayerSpec=1668160604467
-de.htwg.se.toybrokersludo.aview.TUISpec=1668160604467
-de.htwg.se.toybrokersludo.model.MatrixSpec=1668160604467
-de.htwg.se.toybrokersludo.controller.ControllerSpec=1668160604467
-de.htwg.se.toybrokersludo.model.MoveSpec=1668160604472
