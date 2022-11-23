@@ -29,9 +29,18 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
         List(Stone(true, 1, None), Stone(false, -1, None)))
       )
     }
-/*
+
+    "can publish" in {
+      val move = Move(Player(0, "B"), 1)
+      controller.doAndPublish(controller.put,move).toString should equal (
+        "()"
+      )
+    }
+
     "can startup player count 1" in {
-      controller.startup(1).toString should equal(
+      val field2 = Field(Matrix())
+      val controller2 = Controller(field2)
+      controller2.startup(1).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      |    |      |    |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -65,10 +74,14 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol
+
       )
     }
+
     "can startup player count 2" in {
-      controller.startup(2).toString should equal(
+      val field2 = Field(Matrix())
+      val controller2 = Controller(field2)
+      controller2.startup(2).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -105,7 +118,9 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
       )
     }
     "can startup player count 3" in {
-      controller.startup(3).toString should equal(
+      val field2 = Field(Matrix())
+      val controller2 = Controller(field2)
+      controller2.startup(3).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -142,7 +157,9 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
       )
     }
     "can startup player count 4" in {
-      controller.startup(4).toString should equal(
+      val field2 = Field(Matrix())
+      val controller2 = Controller(field2)
+      controller2.startup(4).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -178,6 +195,5 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol
       )
     }
-*/
   }
 }

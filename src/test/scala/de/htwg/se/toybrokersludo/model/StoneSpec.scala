@@ -12,8 +12,8 @@ class StoneSpec extends AnyWordSpec with Matchers {
     "have a Bool, a Index and Player" in {
       val stone = Stone(true, 0, Option(Player(1,"B")))
       stone.isAPlayField should be (true)
-      stone.index == (1)
-      stone.player == (Player(1,"B"))
+      stone.index should be (0)
+      stone.player should equal (Some(Player(1,"B")))
     }
   }
 }

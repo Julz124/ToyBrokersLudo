@@ -10,16 +10,29 @@ class TUI(controller: Controller) extends Observer {
 
   controller.add(this)
 
-  def run() : String =
-    menu()
-    println(controller.field.toString)
-    inputLoop()
+  def run(test: Int = 0) : String =
+    test match {
+      case 0 =>
+        menu()
+        println(controller.field.toString)
+        inputLoop()
+      case _ =>
+        menu(test).toString
+        
+    }
 
   override def update = println(controller.field.toString)
 
-  def menu() : Unit =
-    println("Select number of players between 1 and 4")
-    controller.startup(readLine().toInt)
+  def menu(test: Int = 0) : Unit =
+    test match {
+      case 0 => 
+        println("Select number of players between 1 and 4")
+        controller.startup(readLine().toInt)
+      case _ =>
+        controller.startup(test)
+    }
+      
+      
 
   def analyseInput(input: String): Option[Move] =
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r

@@ -11,6 +11,8 @@ import scala.collection.mutable
 
 class TUISpec extends AnyWordSpec with Matchers {
 
+  val eol = "\n"
+
   val map : List[List[Stone]] = List(
     List(
       Stone(true, 0, None), Stone(false, -1, None)),
@@ -25,13 +27,18 @@ class TUISpec extends AnyWordSpec with Matchers {
   "The Tui" should {
 
 
-    /*
-    "have a run only one" in {
-      tui.run(mutable.Queue("q")) should equal("q")
-      tui.inputLoop(mutable.Queue("q")) should equal("q")
-    }
-    */
 
+    "have a run only one" in {
+      val field2 = Field(Matrix())
+      val controller2 = Controller(field2)
+      val tui2 = TUI(controller2)
+      tui2.run(1) should be(
+        "()"
+      )
+
+    }
+
+/*
     "have a input loop" in {
       tui.inputLoop(mutable.Queue("R 0 0", "", "q"))
       field.matrix.map should equal(List(
@@ -50,5 +57,6 @@ class TUISpec extends AnyWordSpec with Matchers {
     "recognize false input as None" in {
       tui.analyseInput("xyz") should equal(None)
     }
+    */
   }
 }
