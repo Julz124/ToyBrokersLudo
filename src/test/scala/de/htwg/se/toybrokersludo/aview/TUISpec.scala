@@ -32,10 +32,18 @@ class TUISpec extends AnyWordSpec with Matchers {
       val field2 = Field(Matrix())
       val controller2 = Controller(field2)
       val tui2 = TUI(controller2)
-      tui2.run(1) should be(
+      tui2.run(1).toString should be(
         "()"
       )
+    }
 
+    "can open menu" in {
+      val field2 = Field(Matrix())
+      val controller2 = Controller(field2)
+      val tui2 = TUI(controller2)
+      tui2.menu(1).toString should be(
+        "()"
+      )
     }
 
 /*
