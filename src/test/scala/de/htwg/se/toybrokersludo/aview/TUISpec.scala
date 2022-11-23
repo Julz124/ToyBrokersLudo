@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.aview
 
-import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Player, Stone}
+import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Token, Stone}
 import de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.controller.Controller
 import org.scalatest.matchers.should.Matchers

@@ -2,8 +2,15 @@ package de.htwg.se.toybrokersludo.model
 
 case class Field(var matrix: Matrix) {
 
-  val player : Int = 0
-  val turn : Int = 0;
+  var playerNumber = 1;
+
+  def nextPlayer(player: Player) : Player = //Interator Pattern
+    if (player == GreenPlayer && playerNumber > 2) GreenPlayer
+    if (player == GreenPlayer) RedPlayer
+    if (player == RedPlayer && playerNumber > 3) GreenPlayer
+    if (player == RedPlayer) BluePlayer
+    if (player == BluePlayer && playerNumber > 4) GreenPlayer
+    YellowPlayer
 
 
   val eol: String = "\n"
@@ -14,7 +21,7 @@ case class Field(var matrix: Matrix) {
   def vertical(list: List[Stone], size: Int): List[String] =
     list.map((s: Stone) => if (s.isAPlayField) "|" + player(size, s.player) + "|" else " " + " " * size + " ")
 
-  def player(size: Int, player: Option[Player]): String =
+  def player(size: Int, player: Option[Token]): String =
     player match {
       case Some(player) => " " * (size / 2 - 1) + player.toString + " " * (size / 2 - 1)
       case None => " " * size

@@ -10,13 +10,16 @@ class MatrixSpec extends AnyWordSpec with Matchers{
 
   val matrix = Matrix(List(
     List(Stone(true, 0, None), Stone(false, -1, None)),
-    List(Stone(true, 1, None), Stone(false, -1, None))))
+    List(Stone(true, 1, Option(Token(2, "B"))), Stone(false, -1, None))))
 
   "matrix" should {
     "build Matrix correctly" in {
-      matrix.put(Move(Player(1, "B"), 0)).map == (List(
-        List(Stone(true, 0, Option(Player(1, "B"))), Stone(false, -1, None)),
-        List(Stone(true, 1, None), Stone(false, -1, None))))
+      matrix.put(Move(Token(1, "B"), 0)).map should equal (List(
+        List(Stone(true, 0, Option(Token(1, "B"))), Stone(false, -1, None)),
+        List(Stone(true, 1, Option(Token(1, "B"))), Stone(false, -1, None))))
+      matrix.put(Move(Token(1, "B"), 0)).map should equal(List(
+        List(Stone(true, 0, None), Stone(false, -1, None)),
+        List(Stone(true, 1, Option(Token(2, "B"))), Stone(false, -1, None))))
     }
   }
 

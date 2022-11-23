@@ -7,13 +7,13 @@ class PlayerSpec extends AnyWordSpec with Matchers {
 
   "player" should {
     "have a number and color" in {
-      val player = Player(0,"Y")
+      val player = Token(0,"Y")
       player.number should be (0)
       player.color should be ("Y")
     }
 
     "can convert Color and Number to String" in {
-      val player = Player(1,"B")
+      val player = Token(1,"B")
       player.toString() should equal("B1")
     }
   }

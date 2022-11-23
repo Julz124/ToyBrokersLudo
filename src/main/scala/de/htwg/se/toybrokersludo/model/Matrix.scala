@@ -1,5 +1,8 @@
 package de.htwg.se.toybrokersludo.model
 
+import de.htwg.se.toybrokersludo.model
+
+
 case class Matrix(var map: List[List[Stone]] = List(
   List(
     Stone(true, 0, None), Stone(false, -1, None), Stone(true, 1, None), Stone(false, -1, None),
@@ -47,11 +50,19 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None)),
 )) {
 
-
   def put(move: Move): Matrix =
     this.copy(map.updated(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)),
       map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).updated(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number), Stone(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).isAPlayField, map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).index, Option(move.player)))))
-  
+
+  def pull(move : Move) : Matrix =
+    this.copy(map.updated(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)),
+      map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).updated(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number), Stone(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).isAPlayField, map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).index, None))))
+
+ /*
+  def getToken() : List[Stone] =
+    for (list <- map) yield  list.filter((stone : Stone) => stone.player != None)
+  */
+
 
   /*
     def put(move: Move): Matrix =

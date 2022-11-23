@@ -38,10 +38,10 @@ class FieldSpec extends AnyWordSpec with Matchers {
     }
 
     "can insert player into field" in {
-      field.player(2, Option(Player(1, "B"))) should be("B1")
-      field.player(4, Option(Player(2, "R"))) should be(" R2 ")
-      field.player(6, Option(Player(3, "Y"))) should be("  Y3  ")
-      field.player(8, Option(Player(4, "G"))) should be("   G4   ")
+      field.player(2, Option(Token(1, "B"))) should be("B1")
+      field.player(4, Option(Token(2, "R"))) should be(" R2 ")
+      field.player(6, Option(Token(3, "Y"))) should be("  Y3  ")
+      field.player(8, Option(Token(4, "G"))) should be("   G4   ")
     }
 
     "can convert a map to String" in {
@@ -83,7 +83,7 @@ class FieldSpec extends AnyWordSpec with Matchers {
     }
 
     "can insert player into rantom field" in {
-      field.put(Move(Player(1, "B"), 20)).toString should be(
+      field.put(Move(Token(1, "B"), 20)).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
         "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
