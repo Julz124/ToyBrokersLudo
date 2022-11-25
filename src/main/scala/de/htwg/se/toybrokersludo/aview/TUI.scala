@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.aview
 import de.htwg.se.toybrokersludo.model
-import de.htwg.se.toybrokersludo.model.{Move, Token}
+import de.htwg.se.toybrokersludo.model.{Move, Token, PlayToken}
 import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.util.Observer
 import scala.collection.mutable

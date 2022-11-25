@@ -4,13 +4,15 @@ case class Field(var matrix: Matrix) {
 
   var playerNumber = 1;
 
-  def nextPlayer(player: Player) : Player = //Interator Pattern
-    if (player == GreenPlayer && playerNumber > 2) GreenPlayer
-    if (player == GreenPlayer) RedPlayer
-    if (player == RedPlayer && playerNumber > 3) GreenPlayer
-    if (player == RedPlayer) BluePlayer
-    if (player == BluePlayer && playerNumber > 4) GreenPlayer
-    YellowPlayer
+  def nextPlayer(player: Player): Player = //Interator Pattern
+    player match
+      case GreenPlayer if(playerNumber < 2) => GreenPlayer
+      case GreenPlayer => RedPlayer
+      case RedPlayer if(playerNumber < 3) => RedPlayer
+      case RedPlayer => BluePlayer
+      case BluePlayer  if(playerNumber < 4) => BluePlayer
+      case BluePlayer => YellowPlayer
+      case YellowPlayer => GreenPlayer
 
 
   val eol: String = "\n"
