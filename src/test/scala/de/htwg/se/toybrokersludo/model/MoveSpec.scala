@@ -8,9 +8,9 @@ class MoveSpec extends AnyWordSpec with Matchers {
   "move" should {
 
     "have a Player and number" in {
-      val move = Move(PlayToken.apply(1,"B"), 0)
-      move.player should be(PlayToken.apply(1,"B"))
-      move.number should be(0)
+      val move = Move(PlayToken(1,"B"), 1)
+      move.player == (PlayToken(1,"B"))
+      move.number should be(1)
     }
   }
 }

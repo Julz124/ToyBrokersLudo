@@ -7,8 +7,8 @@ class TokenSpec extends AnyWordSpec with Matchers {
 
   "token" should {
     "have a number and color" in {
-      val player = PlayToken(0,"Y")
-      player.getNumber() should be (0)
+      val player = PlayToken(1,"Y")
+      player.getNumber() should be (1)
       player.getColor() should be ("Y")
     }
 
