@@ -10,10 +10,10 @@ class StoneSpec extends AnyWordSpec with Matchers {
 
   "move" should {
     "have a Bool, a Index and Player" in {
-      val stone = Stone(true, 0, Option(PlayToken.apply(1,"B")))
+      val stone = Stone(true, 0, Option(PlayToken(1,"B")))
       stone.isAPlayField should be (true)
       stone.index should be (0)
-      stone.player should equal (Some(PlayToken.apply(1,"B")))
+      stone.player == (Some(PlayToken(1,"B")))
     }
   }
 }

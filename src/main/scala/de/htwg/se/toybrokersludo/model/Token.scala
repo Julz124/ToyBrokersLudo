@@ -11,7 +11,7 @@ trait Token {
 
 object PlayToken {
   def apply(number : Int, color : String) : Token = {
-    (List (0, 1, 2, 3).contains (number) && List ("G", "R", "B", "Y").contains (color)) match
+    (List (1, 2, 3, 4).contains (number) && List ("G", "R", "B", "Y").contains (color)) match
       case true => new Valid (number, color)
   }
 }
