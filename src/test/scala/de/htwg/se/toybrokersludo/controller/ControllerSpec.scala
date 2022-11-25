@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.controller
 
-import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Token, Stone}
+import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Token, Stone, PlayToken}
 import de.htwg.se.toybrokersludo.aview.TUI
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -20,18 +20,18 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
   val controller = Controller(field)
   val tui = TUI(controller)
 
-  controller.doAndPublish(controller.put, Move(Token(0, "B"), 0))
+  controller.doAndPublish(controller.put, Move(PlayToken.apply(0, "B"), 0))
 
   "The Controller" should  {
     "can put" in {
       controller.field.matrix.map should equal(List(
-        List(Stone(true, 0, Option(Token(0, "B"))), Stone(false, -1, None)),
+        List(Stone(true, 0, Option(PlayToken.apply(0, "B"))), Stone(false, -1, None)),
         List(Stone(true, 1, None), Stone(false, -1, None)))
       )
     }
 
     "can publish" in {
-      val move = Move(Token(0, "B"), 1)
+      val move = Move(PlayToken.apply(0, "B"), 1)
       controller.doAndPublish(controller.put,move).toString should equal (
         "()"
       )
