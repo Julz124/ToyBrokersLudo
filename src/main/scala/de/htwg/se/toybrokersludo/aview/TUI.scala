@@ -40,7 +40,7 @@ class TUI(controller: Controller) extends Observer {
   def analyseInput(input: String): Option[Move] =
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     pattern.findFirstIn(input) match
-      case Some(_) => Option(model.Move(Token(input.split(" ")(1).toInt,
+      case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
         input.split(" ")(0)), input.split(" ")(2).toInt))
       case None => None
 
