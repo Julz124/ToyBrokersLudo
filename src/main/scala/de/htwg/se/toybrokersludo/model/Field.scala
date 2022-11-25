@@ -2,9 +2,8 @@ package de.htwg.se.toybrokersludo.model
 
 case class Field(var matrix: Matrix) {
 
-  var playerNumber = 1;
-
-  def nextPlayer(player: Player): Player = //Interator Pattern
+  
+  def nextPlayer(player: Player, playerNumber : Int) : Player = //Interator Pattern
     player match
       case GreenPlayer if(playerNumber < 2) => GreenPlayer
       case GreenPlayer => RedPlayer

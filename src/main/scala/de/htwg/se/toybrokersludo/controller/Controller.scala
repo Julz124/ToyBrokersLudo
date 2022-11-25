@@ -4,7 +4,6 @@ import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.aview.TUI
 import de.htwg.se.toybrokersludo.util.Observable
 
-import java.util.random.RandomGenerator
 import scala.util.Random
 
 
