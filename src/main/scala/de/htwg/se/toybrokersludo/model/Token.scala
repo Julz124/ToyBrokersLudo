@@ -23,7 +23,7 @@ private class Valid(number : Int, color : String) extends Token:
   override def getNumber(): Int = number
 
   override def getColor(): String = color
-  
+
 
 
 

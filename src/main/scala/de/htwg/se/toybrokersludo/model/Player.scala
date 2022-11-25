@@ -9,7 +9,6 @@ abstract class Player {
   def endFields(): List[Int]
 
   def playerString: String
-
   /*
   def possibleMoves(diceroll: Int, field: Field): List[Move] = {
     val tokens : List[Move] = field.matrix.getToken()
@@ -26,6 +25,7 @@ abstract class Player {
     possible
   }
   */
+
 }
 
 object GreenPlayer extends Player {

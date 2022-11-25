@@ -38,10 +38,19 @@ class FieldSpec extends AnyWordSpec with Matchers {
     }
 
     "can insert player into field" in {
-      field.player(2, Option(PlayToken.apply(1, "B"))) should be("B1")
-      field.player(4, Option(PlayToken.apply(2, "R"))) should be(" R2 ")
-      field.player(6, Option(PlayToken.apply(3, "Y"))) should be("  Y3  ")
-      field.player(8, Option(PlayToken.apply(4, "G"))) should be("   G4   ")
+      field.player(2, Option(PlayToken(0, "B"))) should be("B0")
+      field.player(4, Option(PlayToken(1, "R"))) should be(" R1 ")
+      field.player(6, Option(PlayToken(2, "Y"))) should be("  Y2  ")
+      field.player(8, Option(PlayToken(3, "G"))) should be("   G3   ")
+    }
+
+    "can hase next player" in {
+      field.nextPlayer(GreenPlayer, 1) should equal (GreenPlayer)
+      field.nextPlayer(GreenPlayer, 2) should equal (RedPlayer)
+      field.nextPlayer(RedPlayer, 2) should equal (RedPlayer)
+      field.nextPlayer(RedPlayer, 3) should equal (BluePlayer)
+      field.nextPlayer(BluePlayer, 3) should equal (BluePlayer)
+      field.nextPlayer(BluePlayer, 4) should equal (YellowPlayer)
     }
 
     "can convert a map to String" in {

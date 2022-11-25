@@ -11,6 +11,11 @@ class PlayerSpec extends AnyWordSpec with Matchers{
   val yellow = YellowPlayer
 
   "player" should {
+
+    "class Player should return possibleMoves" in {
+      
+    }
+
     "green should have" in {
       green.playerString should be ("G")
       green.endFields() should equal (List(70, 71, 72, 73))
