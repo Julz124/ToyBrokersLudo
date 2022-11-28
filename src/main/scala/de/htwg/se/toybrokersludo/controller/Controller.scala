@@ -1,11 +1,12 @@
 package de.htwg.se.toybrokersludo.controller
 
+import de.htwg.se.tictactoe.controller.PutCommander
 import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken, Token}
+import de.htwg.se.toybrokersludo.util.{Observable, UndoManager}
 import de.htwg.se.toybrokersludo.aview.TUI
-import de.htwg.se.toybrokersludo.util.Observable
 
+import scala.language.postfixOps
 import scala.util.Random
-
 
 case class Controller(var field: Field) extends Observable {
 
@@ -44,7 +45,15 @@ case class Controller(var field: Field) extends Observable {
     field = doThis(move)
     notifyObservers
 
-  def put(move: Move): Field =
-    field.put(move)
+  def doAndPublish(doThis: Field => Field) =
+    field = doThis(field)
+    notifyObservers
 
+  val undoManager = UndoManager[Field]
+
+  def put(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
+
+  def undo(field : Field): Field = undoManager.undoStep(field)
+
+  def redo(field : Field): Field = undoManager.redoStep(field)
 }

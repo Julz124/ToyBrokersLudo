@@ -1,8 +1,9 @@
 package de.htwg.se.toybrokersludo.aview
 import de.htwg.se.toybrokersludo.model
-import de.htwg.se.toybrokersludo.model.{Move, Token, PlayToken}
+import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.util.Observer
+
 import scala.collection.mutable
 import scala.io.StdIn.readLine
 
@@ -35,21 +36,22 @@ class TUI(controller: Controller) extends Observer {
         controller.startup(test)
     }
 
-
-
-  def analyseInput(input: String): Option[Move] =
+  def analyseInput (input: String): Option[Move] =
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
-    pattern.findFirstIn(input) match
-      case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
-        input.split(" ")(0)), input.split(" ")(2).toInt))
-      case None => None
+    input match
+      case "undo" => controller.doAndPublish(controller.undo); None
+      case "redo" => controller.doAndPublish(controller.redo); None
+      case _ => pattern.findFirstIn(input) match
+        case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
+          input.split(" ")(0)), input.split(" ")(2).toInt))
+        case None => None
 
 
- 
   def inputLoop(): String =
     analyseInput(readLine()) match
       case Some(move) => controller.doAndPublish(controller.put, move)
       case None => inputLoop()
     inputLoop()
- 
+
+
 }
