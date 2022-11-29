@@ -19,9 +19,9 @@ abstract class Player {
     diceroll match {
       case 6 => println(tokens.filter((move: Move) => (move.player.getColor().equals(playerString) && defaultField().contains(move.number)))
         .map((move: Move) => move.copy(number = startField())))
-      case _ => possible.appendedAll(tokens.filter((move : Move) => move.player.getColor().equals(playerString)
+      case _ => println(tokens.filter((move: Move) => move.player.getColor().equals(playerString)
         && !getTokens(field).contains(move.copy(number = move.number + diceroll)))
-        .map((move : Move) => move.copy(number = move.number + diceroll)))
+        .map((move: Move) => move.copy(number = move.number + diceroll)))
     }
     possible
 

@@ -44,6 +44,7 @@ case class Controller(var field: Field) extends Observable {
   def doAndPublish(doThis: Move => Field, move: Move) =
 
     GreenPlayer.possibleMoves(6, field)
+    GreenPlayer.possibleMoves(5, field)
 
     field = doThis(move)
     notifyObservers
