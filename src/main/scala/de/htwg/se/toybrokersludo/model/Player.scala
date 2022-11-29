@@ -1,4 +1,6 @@
 package de.htwg.se.toybrokersludo.model
+
+import scala.language.postfixOps
 //Strategy-Pattern
 
 abstract class Player {
@@ -9,23 +11,22 @@ abstract class Player {
   def endFields(): List[Int]
 
   def playerString: String
-  /*
-  def possibleMoves(diceroll: Int, field: Field): List[Move] = {
-    val tokens : List[Move] = field.matrix.getToken()
-    val possible : List[Move] = Nil
+
+
+  def possibleMoves(diceroll: Int, field: Field): List[Move] =
+    val tokens: List[Move] = field.matrix.getToken
+    val possible: List[Move] = Nil
     diceroll match {
-      case 6 =>
-        for (move <- tokens if move.player.color == playerString && move.number == defaultField()[0] | defaultField()[1] | defaultField()[2] | defaultField()[3])
-          possible.:: Move(move.player, startField())
-      case _ =>
-        for (move <- tokens if move.player.color == playerString)
-          for (move1 <- tokens if move1.player.color == playerString && move.number + diceroll != move1.number)
-            possible.:: Move(move.player, move.number + diceroll)
+      case 6 => println(tokens.filter((move: Move) => (move.player.getColor().equals(playerString) && defaultField().contains(move.number)))
+        .map((move: Move) => move.copy(number = startField())))
+      case _ => possible.appendedAll(tokens.filter((move : Move) => move.player.getColor().equals(playerString)
+        && !getTokens(field).contains(move.copy(number = move.number + diceroll)))
+        .map((move : Move) => move.copy(number = move.number + diceroll)))
     }
     possible
-  }
-  */
 
+  def getTokens(field: Field) =
+    field.matrix.getToken.filter((move : Move) => move.player.getColor().equals(playerString))
 }
 
 object GreenPlayer extends Player {

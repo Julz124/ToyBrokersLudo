@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.controller
 
 import de.htwg.se.tictactoe.controller.PutCommander
-import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken, Token}
+import de.htwg.se.toybrokersludo.model.{Field, GreenPlayer, Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.util.{Observable, UndoManager}
 import de.htwg.se.toybrokersludo.aview.TUI
 
@@ -42,8 +42,12 @@ case class Controller(var field: Field) extends Observable {
     val dice = new Random().nextDouble() * 6
 
   def doAndPublish(doThis: Move => Field, move: Move) =
+
+    GreenPlayer.possibleMoves(6, field)
+
     field = doThis(move)
     notifyObservers
+
 
   def doAndPublish(doThis: Field => Field) =
     field = doThis(field)
