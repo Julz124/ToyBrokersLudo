@@ -30,9 +30,15 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
       )
     }
 
-    "can publish" in {
+    "can publish_1" in {
       val move = Move(PlayToken.apply(1, "B"), 1)
       controller.doAndPublish(controller.put,move).toString should equal (
+        "()"
+      )
+    }
+
+    "can publish_2" in {
+      controller.doAndPublish(controller.undo).toString should equal (
         "()"
       )
     }

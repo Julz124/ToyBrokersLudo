@@ -12,6 +12,10 @@ class TokenSpec extends AnyWordSpec with Matchers {
       player.getColor() should be ("Y")
     }
 
+    "get's a Token" in {
+      PlayToken.apply(1, "Y").toString should be ("Y1")
+    }
+
     "can convert Color and Number to String" in {
       val player = PlayToken.apply(1,"B")
       player.toString() should equal("B1")
