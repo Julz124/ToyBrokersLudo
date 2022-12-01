@@ -54,15 +54,12 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)),
       map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).updated(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number), Stone(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).isAPlayField, map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number)))(map(map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))).indexWhere((stone: Stone) => stone.index == move.number)).index, Option(move.player)))))
 
-  
-  def getToken: List[Move] =
-    map.iterableFactory().filter((stone : Stone) => stone.player match
-      case Some(_) => true case None => false).map((stone : Stone) => Move(stone.player match
-      case Some(token : Token) => token case None => PlayToken.apply(99, "F"), stone.index))
-  
-  
 
-  
+  def getToken: List[Move] =
+    map.flatten.filter((stone: Stone) => stone.player != None).map((stone: Stone) => Move(stone.player match
+      case Some(playToken: Token) => playToken, stone.index))
+
+
   // index 0 - 16 is for start, 20 - 60 for we play field and 70 - 86 for stop
 
   /*"can convert a map to String" in
