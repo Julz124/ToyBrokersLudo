@@ -49,7 +49,7 @@ class TUI(controller: Controller) extends Observer {
 
   def inputLoop(): String =
     analyseInput(readLine()) match
-      case Some(move) => controller.doAndPublish(controller.put, move)
+      case Some(move) => controller.doAndPublish(controller.move, move)
       case None => inputLoop()
     inputLoop()
 

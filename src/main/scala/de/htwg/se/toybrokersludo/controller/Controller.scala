@@ -42,12 +42,9 @@ case class Controller(var field: Field) extends Observable {
     val dice = new Random().nextDouble() * 6
 
   def doAndPublish(doThis: Move => Field, move: Move) =
-
-    GreenPlayer.possibleMoves(6, field)
-    GreenPlayer.possibleMoves(5, field)
-
     field = doThis(move)
     notifyObservers
+    println(GreenPlayer.possibleMoves(6, field))
 
 
   def doAndPublish(doThis: Field => Field) =
@@ -57,6 +54,8 @@ case class Controller(var field: Field) extends Observable {
   val undoManager = UndoManager[Field]
 
   def put(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
+  
+  def move(move : Move) : Field = field.move(move)
 
   def undo(field : Field): Field = undoManager.undoStep(field)
 
