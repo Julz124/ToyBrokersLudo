@@ -1,3 +1,3 @@
 package de.htwg.se.toybrokersludo.model
 
-case class Move(player: Token, number: Int) // Command Patter
+case class Move(token: Token, number: Int) // Command Patter

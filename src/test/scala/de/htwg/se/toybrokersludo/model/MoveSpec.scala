@@ -9,7 +9,7 @@ class MoveSpec extends AnyWordSpec with Matchers {
 
     "have a Player and number" in {
       val move = Move(PlayToken(1,"B"), 1)
-      move.player == (PlayToken(1,"B"))
+      move.token == (PlayToken(1,"B"))
       move.number should be(1)
     }
   }

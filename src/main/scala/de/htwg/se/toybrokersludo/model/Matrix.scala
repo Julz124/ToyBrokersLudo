@@ -56,19 +56,19 @@ case class Matrix(var map: List[List[Stone]] = List(
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
     val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.index == move.number),
-      Stone(stone.isAPlayField, stone.index, Option(move.player)))
+      Stone(stone.isAPlayField, stone.index, Option(move.token)))
     this.copy(map.updated(a, list))
 
 
   def pull(move : Move) : Matrix =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.player match
-      case Some(player: Token) => player.equals(move.player)
+      case Some(player: Token) => player.equals(move.token)
       case None => false))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.player match
-      case Some(player: Token) => player.equals(move.player)
+      case Some(player: Token) => player.equals(move.token)
       case None => false))
     val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.player match
-      case Some(player: Token) => player.equals(move.player)
+      case Some(player: Token) => player.equals(move.token)
       case None => false),
       Stone(stone.isAPlayField, stone.index, None))
     this.copy(map.updated(a, list))

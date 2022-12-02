@@ -16,15 +16,16 @@ abstract class Player {
 
 
   def possibleMoves(diceroll: Int, field: Field): List[Move] =
+    println(diceroll)
     val tokens: List[Move] = field.matrix.getToken
     var possible: List[Move] = Nil
     if (diceroll == 6) {
-      possible = possible ::: tokens.filter((move: Move) => (move.player.getColor().equals(playerString)
+      possible = possible ::: tokens.filter((move: Move) => (move.token.getColor().equals(playerString)
         && defaultField().contains(move.number)
         && !getTokens(field).exists((move : Move) => move.number == startField())))
         .map((move: Move) => move.copy(number = startField()))
     }
-    possible = possible ::: tokens.filter((move: Move) => move.player.getColor().equals(playerString)
+    possible = possible ::: tokens.filter((move: Move) => move.token.getColor().equals(playerString)
       && !getTokens(field).exists((move2 : Move) => move.number + diceroll == move2.number)
       && !defaultField().contains(move.number))
       .map((move: Move) => move.copy(number = move.number + diceroll))
@@ -32,12 +33,17 @@ abstract class Player {
 
 
   def getTokens(field: Field) =
-    field.matrix.getToken.filter((move : Move) => move.player.getColor().equals(playerString))
+    field.matrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
 
 
-  def add(from : Int, dice : Int) : Int =
-    if (from + dice <= lastField()) lastField() - from + endFields().reverse.last
-    2
+  def add(from: Int, dice: Int): Option[Int] =
+    val result = from + dice
+    val lastindex = lastField() + 1
+    if (result > lastField() && result - lastindex <= 3) Option(endFields()(result - lastindex))
+    else if ((result-40) > lastField() && result - lastindex > 3) None
+    else if (result >= 60) Option(result - 40)
+    else Option(result)
+
 }
 
 object GreenPlayer extends Player {

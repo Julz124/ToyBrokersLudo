@@ -23,8 +23,6 @@ class TUI(controller: Controller) extends Observer {
         
     }
 
-  def dice() =
-    controller.dice()
 
   def update = println(controller.field.toString)
 
@@ -54,6 +52,7 @@ class TUI(controller: Controller) extends Observer {
     input match
       case "undo" => controller.doAndPublish(controller.undo); None
       case "redo" => controller.doAndPublish(controller.redo); None
+      case "dice" => dice(); None
       case _ => pattern.findFirstIn(input) match
         case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
           input.split(" ")(0)), input.split(" ")(2).toInt))
@@ -70,7 +69,7 @@ class TUI(controller: Controller) extends Observer {
   def inputLoop(): String =
     analyseInput(readLine()) match
       case Success(option : Option[Move]) => option match
-          case Some(move) => controller.doAndPublish(controller.put, move)
+          case Some(move) => controller.doAndPublish(controller.move, move)
           case None => inputLoop()
       case Failure(_) => println("False input")
     inputLoop()

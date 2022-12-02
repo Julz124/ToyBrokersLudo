@@ -13,6 +13,7 @@ case class Field(var matrix: Matrix) {
       case BluePlayer => YellowPlayer
       case YellowPlayer => GreenPlayer
 
+  var player : Player = GreenPlayer
 
   val eol: String = "\n"
 

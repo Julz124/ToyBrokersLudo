@@ -16,6 +16,13 @@ class PlayerSpec extends AnyWordSpec with Matchers{
       
     }
 
+    "can calculate the next field" in {
+      GreenPlayer.add(58, 2) should equal(Some(70))
+      GreenPlayer.add(58, 5) should equal(Some(73))
+      RedPlayer.add(58,3) should equal(Some(21))
+      RedPlayer.add(35,5) should equal(Some(40))
+    }
+
     "green should have" in {
       green.playerString should be ("G")
       green.endFields() should equal (List(70, 71, 72, 73))

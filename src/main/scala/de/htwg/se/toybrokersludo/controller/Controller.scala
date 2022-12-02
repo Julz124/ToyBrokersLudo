@@ -38,15 +38,13 @@ case class Controller(var field: Field) extends Observable {
     }
     field
 
-  def dice() =
-    val dice = new Random().nextDouble() * 6
+  def dice() : List[Move] =
+    field.player.possibleMoves((new Random().nextDouble() * 6).toInt + 1, field)
 
   def doAndPublish(doThis: Move => Field, move: Move) =
     field = doThis(move)
     notifyObservers
-    println(GreenPlayer.possibleMoves(6, field))
-
-
+  
   def doAndPublish(doThis: Field => Field) =
     field = doThis(field)
     notifyObservers
