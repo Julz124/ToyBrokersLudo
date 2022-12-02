@@ -19,8 +19,6 @@ object PlayToken {
   }
 }
 
-
-
 private class Valid(number : Int, color : String) extends Token:
   override def toString(): String =
     color + number
