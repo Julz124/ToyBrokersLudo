@@ -36,15 +36,18 @@ case class Controller(var field: Field) extends Observable {
         for (move <- startYellow()) field = field.put(move)
         for (move <- startBlue()) field = field.put(move)
     }
-    field
+    field.numberPlayer(spieler)
 
   def dice() : List[Move] =
     field.player.possibleMoves((new Random().nextDouble() * 6).toInt + 1, field)
 
+  def nextPlayer() =
+    field = field.nextPlayer()
+
   def doAndPublish(doThis: Move => Field, move: Move) =
     field = doThis(move)
     notifyObservers
-  
+
   def doAndPublish(doThis: Field => Field) =
     field = doThis(field)
     notifyObservers

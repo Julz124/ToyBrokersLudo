@@ -46,17 +46,20 @@ class TUI(controller: Controller) extends Observer {
           input.split(" ")(0)), input.split(" ")(2).toInt))
   }
 
-  def dice() =
+  def dice()  =
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     val options = controller.dice()
-    println("choise between: " + options)
-    val input = readLine()
-    pattern.findFirstIn(input) match
-      case Some(_) => {
-        val move = Move(PlayToken(input.split(" ")(1).toInt,input.split(" ")(0)),input.split(" ")(2).toInt)
-        options.contains(move) match
-          case true => controller.doAndPublish(controller.move, move)
+    if (!options.isEmpty) {
+      println("choise between: " + options)
+      var input = readLine().toInt
+      while (options.size <= input) {
+        println("choise one")
+        input = readLine().toInt
       }
+      if (input != 6) controller.nextPlayer()
+      controller.doAndPublish(controller.move, options(input))
+
+    }
 
 
   def inputLoop(): String =
