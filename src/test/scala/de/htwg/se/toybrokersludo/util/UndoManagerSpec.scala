@@ -62,7 +62,6 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
       )
     }
 
-
     "can do step" in {
       manager.doStep(field, PutCommander(field, Move(PlayToken.apply(1, "B"), 20))).toString should equal (
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -99,12 +98,6 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
         "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol
       )
-
-
     }
-
-
   }
-
-
 }
