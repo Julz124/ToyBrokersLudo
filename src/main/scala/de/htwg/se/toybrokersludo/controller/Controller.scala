@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.controller
 
-import de.htwg.se.tictactoe.controller.PutCommander
+import de.htwg.se.toybrokersludo.controller.PutCommander
 import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.util.{Observable, UndoManager}
 import de.htwg.se.toybrokersludo.aview.TUI
