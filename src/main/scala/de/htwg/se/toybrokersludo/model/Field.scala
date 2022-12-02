@@ -33,6 +33,8 @@ case class Field(var matrix: Matrix) {
 
   def put(move: Move): Field = this.copy(matrix.put(move))
 
+  def move(move: Move): Field = this.copy(matrix.move(move))
+
   override def toString: String =
     mash().mkString
 }

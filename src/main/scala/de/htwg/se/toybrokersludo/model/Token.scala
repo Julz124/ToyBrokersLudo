@@ -6,6 +6,9 @@ trait Token {
   def toString(): String
   def getNumber() : Int
   def getColor() : String
+  
+  def equals(token : Token) : Boolean =
+    getNumber() == token.getNumber() && getColor().equals(token.getColor())
 }
 
 
@@ -15,6 +18,8 @@ object PlayToken {
       case true => new Valid (number, color)
   }
 }
+
+
 
 private class Valid(number : Int, color : String) extends Token:
   override def toString(): String =

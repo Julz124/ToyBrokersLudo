@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.controller
 
-import de.htwg.se.toybrokersludo.controller.PutCommander
-import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken, Token}
+import de.htwg.se.tictactoe.controller.PutCommander
+import de.htwg.se.toybrokersludo.model.{Field, GreenPlayer, Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.util.{Observable, UndoManager}
 import de.htwg.se.toybrokersludo.aview.TUI
 
@@ -17,7 +17,8 @@ case class Controller(var field: Field) extends Observable {
   def startYellow(): List[Move] = List(Move(PlayToken.apply(1, "Y"), 8), Move(PlayToken.apply(2, "Y"), 9), Move(PlayToken.apply(3, "Y"), 10), Move(PlayToken.apply(4, "Y"), 11))
 
   def startBlue(): List[Move] = List(Move(PlayToken.apply(1, "B"), 12), Move(PlayToken.apply(2, "B"), 13), Move(PlayToken.apply(3, "B"), 14), Move(PlayToken.apply(4, "B"), 15))
-  
+
+
   def startup(spieler: Int): Field =
     spieler match {
       case 1 =>
@@ -43,13 +44,20 @@ case class Controller(var field: Field) extends Observable {
   def doAndPublish(doThis: Move => Field, move: Move) =
     field = doThis(move)
     notifyObservers
+    println(GreenPlayer.possibleMoves(6, field))
+
 
   def doAndPublish(doThis: Field => Field) =
     field = doThis(field)
     notifyObservers
 
   val undoManager = UndoManager[Field]
+
   def put(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
+  
+  def move(move : Move) : Field = field.move(move)
+
   def undo(field : Field): Field = undoManager.undoStep(field)
+
   def redo(field : Field): Field = undoManager.redoStep(field)
 }
