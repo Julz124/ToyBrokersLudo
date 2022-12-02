@@ -14,7 +14,6 @@ abstract class Player {
 
   def playerString: String
 
-
   def possibleMoves(diceroll: Int, field: Field): List[Move] =
     println(diceroll)
     val tokens: List[Move] = field.matrix.getToken
@@ -30,7 +29,6 @@ abstract class Player {
       && !defaultField().contains(move.number))
       .map((move: Move) => move.copy(number = move.number + diceroll))
     possible
-
 
   def getTokens(field: Field) =
     field.matrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))

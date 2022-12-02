@@ -35,18 +35,6 @@ class TUI(controller: Controller) extends Observer {
         controller.startup(test)
     }
 
-  /*
-  def analyseInput (input: String): Option[Move] =
-    val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
-    input match
-      case "undo" => controller.doAndPublish(controller.undo); None
-      case "redo" => controller.doAndPublish(controller.redo); None
-      case _ => pattern.findFirstIn(input) match
-        case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
-          input.split(" ")(0)), input.split(" ")(2).toInt))
-        case None => None
-*/
-
   def analyseInput(input: String): Try[Option[Move]] = Try {
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     input match
@@ -57,14 +45,19 @@ class TUI(controller: Controller) extends Observer {
         case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
           input.split(" ")(0)), input.split(" ")(2).toInt))
   }
-  /*
 
-  val suc = analyseInput(_)
-  suc: scala.util.Try[Option[Move]] = Success(_)
+  def dice() =
+    val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
+    val options = controller.dice()
+    println("choise between: " + options)
+    val input = readLine()
+    pattern.findFirstIn(input) match
+      case Some(_) => {
+        val move = Move(PlayToken(input.split(" ")(1).toInt,input.split(" ")(0)),input.split(" ")(2).toInt)
+        options.contains(move) match
+          case true => controller.doAndPublish(controller.move, move)
+      }
 
-  val fail = analyseInput("")
-  fail: scala.util.Try[Int] = Failure(java.lang.NumberFormatException: For input string: "")
-  */
 
   def inputLoop(): String =
     analyseInput(readLine()) match

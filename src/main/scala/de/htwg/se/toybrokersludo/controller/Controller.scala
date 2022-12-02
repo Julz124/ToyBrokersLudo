@@ -53,7 +53,7 @@ case class Controller(var field: Field) extends Observable {
 
   def put(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
   
-  def move(move : Move) : Field = field.move(move)
+  def move(move : Move) : Field = undoManager.doStep(field, PutCommander(field, move))
 
   def undo(field : Field): Field = undoManager.undoStep(field)
 
