@@ -3,10 +3,13 @@ package de.htwg.se.toybrokersludo.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
+import de.htwg.se.toybrokersludo.controller.{Controller}
 
 class FieldSpec extends AnyWordSpec with Matchers {
 
   val field = Field(Matrix())
+
+  val controller = Controller(field)
 
   val eol = "\n"
 
@@ -45,13 +48,12 @@ class FieldSpec extends AnyWordSpec with Matchers {
     }
 
     "can hase next player" in {
-      field.nextPlayer(GreenPlayer, 1) should equal (GreenPlayer)
-      field.nextPlayer(GreenPlayer, 2) should equal (RedPlayer)
-      field.nextPlayer(RedPlayer, 2) should equal (RedPlayer)
-      field.nextPlayer(RedPlayer, 3) should equal (BluePlayer)
-      field.nextPlayer(BluePlayer, 3) should equal (BluePlayer)
-      field.nextPlayer(BluePlayer, 4) should equal (YellowPlayer)
+      field.nextPlayer(GreenPlayer) should equal(field)
+      field.nextPlayer(RedPlayer) should equal(field)
+      field.nextPlayer(BluePlayer) should equal(field)
+      field.nextPlayer(YellowPlayer) should equal(field)
     }
+
 
     "can convert a map to String" in {
       field.toString() should be(

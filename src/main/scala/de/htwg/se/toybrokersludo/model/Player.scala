@@ -33,16 +33,34 @@ abstract class Player {
   def getTokens(field: Field) =
     field.matrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
 
-
   def add(from: Int, dice: Int): Option[Int] =
     val result = from + dice
     val lastindex = lastField() + 1
-    if (result > lastField() && result - lastindex <= 3) Option(endFields()(result - lastindex))
-    else if ((result-40) > lastField() && result - lastindex > 3) None
-    else if (result >= 60) Option(result - 40)
-    else Option(result)
-
+    playerString match
+      case "G" =>
+        if (result <= lastField()) Option(result)
+        else if (result > lastField() && result - lastindex <= 3) Option(endFields()(result - lastindex))
+        else None
+      case "R" =>
+        if (result <= 59 && (30 to 59 contains from)) Option(result)
+        else if (result > 59 && (30 to 59 contains from)) Option(result - 40)
+        else if (result <= lastField() && (20 to 29 contains from)) Option(result)
+        else if (result > lastField() && (20 to 29 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
+        else None
+      case "B" =>
+        if (result <= 59 && (40 to 59 contains from)) Option(result)
+        else if (result > 59 && (40 to 59 contains from)) Option(result - 40)
+        else if (result <= lastField() && (30 to 39 contains from)) Option(result)
+        else if (result > lastField() && (30 to 39 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
+        else None
+      case "Y" =>
+        if (result <= 59 && (50 to 59 contains from)) Option(result)
+        else if (result > 59 && (50 to 59 contains from)) Option(result - 40)
+        else if (result <= lastField() && (40 to 49 contains from)) Option(result)
+        else if (result > lastField() && (40 to 49 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
+        else None
 }
+
 
 object GreenPlayer extends Player {
   override def defaultField(): List[Int] = List(0, 1, 2, 3)
@@ -92,6 +110,44 @@ object YellowPlayer extends Player {
 
   override def playerString = "Y"
 }
+
+/*
+
++----+      +----+      +----++----++----+      +----+      +----+
+| G0 |      | G1 |      | 28 || 29 || 30 |      | R4 |      | R5 |
++----+      +----+      +----++----++----+      +----+      +----+
+                        +----++----++----+
+                        | 27 || 74 || 31 |
+                        +----++----++----+
++----+      +----+      +----++----++----+      +----+      +----+
+| G2 |      | G3 |      | 26 || 75 || 32 |      | R6 |      | R7 |
++----+      +----+      +----++----++----+      +----+      +----+
+                        +----++----++----+
+                        | 25 || 76 || 33 |
+                        +----++----++----+
++----++----++----++----++----++----++----++----++----++----++----+
+| 20 || 21 || 22 || 23 || 24 || 77 || 34 || 35 || 36 || 37 || 38 |
++----++----++----++----++----++----++----++----++----++----++----+
++----++----++----++----++----+      +----++----++----++----++----+
+| 59 || 70 || 71 || 72 || 73 |      | 81 || 80 || 79 || 78 || 39 |
++----++----++----++----++----+      +----++----++----++----++----+
++----++----++----++----++----++----++----++----++----++----++----+
+| 58 || 57 || 56 || 55 || 54 || 85 || 44 || 43 || 42 || 41 || 40 |
++----++----++----++----++----++----++----++----++----++----++----+
+                        +----++----++----+
+                        | 53 || 84 || 45 |
+                        +----++----++----+
++----+      +----+      +----++----++----+      +----+      +----+
+| Y8 |      | Y9 |      | 52 || 83 || 46 |      | B12|      | B13|
++----+      +----+      +----++----++----+      +----+      +----+
+                        +----++----++----+
+                        | 51 || 82 || 47 |
+                        +----++----++----+
++----+      +----+      +----++----++----+      +----+      +----+
+| Y10|      | Y11|      | 50 || 49 || 48 |      | B14|      | B15|
++----+      +----+      +----++----++----+      +----+      +----+
+
+*/
 
 
 
