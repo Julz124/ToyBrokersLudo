@@ -36,10 +36,13 @@ case class Controller(var field: Field) extends Observable {
         for (move <- startYellow()) field = field.put(move)
         for (move <- startBlue()) field = field.put(move)
     }
-    field.numberPlayer(spieler)
+    field = field.numberPlayer(spieler)
+    field
 
-  def dice() : List[Move] =
-    field.player.possibleMoves((new Random().nextDouble() * 6).toInt + 1, field)
+  def dice() : Int = (Random().nextDouble() * 6).toInt + 1
+
+  def getPossibleMoves(dice : Int): List[Move] =
+    field.player.possibleMoves(dice, field)
 
   def nextPlayer() =
     field = field.nextPlayer()
@@ -54,7 +57,7 @@ case class Controller(var field: Field) extends Observable {
 
   val undoManager = UndoManager[Field]
 
-  def put(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
+  def put(move: Move): Field = field.put(move)
   
   def move(move : Move) : Field = undoManager.doStep(field, PutCommander(field, move))
 

@@ -13,7 +13,8 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
 
     val eol = "\n"
 
-    val field = Field(Matrix())
+    var field = Field(Matrix())
+    field = field.put(Move(PlayToken.apply(1, "B"), 21))
 
     val manager = UndoManager[Field]
 

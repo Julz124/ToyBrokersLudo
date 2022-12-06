@@ -1,17 +1,16 @@
 package de.htwg.se.toybrokersludo.model
 
-case class Field(var matrix: Matrix, var player : Player = GreenPlayer, var playerNumber : Int = 0) {
+case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0) {
 
-  
-  def nextPlayer(player2: Player = player) : Field = //Interator Pattern
+  def nextPlayer(player2: Player = player): Field = //Interator Pattern
     player2 match
-      case GreenPlayer if(playerNumber < 2) => this.copy(player = GreenPlayer)
+      case GreenPlayer if (playerNumber < 2) => this.copy(player = GreenPlayer)
       case GreenPlayer => this.copy(player = RedPlayer)
-      case RedPlayer if(playerNumber < 3) => this.copy(player = GreenPlayer)
+      case RedPlayer if (playerNumber < 3) => this.copy(player = GreenPlayer)
       case RedPlayer => this.copy(player = BluePlayer)
-      case BluePlayer  if(playerNumber < 4) => this.copy(player = GreenPlayer)
-      case BluePlayer => this.copy(player = YellowPlayer)
-      case YellowPlayer => this.copy(player = GreenPlayer)
+      case YellowPlayer if (playerNumber < 4) => this.copy(player = GreenPlayer)
+      case YellowPlayer => this.copy(player = BluePlayer)
+      case BluePlayer => this.copy(player = GreenPlayer)
 
   def numberPlayer(number : Int) : Field =
     this.copy(playerNumber = number)

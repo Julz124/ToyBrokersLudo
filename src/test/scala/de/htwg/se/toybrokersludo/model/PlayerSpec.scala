@@ -13,7 +13,11 @@ class PlayerSpec extends AnyWordSpec with Matchers{
   "player" should {
 
     "class Player should return possibleMoves" in {
-      
+      var field = Field(Matrix())
+      def startRed(): List[Move] = List(Move(PlayToken.apply(1, "R"), 4), Move(PlayToken.apply(2, "R"), 5), Move(PlayToken.apply(3, "R"), 6), Move(PlayToken.apply(4, "R"), 7))
+      for (move <- startRed()) field = field.put(move)
+      RedPlayer.possibleMoves(6, field) ===
+        (List(Move(PlayToken(1, "R"),30), Move(PlayToken(2, "R"),30), Move(PlayToken(3, "R"),30), Move(PlayToken(4, "R"),30)))
     }
 
     "can calculate the next field" in {

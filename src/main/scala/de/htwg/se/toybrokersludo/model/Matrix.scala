@@ -10,39 +10,39 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(false, -1, None), Stone(true, 4, None), Stone(false, -1, None), Stone(true, 5, None)),
   List(
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None),
-    Stone(true, 27, None), Stone(true, 64, None), Stone(true, 31, None),
+    Stone(true, 27, None), Stone(true, 74, None), Stone(true, 31, None),
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None)),
   List(
     Stone(true, 2, None), Stone(false, -1, None), Stone(true, 3, None), Stone(false, -1, None),
-    Stone(true, 26, None), Stone(true, 65, None), Stone(true, 32, None),
+    Stone(true, 26, None), Stone(true, 75, None), Stone(true, 32, None),
     Stone(false, -1, None), Stone(true, 6, None), Stone(false, -1, None), Stone(true, 7, None)),
   List(
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None),
-    Stone(true, 25, None), Stone(true, 66, None), Stone(true, 33, None),
+    Stone(true, 25, None), Stone(true, 76, None), Stone(true, 33, None),
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None)),
   List(
     Stone(true, 20, None), Stone(true, 21, None), Stone(true, 22, None), Stone(true, 23, None),
-    Stone(true, 24, None), Stone(true, 67, None), Stone(true, 33, None),
+    Stone(true, 24, None), Stone(true, 77, None), Stone(true, 34, None),
     Stone(true, 35, None), Stone(true, 36, None), Stone(true, 37, None), Stone(true, 38, None)),
   List(
-    Stone(true, 59, None), Stone(true, 60, None), Stone(true, 61, None), Stone(true, 62, None),
-    Stone(true, 63, None), Stone(false, -1, None), Stone(true, 71, None),
-    Stone(true, 70, None), Stone(true, 69, None), Stone(true, 68, None), Stone(true, 39, None)),
+    Stone(true, 59, None), Stone(true, 70, None), Stone(true, 71, None), Stone(true, 72, None),
+    Stone(true, 73, None), Stone(false, -1, None), Stone(true, 81, None),
+    Stone(true, 80, None), Stone(true, 79, None), Stone(true, 78, None), Stone(true, 39, None)),
   List(
     Stone(true, 58, None), Stone(true, 57, None), Stone(true, 56, None), Stone(true, 55, None),
-    Stone(true, 54, None), Stone(true, 75, None), Stone(true, 44, None),
+    Stone(true, 54, None), Stone(true, 85, None), Stone(true, 44, None),
     Stone(true, 43, None), Stone(true, 42, None), Stone(true, 41, None), Stone(true, 40, None)),
   List(
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None),
-    Stone(true, 53, None), Stone(true, 74, None), Stone(true, 45, None),
+    Stone(true, 53, None), Stone(true, 84, None), Stone(true, 45, None),
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None)),
   List(
     Stone(true, 8, None), Stone(false, -1, None), Stone(true, 9, None), Stone(false, -1, None),
-    Stone(true, 52, None), Stone(true, 73, None), Stone(true, 46, None),
+    Stone(true, 52, None), Stone(true, 83, None), Stone(true, 46, None),
     Stone(false, -1, None), Stone(true, 12, None), Stone(false, -1, None), Stone(true, 13, None)),
   List(
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None),
-    Stone(true, 51, None), Stone(true, 72, None), Stone(true, 47, None),
+    Stone(true, 51, None), Stone(true, 82, None), Stone(true, 47, None),
     Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None), Stone(false, -1, None)),
   List(
     Stone(true, 10, None), Stone(false, -1, None), Stone(true, 11, None), Stone(false, -1, None),
