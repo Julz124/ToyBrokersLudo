@@ -12,27 +12,52 @@ abstract class Player {
 
   def lastField() : Int
 
+  def fooFields() : List[Int]
+
   def playerString: String
 
+
   def possibleMoves(diceroll: Int, field: Field): List[Move] =
-    println(diceroll)
     val tokens: List[Move] = field.matrix.getToken
     var possible: List[Move] = Nil
     if (diceroll == 6) {
       possible = possible ::: tokens.filter((move: Move) => (move.token.getColor().equals(playerString)
         && defaultField().contains(move.number)
-        && !getTokens(field).exists((move : Move) => move.number == startField())))
+        && !getTokens(field).exists((move: Move) => move.number == startField())))
         .map((move: Move) => move.copy(number = startField()))
     }
     possible = possible ::: tokens.filter((move: Move) => move.token.getColor().equals(playerString)
-      && !getTokens(field).exists((move2 : Move) => move.number + diceroll == move2.number)
+      && !getTokens(field).exists((move2: Move) => add(move.number, diceroll) match
+        case Some(result : Int) => result.equals(move2.number)
+        case None => true)
       && !defaultField().contains(move.number))
-      .map((move: Move) => move.copy(number = move.number + diceroll))
+      .map((move: Move) => move.copy(number = add(move.number, diceroll) match
+        case Some(result : Int) => result
+      ))
     possible
 
   def getTokens(field: Field) =
     field.matrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
 
+
+  def add (from: Int, dice: Int): Option[Int] =
+    val result = from + dice
+    if (goOverEnd(from, result))
+      result - lastField() <= endFields().size match
+        case true => Some(endFields()(result - lastField() - 1))
+        case false => None
+    else if (result >GreenPlayer.lastField()) Some(result - 40)
+    else Some(result)
+
+
+  def goOverEnd(from: Int, to: Int) =
+    var fromNew = from
+    var toNew = to
+    if(fooFields().contains(from - 40)) fromNew = from - 40
+    if(fooFields().contains(to - 40)) toNew = to - 40
+    from < lastField() && to > lastField()
+
+  /*
   def add(from: Int, dice: Int): Option[Int] =
     val result = from + dice
     val lastindex = lastField() + 1
@@ -59,6 +84,7 @@ abstract class Player {
         else if (result <= lastField() && (40 to 49 contains from)) Option(result)
         else if (result > lastField() && (40 to 49 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
         else None
+  */
 }
 
 
@@ -71,6 +97,8 @@ object GreenPlayer extends Player {
 
   override def lastField(): Int = 59
 
+  override def fooFields(): List[Int] = Nil
+
   override def playerString = "G"
 }
 
@@ -82,6 +110,8 @@ object RedPlayer extends Player {
   override def endFields(): List[Int] = List(74, 75, 76, 77)
 
   override def lastField(): Int = 29
+
+  override def fooFields(): List[Int] = (20 to 30).toList
 
   override def playerString = "R"
 
@@ -96,6 +126,8 @@ object BluePlayer extends Player {
 
   override def lastField(): Int = 49
 
+  override def fooFields(): List[Int] = (39 to 40).toList
+
   override def playerString = "B"
 }
 
@@ -107,6 +139,8 @@ object YellowPlayer extends Player {
   override def endFields(): List[Int] = List(82, 83, 84, 85)
 
   override def lastField(): Int = 39
+
+  override def fooFields(): List[Int] = (40 to 50).toList
 
   override def playerString = "Y"
 }
