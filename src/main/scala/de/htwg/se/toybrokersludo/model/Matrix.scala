@@ -50,8 +50,6 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None)),
 )) {
 
-
-
   def put(move : Move) : Matrix =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))

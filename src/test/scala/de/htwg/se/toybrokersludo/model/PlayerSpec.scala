@@ -32,24 +32,32 @@ class PlayerSpec extends AnyWordSpec with Matchers{
       green.endFields() should equal (List(70, 71, 72, 73))
       green.startField() should be (20)
       green.defaultField() should equal (List(0, 1, 2, 3))
+      green.lastField() should be (59)
+      green.fooFields() should be (Nil)
     }
     "yellow should have" in {
       yellow.playerString should be ("Y")
       yellow.endFields() should equal (List(82, 83, 84, 85))
       yellow.startField() should be (50)
       yellow.defaultField() should equal (List(8, 9, 10, 11))
+      yellow.lastField() should be(39)
+      yellow.fooFields() should be((40 to 50).toList)
     }
     "red should have" in {
       red.playerString should be ("R")
       red.endFields() should equal (List(74, 75, 76, 77))
       red.startField() should be (30)
       red.defaultField() should equal (List(4, 5, 6, 7))
+      red.lastField() should be(29)
+      red.fooFields() should be((20 to 30).toList)
     }
     "blue should have" in {
       blue.playerString should be ("B")
       blue.endFields() should equal (List(78, 79, 80, 81))
       blue.startField() should be (40)
       blue.defaultField() should equal (List(12, 13, 14, 15))
+      blue.lastField() should be(49)
+      blue.fooFields() should be((39 to 40).toList)
     }
   }
 

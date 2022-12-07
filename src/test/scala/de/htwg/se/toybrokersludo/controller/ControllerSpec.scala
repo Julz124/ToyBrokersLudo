@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.controller
 
-import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Token, Stone, PlayToken}
+import de.htwg.se.toybrokersludo.model.{Field, GreenPlayer, Matrix, Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.aview.TUI
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -20,28 +20,35 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
   val controller = Controller(field)
   val tui = TUI(controller)
 
-  controller.field = controller.put(Move(PlayToken.apply(1, "B"), 0))
-  controller.doAndPublish(controller.move, Move(PlayToken.apply(1, "B"), 0))
-
   "The Controller" should  {
     "can put" in {
-      controller.field.matrix.map == (List(
-        List(Stone(true, 0, Option(PlayToken.apply(1, "B"))), Stone(false, -1, None)),
-        List(Stone(true, 1, None), Stone(false, -1, None)))
+      controller.put(Move(PlayToken.apply(1, "B"),0)).toString should be (Field(Matrix(List(
+        List(Stone(true, 0, Option(PlayToken(1, "B"))), Stone(false, -1, None)),
+        List(Stone(true, 1, None), Stone(false, -1, None))))).toString
       )
+    }
+
+    "get's possible moves" in {
+      val m_controller = Controller(Field(Matrix(),GreenPlayer,1))
+      m_controller.getPossibleMoves(1) should equal (List())
+    }
+
+    "get's next player" in {
+      val p_controller = Controller(Field(Matrix(),GreenPlayer,1))
+      p_controller.nextPlayer().toString should be ("()")
+    }
+
+    "can dice" in {
+      controller.dice() should equal (3 +- 3)
     }
 
     "can publish_1" in {
       val move = Move(PlayToken.apply(1, "B"), 1)
-      controller.doAndPublish(controller.put,move).toString should equal (
-        "()"
-      )
+      controller.doAndPublish(controller.put,move).toString should equal ("()")
     }
 
     "can publish_2" in {
-      controller.doAndPublish(controller.undo).toString should equal (
-        "()"
-      )
+      controller.doAndPublish(controller.undo).toString should equal ("()")
     }
 
     "can startup player count 1" in {

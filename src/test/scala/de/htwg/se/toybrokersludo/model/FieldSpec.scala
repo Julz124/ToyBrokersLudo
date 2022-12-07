@@ -47,11 +47,43 @@ class FieldSpec extends AnyWordSpec with Matchers {
       field.player(8, Option(PlayToken(4, "G"))) should be("   G4   ")
     }
 
-    "can hase next player" in {
-      field.nextPlayer(GreenPlayer) should equal(field)
-      field.nextPlayer(RedPlayer) should equal(field)
-      field.nextPlayer(BluePlayer) should equal(field)
-      field.nextPlayer(YellowPlayer) should equal(field)
+    "can hase next player with 1 player" in {
+      val field1 = Field(Matrix(),GreenPlayer,1)
+
+      field1.nextPlayer(GreenPlayer) should be(Field(Matrix(),GreenPlayer,1))
+      field1.nextPlayer(RedPlayer) should be(Field(Matrix(),GreenPlayer,1))
+      field1.nextPlayer(BluePlayer) should be(Field(Matrix(),GreenPlayer,1))
+      field1.nextPlayer(YellowPlayer) should be(Field(Matrix(),GreenPlayer,1))
+    }
+
+    "can hase next player with 2 player" in {
+      val field2 = Field(Matrix(), GreenPlayer, 2)
+
+      field2.nextPlayer(GreenPlayer) should be(Field(Matrix(),RedPlayer,2))
+      field2.nextPlayer(RedPlayer) should be(Field(Matrix(),GreenPlayer,2))
+      field2.nextPlayer(BluePlayer) should be(Field(Matrix(),GreenPlayer,2))
+      field2.nextPlayer(YellowPlayer) should be(Field(Matrix(),GreenPlayer,2))
+    }
+
+    "can hase next player with 3 player" in {
+      val field3 = Field(Matrix(), GreenPlayer, 3)
+
+      field3.nextPlayer(GreenPlayer) should be(Field(Matrix(), RedPlayer, 3))
+      field3.nextPlayer(RedPlayer) should be(Field(Matrix(), BluePlayer, 3))
+      field3.nextPlayer(BluePlayer) should be(Field(Matrix(), GreenPlayer, 3))
+      field3.nextPlayer(YellowPlayer) should be(Field(Matrix(), GreenPlayer, 3))
+    }
+
+    "can hase next player with 4 player" in {
+      val field4 = Field(Matrix(), GreenPlayer, 4)
+
+      field4.nextPlayer(GreenPlayer) should be(Field(Matrix(), RedPlayer, 4))
+      field4.nextPlayer(RedPlayer) should be(Field(Matrix(), BluePlayer, 4))
+      field4.nextPlayer(BluePlayer) should be(Field(Matrix(), GreenPlayer, 4))
+      field4.nextPlayer(YellowPlayer) should be(Field(Matrix(), BluePlayer, 4))
+
+      //field4.nextPlayer(BluePlayer) should be(Field(Matrix(), YellowPlayer, 4))
+      //field4.nextPlayer(YellowPlayer) should be(Field(Matrix(), GreenPlayer, 4))
     }
 
 
