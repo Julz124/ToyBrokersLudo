@@ -13,10 +13,11 @@ class MatrixSpec extends AnyWordSpec with Matchers{
 
   "matrix" should {
     "build Matrix correctly" in {
-      matrix.put(Move(PlayToken.apply(2, "Y"),0)).map == (
-        List(
+      matrix.put(Move(PlayToken.apply(2, "Y"),0)).toString should equal (
+        Matrix(List(
         List(Stone(true, 0, Option(PlayToken(2, "Y"))), Stone(false, -1, None)),
-        List(Stone(true, 1, None), Stone(false, -1, None))))
+        List(Stone(true, 1, None), Stone(false, -1, None)))).toString
+      )
     }
 
     "get's Token correctly" in {
