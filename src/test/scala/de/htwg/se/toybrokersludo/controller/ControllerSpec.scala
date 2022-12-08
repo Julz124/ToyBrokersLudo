@@ -174,7 +174,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
       val field2 = Field(Matrix())
       val controller2 = Controller(field2)
       controller2.startup(4).toString should be(
-        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "                        +----++----++----+                        " + eol +
