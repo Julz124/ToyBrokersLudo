@@ -83,7 +83,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
   */
 
 
-  override def menu =
+  override def menue =
     contents = new BorderPanel {
       add(new Label("Spieleranzahl auswählen"),
         BorderPanel.Position.North
