@@ -79,8 +79,8 @@ class FieldSpec extends AnyWordSpec with Matchers {
 
       field4.nextPlayer(GreenPlayer) should be(Field(Matrix(), RedPlayer, 4))
       field4.nextPlayer(RedPlayer) should be(Field(Matrix(), BluePlayer, 4))
-      field4.nextPlayer(BluePlayer) should be(Field(Matrix(), GreenPlayer, 4))
-      field4.nextPlayer(YellowPlayer) should be(Field(Matrix(), BluePlayer, 4))
+      field4.nextPlayer(BluePlayer) should be(Field(Matrix(), YellowPlayer, 4))
+      field4.nextPlayer(YellowPlayer) should be(Field(Matrix(), GreenPlayer, 4))
 
       //field4.nextPlayer(BluePlayer) should be(Field(Matrix(), YellowPlayer, 4))
       //field4.nextPlayer(YellowPlayer) should be(Field(Matrix(), GreenPlayer, 4))
