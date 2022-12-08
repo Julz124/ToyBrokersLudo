@@ -100,6 +100,8 @@ object GreenPlayer extends Player {
   override def fooFields(): List[Int] = Nil
 
   override def playerString = "G"
+
+  override def toString() : String = "Green Player"
 }
 
 object RedPlayer extends Player {
@@ -115,6 +117,8 @@ object RedPlayer extends Player {
 
   override def playerString = "R"
 
+  override def toString() : String = "Red Player"
+
 }
 
 object BluePlayer extends Player {
@@ -129,6 +133,8 @@ object BluePlayer extends Player {
   override def fooFields(): List[Int] = (39 to 40).toList
 
   override def playerString = "B"
+
+  override def toString() : String = "Blue Player"
 }
 
 object YellowPlayer extends Player {
@@ -143,6 +149,8 @@ object YellowPlayer extends Player {
   override def fooFields(): List[Int] = (40 to 50).toList
 
   override def playerString = "Y"
+
+  override def toString() : String = "YellowPlayer Player"
 }
 
 /*
