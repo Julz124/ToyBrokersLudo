@@ -15,7 +15,7 @@ class TUI(controller: Controller) extends UI(controller) {
   override def menue =
     println("Select number of players between 1 and 4")
     while(controller.field.playerNumber == 0) {
-      if (readLine())
+      if (readLine())wef
       controller.startup(readLine().toInt)
       controller.update
     }
