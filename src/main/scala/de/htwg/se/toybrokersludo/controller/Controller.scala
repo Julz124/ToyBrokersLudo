@@ -37,6 +37,7 @@ case class Controller(var field: Field) extends Observable {
         for (move <- startYellow()) field = field.put(move)
     }
     field = field.numberPlayer(spieler)
+    notifyObservers
     field
 
 

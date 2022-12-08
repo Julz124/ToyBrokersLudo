@@ -48,6 +48,13 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
           case e: MouseClicked =>
             if (controller.field.shouldDice) {
               controller.dice()
+              if (controller.getPossibleMoves(controller.field.dice).nonEmpty) {
+                controller.invertDice
+              } else {
+                if (controller.field.dice != 6) {
+                  controller.nextPlayer()
+                }
+              }
               update
             } else {
               println("fehler")
@@ -103,28 +110,37 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
     open()
 
 
+
+  def clicked(stone : Stone) : Unit =
+    if (!controller.field.shouldDice) {
+      if (!controller.field.shouldDice && controller.getPossibleMoves(controller.field.dice).exists((move: Move) => move.token.equals(stone.player match
+        case Some(token: Token) => token
+        case None => None))) {
+        if (controller.field.dice != 6) {
+          controller.nextPlayer()
+        }
+        controller.invertDice
+        controller.doAndPublish(controller.move, controller.getPossibleMoves(controller.field.dice).find((move: Move) => move.token.equals(stone.player match
+          case Some(token: Token) => token
+          case None => None
+        )) match
+          case Some(move : Move) => move)
+      }
+      update
+    } else {
+      println("fehler")
+    }
+
+
   case class CellButton(index: Int) extends Button() {
+    listenTo(mouse.clicks)
     val stone = controller.field.matrix.getStone(index)
     if (stone.isAPlayField == false) visible = false
     else text = stone.player match
       case Some(token: Token) => token.getColor() + token.getNumber()
-      case None => ""
+      case None => " "
     reactions += {
-      case e: MouseClicked =>
-        if(!controller.field.shouldDice) {
-          if (controller.field.dice != 0 && controller.getPossibleMoves(controller.field.dice).exists((move: Move) => move.token.equals(stone.player match
-            case Some(token: Token) => token
-            case None => None))) {
-            controller.doAndPublish(controller.move, controller.getPossibleMoves(controller.field.dice).find((move: Move) => move.token.equals(stone.player match
-              case Some(token: Token) => token
-              case None => None
-            )) match
-              case Some(token: Token) => token)
-          }
-          update
-        } else {
-          println("fehler")
-        }
+      case e: MouseClicked => clicked(stone)
     }
   }
 }

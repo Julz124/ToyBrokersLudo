@@ -12,14 +12,7 @@ class TUI(controller: Controller) extends UI(controller) {
 
   override def update = println(controller.field.toString)
 
-  override def menue =
-    println("Select number of players between 1 and 4")
-    while(controller.field.playerNumber == 0) {
-
-      controller.startup(readLine().toInt)
-      controller.update
-    }
-
+  override def menue = None
 
   def analyseInput(input: String): Try[Option[Move]] = Try {
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
@@ -43,16 +36,18 @@ class TUI(controller: Controller) extends UI(controller) {
     println(controller.field.player.playerString + " " + dice)
     val options = controller.getPossibleMoves(dice)
     if (!options.isEmpty) {
+      controller.invertDice
       println("choise between: " + options)
       var input = readLine().toInt
       while (options.size <= input) {
         println("choise one")
         input = readLine().toInt
       }
+      controller.invertDice
       controller.doAndPublish(controller.move, options(input))
     }
     if (dice != 6) controller.nextPlayer()
-    controller.invertDice
+
 
 
   override def inputLoop : Unit =
