@@ -29,12 +29,12 @@ case class Controller(var field: Field) extends Observable {
       case 3 =>
         for (move <- startGreen()) field = field.put(move)
         for (move <- startRed()) field = field.put(move)
-        for (move <- startYellow()) field = field.put(move)
+        for (move <- startBlue()) field = field.put(move)
       case 4 =>
         for (move <- startGreen()) field = field.put(move)
         for (move <- startRed()) field = field.put(move)
-        for (move <- startYellow()) field = field.put(move)
         for (move <- startBlue()) field = field.put(move)
+        for (move <- startYellow()) field = field.put(move)
     }
     field = field.numberPlayer(spieler)
     field

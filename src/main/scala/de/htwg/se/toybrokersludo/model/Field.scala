@@ -8,9 +8,9 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
       case GreenPlayer => this.copy(player = RedPlayer)
       case RedPlayer if (playerNumber < 3) => this.copy(player = GreenPlayer)
       case RedPlayer => this.copy(player = BluePlayer)
-      case YellowPlayer if (playerNumber < 4) => this.copy(player = GreenPlayer)
-      case YellowPlayer => this.copy(player = BluePlayer)
-      case BluePlayer => this.copy(player = GreenPlayer)
+      case BluePlayer if (playerNumber < 4) => this.copy(player = GreenPlayer)
+      case BluePlayer => this.copy(player = YellowPlayer)
+      case YellowPlayer => this.copy(player = GreenPlayer)
 
   def numberPlayer(number : Int) : Field =
     this.copy(playerNumber = number)
