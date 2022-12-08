@@ -10,4 +10,6 @@ import de.htwg.se.toybrokersludo.aview.GUI
   val field = Field(Matrix())
   val controller = Controller(field)
   val gui = GUI(controller)
+  val tui = TUI(controller)
   gui.run
+  tui.run

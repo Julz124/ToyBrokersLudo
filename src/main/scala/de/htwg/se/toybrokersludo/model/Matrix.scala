@@ -80,6 +80,10 @@ case class Matrix(var map: List[List[Stone]] = List(
     map.flatten.filter((stone: Stone) => stone.player != None).map((stone: Stone) => Move(stone.player match
       case Some(playToken: Token) => playToken, stone.index))
   
+  def getStone(index : Int): Stone =
+    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == index))
+    map(a)(map(a).indexWhere((stone: Stone) => stone.index == index))
+  
   
 /*
 

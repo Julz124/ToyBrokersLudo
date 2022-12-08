@@ -10,13 +10,12 @@ trait UI (controller: Controller) extends Observer {
   controller.add(this)
 
   def run: Unit =
-    menu
-    update
-    gameloop
+    menue
+    inputLoop
 
-  def gameloop: Unit
-  
-  def menu: Unit
+  def inputLoop: Unit
 
-  def analyseInput(input: String): Option[Move]
+  def menue: Unit
+
+  def analyseInput(input: String): Try[Option[Move]]
 }

@@ -38,7 +38,8 @@ case class Controller(var field: Field) extends Observable {
     }
     field = field.numberPlayer(spieler)
     field
-
+  
+  
   def dice() : Int = (Random().nextDouble() * 6).toInt + 1
 
   def getPossibleMoves(dice : Int): List[Move] =
