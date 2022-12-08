@@ -11,7 +11,6 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
       case YellowPlayer if (playerNumber < 4) => this.copy(player = GreenPlayer)
       case YellowPlayer => this.copy(player = BluePlayer)
       case BluePlayer => this.copy(player = GreenPlayer)
-
   def numberPlayer(number : Int) : Field =
     this.copy(playerNumber = number)
   
