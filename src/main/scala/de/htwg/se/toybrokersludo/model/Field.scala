@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.model
 
-case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0, dice : Int = 6) {
+case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0, dice : Int = 6, shouldDice : Boolean= true) {
 
   def nextPlayer(player2: Player = player): Field = //Interator Pattern
     player2 match
@@ -15,7 +15,9 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
   def numberPlayer(number : Int) : Field =
     this.copy(playerNumber = number)
 
+  def dice (dice : Int) : Field = this.copy(dice = dice)
 
+  def invertDice() : Field = this.copy(shouldDice = !shouldDice)
   
   val eol: String = "\n"
 
