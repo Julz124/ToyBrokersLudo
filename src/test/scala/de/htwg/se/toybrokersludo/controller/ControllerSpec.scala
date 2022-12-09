@@ -33,6 +33,16 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
       m_controller.getPossibleMoves(1) should equal (List())
     }
 
+    "can dice" in {
+      controller.dice()
+      (1 to 6).contains(controller.field.dice)
+    }
+
+    "can invert dice" in {
+      controller.invertDice
+      controller.field.shouldDice should be (false)
+    }
+
     "get's next player" in {
       val p_controller = Controller(Field(Matrix(),GreenPlayer,1))
       p_controller.nextPlayer().toString should be ("()")
