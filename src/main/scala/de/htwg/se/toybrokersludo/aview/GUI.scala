@@ -7,6 +7,8 @@ import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.util.Observer
 import de.htwg.se.toybrokersludo.aview.UI
+
+import javax.imageio.stream.ImageInputStream
 import javax.swing.SpringLayout.Constraints
 import scala.language.postfixOps
 import scala.swing
@@ -50,8 +52,6 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
   pack()
   centerOnScreen()
   open()
-
-  // ich commite kurz und will dann nochmal versuchen was zu ändern, kannst du pngs erstellen?
 
   override def update =
     contents = new BorderPanel {
