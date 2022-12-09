@@ -13,7 +13,7 @@ class StoneSpec extends AnyWordSpec with Matchers {
       val stone = Stone(true, 0, Option(PlayToken(1,"B")))
       stone.isAPlayField should be (true)
       stone.index should be (0)
-      stone.player == (Some(PlayToken(1,"B")))
+      stone.token == (Some(PlayToken(1,"B")))
     }
   }
 }

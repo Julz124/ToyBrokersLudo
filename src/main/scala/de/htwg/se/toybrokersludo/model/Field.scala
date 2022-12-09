@@ -25,7 +25,7 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
     list.map((s: Stone) => if (s.isAPlayField) "+" + "-" * size + "+" else " " + " " * size + " ")
 
   def vertical(list: List[Stone], size: Int): List[String] =
-    list.map((s: Stone) => if (s.isAPlayField) "|" + player(size, s.player) + "|" else " " + " " * size + " ")
+    list.map((s: Stone) => if (s.isAPlayField) "|" + player(size, s.token) + "|" else " " + " " * size + " ")
 
   def player(size: Int, player: Option[Token]): String =
     player match {

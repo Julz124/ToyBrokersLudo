@@ -38,9 +38,6 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
       p_controller.nextPlayer().toString should be ("()")
     }
 
-    "can dice" in {
-      controller.dice() should equal (3 +- 3)
-    }
 
     "can publish_1" in {
       val move = Move(PlayToken.apply(1, "B"), 1)

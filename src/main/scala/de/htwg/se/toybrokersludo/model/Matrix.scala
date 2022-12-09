@@ -59,13 +59,13 @@ case class Matrix(var map: List[List[Stone]] = List(
 
 
   def pull(move : Move) : Matrix =
-    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.player match
+    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.token match
       case Some(player: Token) => player.equals(move.token)
       case None => false))
-    val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.player match
+    val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.token match
       case Some(player: Token) => player.equals(move.token)
       case None => false))
-    val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.player match
+    val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.token match
       case Some(player: Token) => player.equals(move.token)
       case None => false),
       Stone(stone.isAPlayField, stone.index, None))
@@ -77,7 +77,7 @@ case class Matrix(var map: List[List[Stone]] = List(
   }
 
   def getToken: List[Move] =
-    map.flatten.filter((stone: Stone) => stone.player != None).map((stone: Stone) => Move(stone.player match
+    map.flatten.filter((stone: Stone) => stone.token != None).map((stone: Stone) => Move(stone.token match
       case Some(playToken: Token) => playToken, stone.index))
   
   def getStone(index : Int): Stone =

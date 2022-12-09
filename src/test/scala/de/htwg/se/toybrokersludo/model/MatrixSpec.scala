@@ -24,8 +24,5 @@ class MatrixSpec extends AnyWordSpec with Matchers{
       matrix.getToken.toString() should equal ("List(Move(B1,0))")
     }
 
-     "get's Token correctly" in {
-       matrix.getStone(1) should equal(Stone(true, 1, None))
-     }
   }
 }

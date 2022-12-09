@@ -47,6 +47,7 @@ class TUI(controller: Controller) extends UI(controller) {
       controller.doAndPublish(controller.move, options(input))
     }
     if (dice != 6) controller.nextPlayer()
+    controller.update
 
 
 
