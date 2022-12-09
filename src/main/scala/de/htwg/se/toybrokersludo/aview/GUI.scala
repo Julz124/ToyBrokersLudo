@@ -50,8 +50,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
   pack()
   centerOnScreen()
   open()
-
-  // ich commite kurz und will dann nochmal versuchen was zu ändern, kannst du pngs erstellen?
+  
 
   override def update =
     contents = new BorderPanel {

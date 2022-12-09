@@ -162,6 +162,14 @@ class FieldSpec extends AnyWordSpec with Matchers {
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol
       )
     }
+
+    "can invert dice" in {
+      field.invertDice().shouldDice should be (false)
+    }
+
+    "can dice" in {
+      field.dice should be (6)
+    }
   }
 }
 

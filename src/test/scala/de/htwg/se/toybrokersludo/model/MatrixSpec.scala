@@ -24,5 +24,9 @@ class MatrixSpec extends AnyWordSpec with Matchers{
       matrix.getToken.toString() should equal ("List(Move(B1,0))")
     }
 
+    "get's Stone correctly" in {
+      matrix.getStone(0) === (Stone(true, 0, Option(PlayToken(1, "B"))))
+    }
+
   }
 }
