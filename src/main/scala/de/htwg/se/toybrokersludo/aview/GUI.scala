@@ -2,16 +2,20 @@ package de.htwg.se.toybrokersludo.aview
 
 
 import scala.swing.*
-import de.htwg.se.toybrokersludo.model.Stone
-import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
+import de.htwg.se.toybrokersludo.model.{BluePlayer, GreenPlayer, Move, PlayToken, RedPlayer, Stone, Token, YellowPlayer}
 import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.util.Observer
 import de.htwg.se.toybrokersludo.aview.UI
+
 import javax.swing.SpringLayout.Constraints
 import scala.language.postfixOps
 import scala.swing
 import scala.swing.event.MouseClicked
 import scala.util.{Failure, Success, Try}
+import javax.imageio.*
+import java.io.File
+import javax.swing.ImageIcon
+import java.awt.Color
 
 
 class GUI(controller: Controller) extends Frame with UI(controller) {
@@ -54,6 +58,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
 
   override def update =
     contents = new BorderPanel {
+      background = Color.white
       add(label, BorderPanel.Position.North)
       add(dice, BorderPanel.Position.South)
       add(gamePanal, BorderPanel.Position.Center)
@@ -87,6 +92,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
 
   def gamePanal : GridBagPanel =
     new GridBagPanel {
+      background = Color.white
       def constraints(x: Int, y: Int,
                       gridwidth: Int = 1, gridheight: Int = 1,
                       weightx: Double = 0, weighty: Double = 1,
@@ -111,19 +117,29 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
     }
 
 
+
+
   case class CellButton(index: Int) extends Button() {
     preferredSize = new Dimension(40,40)
     listenTo(mouse.clicks)
     val stone = controller.field.matrix.getStone(index)
     if (stone.isAPlayField == false) visible = false
-    else text = stone.token match
-      case Some(token: Token) => token.getColor() + token.getNumber()
-      case None => " "
-
+    icon = getIcon(stone)
     reactions += {
       case e: MouseClicked => fieldClicked(stone)
     }
   }
+
+  def getIcon(stone : Stone): ImageIcon =
+    stone.token match
+      case Some(token: Token) => new ImageIcon("src/main/resources/" + token.getColor() + token.getNumber() + ".png")
+      case None =>
+        for (player <- List(GreenPlayer, RedPlayer, BluePlayer, YellowPlayer)) {
+          if (player.endFields().contains(stone.index)) {
+            return new ImageIcon("src/main/resources/" + player.playerString + "End.png")
+          }
+        }
+        new ImageIcon("src/main/resources/Empty_Field.png")
 
   def fieldClicked(stone: Stone): Unit =
     if (!controller.field.shouldDice) {

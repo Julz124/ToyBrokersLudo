@@ -190,6 +190,3 @@ object YellowPlayer extends Player {
 +----+      +----+      +----++----++----+      +----+      +----+
 
 */
-
-
-
