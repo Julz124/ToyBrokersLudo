@@ -1,6 +1,8 @@
 package de.htwg.se.toybrokersludo.model
 
-case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0, dice : Int = 6, shouldDice : Boolean= true) {
+import de.htwg.se.toybrokersludo.model.Interfaces.FieldInterface
+
+case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0, dice : Int = 6, shouldDice : Boolean= true) extends FieldInterface {
 
   def nextPlayer(player2: Player = player): Field = //Interator Pattern
     player2 match

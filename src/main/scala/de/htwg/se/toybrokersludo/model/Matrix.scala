@@ -1,6 +1,7 @@
 package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo.model
+import de.htwg.se.toybrokersludo.model.Interfaces.MatrixInterface
 
 
 case class Matrix(var map: List[List[Stone]] = List(
@@ -48,7 +49,7 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(true, 10, None), Stone(false, -1, None), Stone(true, 11, None), Stone(false, -1, None),
     Stone(true, 50, None), Stone(true, 49, None), Stone(true, 48, None),
     Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None)),
-)) {
+)) extends MatrixInterface {
 
   def put(move : Move) : Matrix =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
