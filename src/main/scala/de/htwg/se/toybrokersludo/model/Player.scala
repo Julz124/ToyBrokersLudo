@@ -1,21 +1,10 @@
 package de.htwg.se.toybrokersludo.model
 
+import de.htwg.se.toybrokersludo.model.Interfaces.PlayerInterface
 import scala.language.postfixOps
 //Strategy-Pattern
 
-abstract class Player {
-  def defaultField(): List[Int]
-
-  def startField(): Int
-
-  def endFields(): List[Int]
-
-  def lastField() : Int
-
-  def fooFields() : List[Int]
-
-  def playerString: String
-
+abstract class Player extends PlayerInterface {
 
   def possibleMoves(diceroll: Int, field: Field): List[Move] =
     val tokens: List[Move] = field.matrix.getToken
@@ -56,35 +45,6 @@ abstract class Player {
     if(fooFields().contains(from - 40)) fromNew = from - 40
     if(fooFields().contains(to - 40)) toNew = to - 40
     from < lastField() && to > lastField()
-
-  /*
-  def add(from: Int, dice: Int): Option[Int] =
-    val result = from + dice
-    val lastindex = lastField() + 1
-    playerString match
-      case "G" =>
-        if (result <= lastField()) Option(result)
-        else if (result > lastField() && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-      case "R" =>
-        if (result <= 59 && (30 to 59 contains from)) Option(result)
-        else if (result > 59 && (30 to 59 contains from)) Option(result - 40)
-        else if (result <= lastField() && (20 to 29 contains from)) Option(result)
-        else if (result > lastField() && (20 to 29 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-      case "B" =>
-        if (result <= 59 && (40 to 59 contains from)) Option(result)
-        else if (result > 59 && (40 to 59 contains from)) Option(result - 40)
-        else if (result <= lastField() && (30 to 39 contains from)) Option(result)
-        else if (result > lastField() && (30 to 39 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-      case "Y" =>
-        if (result <= 59 && (50 to 59 contains from)) Option(result)
-        else if (result > 59 && (50 to 59 contains from)) Option(result - 40)
-        else if (result <= lastField() && (40 to 49 contains from)) Option(result)
-        else if (result > lastField() && (40 to 49 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-  */
 }
 
 

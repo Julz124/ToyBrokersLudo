@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.model
 
-import de.htwg.se.toybrokersludo.model.FieldInterface
+import de.htwg.se.toybrokersludo.model.Interfaces.FieldInterface
 
 case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0, dice : Int = 6, shouldDice : Boolean= true) extends FieldInterface {
 

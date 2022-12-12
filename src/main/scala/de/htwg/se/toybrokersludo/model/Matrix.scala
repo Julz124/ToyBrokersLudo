@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo.model
-import de.htwg.se.toybrokersludo.model.MatrixInterface
+import de.htwg.se.toybrokersludo.model.Interfaces.MatrixInterface
 
 
 case class Matrix(var map: List[List[Stone]] = List(
