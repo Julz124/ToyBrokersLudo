@@ -1,0 +1,87 @@
+package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
+
+import de.htwg.se.toybrokersludo.controller.ControllerInterface
+import de.htwg.se.toybrokersludo.util.UndoManager
+import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken}
+
+import scala.util.Random
+
+case class Controller(var field: Field) extends ControllerInterface {
+  
+  override def getShouldDice = field.shouldDice
+
+  override def getPlayer = field.player
+
+  override def getDice = field.dice
+
+  override def getMatrix = field.matrix
+
+  override def getField = field
+
+  override def startup(spieler: Int) =
+    spieler match {
+      case 1 =>
+        for (move <- startGreen()) field = field.put(move)
+      case 2 =>
+        for (move <- startGreen()) field = field.put(move)
+        for (move <- startRed()) field = field.put(move)
+      case 3 =>
+        for (move <- startGreen()) field = field.put(move)
+        for (move <- startRed()) field = field.put(move)
+        for (move <- startBlue()) field = field.put(move)
+      case 4 =>
+        for (move <- startGreen()) field = field.put(move)
+        for (move <- startRed()) field = field.put(move)
+        for (move <- startBlue()) field = field.put(move)
+        for (move <- startYellow()) field = field.put(move)
+    }
+    field = field.numberPlayer(spieler)
+    notifyObservers
+
+
+
+  override def dice() =
+    field = field.dice((Random().nextDouble() * 6).toInt + 1)
+
+
+  override def update() =
+    notifyObservers
+
+  override def invertDice() =
+    field = field.invertDice()
+    notifyObservers
+
+  override def getPossibleMoves(dice: Int): List[Move] =
+    field.player.possibleMoves(dice, field)
+
+  override def nextPlayer() =
+    field = field.nextPlayer()
+
+  override def doAndPublish(doThis: Move => Field, move: Move) =
+    field = doThis(move)
+    notifyObservers
+
+  override def doAndPublish(doThis: Field => Field) =
+    field = doThis(field)
+    notifyObservers
+
+  val undoManager = UndoManager[Field]
+
+  def put(move: Move): Field = field.put(move)
+
+  def move(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
+
+  def undo(field: Field): Field = undoManager.undoStep(field)
+
+  def redo(field: Field): Field = undoManager.redoStep(field)
+  
+  
+  
+  def startGreen(): List[Move] = List(Move(PlayToken.apply(1, "G"), 0), Move(PlayToken.apply(2, "G"), 1), Move(PlayToken.apply(3, "G"), 2), Move(PlayToken.apply(4, "G"), 3))
+  
+  def startRed(): List[Move] = List(Move(PlayToken.apply(1, "R"), 4), Move(PlayToken.apply(2, "R"), 5), Move(PlayToken.apply(3, "R"), 6), Move(PlayToken.apply(4, "R"), 7))
+  
+  def startYellow(): List[Move] = List(Move(PlayToken.apply(1, "Y"), 8), Move(PlayToken.apply(2, "Y"), 9), Move(PlayToken.apply(3, "Y"), 10), Move(PlayToken.apply(4, "Y"), 11))
+
+  def startBlue(): List[Move] = List(Move(PlayToken.apply(1, "B"), 12), Move(PlayToken.apply(2, "B"), 13), Move(PlayToken.apply(3, "B"), 14), Move(PlayToken.apply(4, "B"), 15))
+}

@@ -1,8 +1,9 @@
 package de.htwg.se.toybrokersludo.aview
 
-import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Token, Stone}
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
+import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move, Stone, Token}
 import de.htwg.se.toybrokersludo.model
-import de.htwg.se.toybrokersludo.controller.Controller
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
@@ -21,7 +22,7 @@ class TUISpec extends AnyWordSpec with Matchers {
     ))
 
   val field = Field(Matrix(map))
-  val controller = Controller(field)
+  val controller = controllerBaseImpl.Controller(field)
   val tui = TUI(controller)
 
 

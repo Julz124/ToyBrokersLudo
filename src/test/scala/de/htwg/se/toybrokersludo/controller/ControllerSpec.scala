@@ -2,6 +2,7 @@ package de.htwg.se.toybrokersludo.controller
 
 import de.htwg.se.toybrokersludo.model.{Field, GreenPlayer, Matrix, Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.aview.TUI
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -29,7 +30,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
     }
 
     "get's possible moves" in {
-      val m_controller = Controller(Field(Matrix(),GreenPlayer,1))
+      val m_controller = controllerBaseImpl.Controller(Field(Matrix(),GreenPlayer,1))
       m_controller.getPossibleMoves(1) should equal (List())
     }
 
@@ -44,7 +45,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
     }
 
     "get's next player" in {
-      val p_controller = Controller(Field(Matrix(),GreenPlayer,1))
+      val p_controller = controllerBaseImpl.Controller(Field(Matrix(),GreenPlayer,1))
       p_controller.nextPlayer().toString should be ("()")
     }
 
@@ -60,7 +61,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
 
     "can startup player count 1" in {
       val field2 = Field(Matrix())
-      val controller2 = Controller(field2)
+      val controller2 = controllerBaseImpl.Controller(field2)
       controller2.startup(1).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      |    |      |    |" + eol +
@@ -101,7 +102,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
 
     "can startup player count 2" in {
       val field2 = Field(Matrix())
-      val controller2 = Controller(field2)
+      val controller2 = controllerBaseImpl.Controller(field2)
       controller2.startup(2).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +
@@ -140,7 +141,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
     }
     "can startup player count 3" in {
       val field2 = Field(Matrix())
-      val controller2 = Controller(field2)
+      val controller2 = controllerBaseImpl.Controller(field2)
       controller2.startup(3).toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +
@@ -179,7 +180,7 @@ class ControllerSpec extends AnyWordSpec with Matchers  {
     }
     "can startup player count 4" in {
       val field2 = Field(Matrix())
-      val controller2 = Controller(field2)
+      val controller2 = controllerBaseImpl.Controller(field2)
       controller2.startup(4).toString should be(
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "| G1 |      | G2 |      |    ||    ||    |      | R1 |      | R2 |" + eol +

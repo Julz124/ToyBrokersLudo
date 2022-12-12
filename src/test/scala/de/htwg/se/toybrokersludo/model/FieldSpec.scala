@@ -1,15 +1,16 @@
 package de.htwg.se.toybrokersludo.model
 
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
-import de.htwg.se.toybrokersludo.controller.{Controller}
 
 class FieldSpec extends AnyWordSpec with Matchers {
 
   val field = Field(Matrix())
 
-  val controller = Controller(field)
+  val controller = controllerBaseImpl.Controller(field)
 
   val eol = "\n"
 

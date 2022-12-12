@@ -1,11 +1,11 @@
 package de.htwg.se.toybrokersludo.model
 
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.PutCommander
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-
 import de.htwg.se.toybrokersludo.util.UndoManager
-import de.htwg.se.toybrokersludo.controller.PutCommander
-import de.htwg.se.toybrokersludo.model.{Matrix,Field,Move}
+import de.htwg.se.toybrokersludo.model.{Field, Matrix, Move}
 
 class UndoManagerSpec extends AnyWordSpec with Matchers {
 
@@ -19,12 +19,12 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
     val manager = UndoManager[Field]
 
     "can undo step" in {
-      manager.doStep(field, PutCommander(field, Move(PlayToken.apply(1, "B"), 20)))
+      manager.doStep(field, controllerBaseImpl.PutCommander(field, Move(PlayToken.apply(1, "B"), 20)))
       manager.undoStep(field) should equal (field)
     }
 
     "can redo step" in {
-      manager.doStep(field, PutCommander(field, Move(PlayToken.apply(1, "B"), 20)))
+      manager.doStep(field, controllerBaseImpl.PutCommander(field, Move(PlayToken.apply(1, "B"), 20)))
       manager.undoStep(field)
       manager.redoStep(field).toString should equal(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -64,7 +64,7 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
     }
 
     "can do step" in {
-      manager.doStep(field, PutCommander(field, Move(PlayToken.apply(1, "B"), 20))).toString should equal (
+      manager.doStep(field, controllerBaseImpl.PutCommander(field, Move(PlayToken.apply(1, "B"), 20))).toString should equal (
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
         "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
