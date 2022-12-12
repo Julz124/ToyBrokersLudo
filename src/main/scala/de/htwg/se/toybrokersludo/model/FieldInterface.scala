@@ -24,4 +24,5 @@ trait FieldInterface {
   def getDice: Int
   
   def getShouldDice: Boolean
+  
 }
