@@ -12,7 +12,6 @@ import scala.io.StdIn.readLine
 
 class TUI(controller: ControllerInterface) extends UI(controller) {
 
-
   override def update = println(controller.getField.toString)
 
   override def menue = None

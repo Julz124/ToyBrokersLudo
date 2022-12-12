@@ -1,11 +1,12 @@
 package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
 
-import de.htwg.se.toybrokersludo.model.{Field, Move}
+import de.htwg.se.toybrokersludo.model.Move
+import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.util.Command
 
-case class PutCommander(field: Field, move: Move) extends Command[Field] :
-  override def doStep(field: Field): Field = field.move(move)
+case class PutCommander(field: FieldInterface, move: Move) extends Command[FieldInterface] :
+  override def doStep(field: FieldInterface): FieldInterface = field.move(move)
 
-  override def undoStep(field: Field): Field = this.field
+  override def undoStep(field: FieldInterface): FieldInterface = this.field
 
-  override def redoStep(field: Field): Field = field.move(move)
+  override def redoStep(field: FieldInterface): FieldInterface = field.move(move)

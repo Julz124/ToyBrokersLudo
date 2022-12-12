@@ -1,8 +1,9 @@
-package de.htwg.se.toybrokersludo.model
+package de.htwg.se.toybrokersludo.model.FieldBaseImpl
 
-import de.htwg.se.toybrokersludo.model.Interfaces.FieldInterface
+import de.htwg.se.toybrokersludo.model.{FieldInterface, MatrixInterface, PlayerInterface, Stone, Token, Move}
+import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 
-case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : Int = 0, dice : Int = 6, shouldDice : Boolean= true) extends FieldInterface {
+case class Field(matrix: MatrixInterface, player: PlayerInterface = GreenPlayer, playerNumber: Int = 0, dice: Int = 6, shouldDice: Boolean = true) extends FieldInterface {
 
   def nextPlayer(player2: Player = player): Field = //Interator Pattern
     player2 match
@@ -14,13 +15,13 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
       case BluePlayer => this.copy(player = YellowPlayer)
       case YellowPlayer => this.copy(player = GreenPlayer)
 
-  def numberPlayer(number : Int) : Field =
+  def numberPlayer(number: Int): FieldInterface =
     this.copy(playerNumber = number)
 
-  def dice (dice : Int) : Field = this.copy(dice = dice)
+  def dice(dice: Int): FieldInterface = this.copy(dice = dice)
 
-  def invertDice() : Field = this.copy(shouldDice = !shouldDice)
-  
+  def invertDice(): FieldInterface = this.copy(shouldDice = !shouldDice)
+
   val eol: String = "\n"
 
   def horizontal(list: List[Stone], size: Int): List[String] =
@@ -35,7 +36,7 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
       case None => " " * size
     }
 
-  def mash(map: List[List[Stone]] = matrix.map, size: Int = 4): List[String] =
+  def mash(map: List[List[Stone]] = matrix.getMap, size: Int = 4): List[String] =
     for (list <- map) yield horizontal(list, size).mkString + eol + vertical(list, size).mkString + eol + horizontal(list, size).mkString + eol
 
   def put(move: Move): Field = this.copy(matrix.put(move))
@@ -43,5 +44,15 @@ case class Field(matrix: Matrix, player : Player = GreenPlayer, playerNumber : I
   def move(move: Move): Field = this.copy(matrix.move(move))
 
   override def toString: String =
-    mash().mkString
+    mash().mkString.appendedAll(shouldDice match
+      case true => player.toString + " have do dice"
+      case false => player.toString + "have to move")
+
+  def getMatrix: MatrixInterface = matrix
+
+  def getPlayer: PlayerInterface = player
+
+  def getDice: Int = dice
+
+  def getShouldDice: Boolean = shouldDice
 }

@@ -1,13 +1,14 @@
-package de.htwg.se.toybrokersludo.model
+package de.htwg.se.toybrokersludo.model.PlayerBaseImpl
 
-import de.htwg.se.toybrokersludo.model.Interfaces.PlayerInterface
+import de.htwg.se.toybrokersludo.model.{Move, PlayerInterface, FieldInterface}
+
 import scala.language.postfixOps
 //Strategy-Pattern
 
 abstract class Player extends PlayerInterface {
 
-  def possibleMoves(diceroll: Int, field: Field): List[Move] =
-    val tokens: List[Move] = field.matrix.getToken
+  def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] =
+    val tokens: List[Move] = field.getMatrix.getToken
     var possible: List[Move] = Nil
     if (diceroll == 6) {
       possible = possible ::: tokens.filter((move: Move) => (move.token.getColor().equals(playerString)

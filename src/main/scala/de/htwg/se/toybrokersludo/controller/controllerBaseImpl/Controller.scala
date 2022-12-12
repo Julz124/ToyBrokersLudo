@@ -2,13 +2,13 @@ package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.util.UndoManager
-import de.htwg.se.toybrokersludo.model.{Field, Move, PlayToken}
+import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
 
 import scala.util.Random
 
-case class Controller(var field: Field) extends ControllerInterface {
+case class Controller(var field: FieldInterface) extends ControllerInterface {
   
-  override def getShouldDice = field.shouldDice
+  override def getShouldDice = field.getShouldDice
 
   override def getPlayer = field.player
 
@@ -52,30 +52,28 @@ case class Controller(var field: Field) extends ControllerInterface {
     notifyObservers
 
   override def getPossibleMoves(dice: Int): List[Move] =
-    field.player.possibleMoves(dice, field)
+    field.getPlayer.possibleMoves(dice, field)
 
   override def nextPlayer() =
     field = field.nextPlayer()
 
-  override def doAndPublish(doThis: Move => Field, move: Move) =
+  override def doAndPublish(doThis: Move => FieldInterface, move: Move) =
     field = doThis(move)
     notifyObservers
 
-  override def doAndPublish(doThis: Field => Field) =
+  override def doAndPublish(doThis: FieldInterface => FieldInterface) =
     field = doThis(field)
     notifyObservers
 
-  val undoManager = UndoManager[Field]
+  val undoManager = UndoManager[FieldInterface]
 
-  def put(move: Move): Field = field.put(move)
+  def put(move: Move): FieldInterface = field.put(move)
 
-  def move(move: Move): Field = undoManager.doStep(field, PutCommander(field, move))
+  def move(move: Move): FieldInterface = undoManager.doStep(field, PutCommander(field, move))
 
-  def undo(field: Field): Field = undoManager.undoStep(field)
+  def undo(field: FieldInterface): FieldInterface = undoManager.undoStep(field)
 
-  def redo(field: Field): Field = undoManager.redoStep(field)
-  
-  
+  def redo(field: FieldInterface): FieldInterface = undoManager.redoStep(field)
   
   def startGreen(): List[Move] = List(Move(PlayToken.apply(1, "G"), 0), Move(PlayToken.apply(2, "G"), 1), Move(PlayToken.apply(3, "G"), 2), Move(PlayToken.apply(4, "G"), 3))
   

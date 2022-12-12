@@ -1,8 +1,6 @@
-package de.htwg.se.toybrokersludo.model
+package de.htwg.se.toybrokersludo.model.MatrixBaseImpl
 
-import de.htwg.se.toybrokersludo.model
-import de.htwg.se.toybrokersludo.model.Interfaces.MatrixInterface
-
+import de.htwg.se.toybrokersludo.model.{MatrixInterface, Move, Stone, Token}
 
 case class Matrix(var map: List[List[Stone]] = List(
   List(
@@ -51,7 +49,7 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None)),
 )) extends MatrixInterface {
 
-  def put(move : Move) : Matrix =
+  def put(move: Move): MatrixInterface =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
     val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.index == move.number),
@@ -59,7 +57,7 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(a, list))
 
 
-  def pull(move : Move) : Matrix =
+  def pull(move: Move): MatrixInterface =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.token match
       case Some(player: Token) => player.equals(move.token)
       case None => false))
@@ -73,20 +71,22 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(a, list))
 
 
-  def move(move : Move) : Matrix = {
-    this.copy(pull(move).put(move).map)
+  def move(move: Move): MatrixInterface = {
+    this.copy(pull(move).put(move).getMap)
   }
 
   def getToken: List[Move] =
     map.flatten.filter((stone: Stone) => stone.token != None).map((stone: Stone) => Move(stone.token match
-      case Some(playToken: Token) => playToken, stone.index))
-  
-  def getStone(index : Int): Stone =
+      case Some(playToken: Token) => playToken
+        , stone.index))
+
+  def getStone(index: Int): Stone =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == index))
     map(a)(map(a).indexWhere((stone: Stone) => stone.index == index))
-  
-  
-/*
+
+  def getMap = map
+
+  /*
 
 +----+      +----+      +----++----++----+      +----+      +----+
 | G0 |      | G1 |      | 28 || 29 || 30 |      | R4 |      | R5 |
@@ -124,5 +124,5 @@ case class Matrix(var map: List[List[Stone]] = List(
 
 */
 
-  
+
 }

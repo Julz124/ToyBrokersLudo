@@ -3,10 +3,11 @@ package de.htwg.se.toybrokersludo.aview
 
 import scala.swing.*
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.model.{BluePlayer, GreenPlayer, Move, PlayToken, RedPlayer, Stone, Token, YellowPlayer}
+import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.util.Observer
 import de.htwg.se.toybrokersludo.aview.UI
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
+import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 
 import javax.swing.SpringLayout.Constraints
 import scala.swing
@@ -110,7 +111,7 @@ class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
       }
       for (i <- 0 to 10) {
         for (j <- 0 to 10) {
-          add(new CellButton(controller.getMatrix.map(i)(j).index),
+          add(new CellButton(controller.getMatrix.getMap(i)(j).index),
             constraints(j + 1, i + 1))
         }
       }
