@@ -10,11 +10,11 @@ case class Controller(var field: FieldInterface) extends ControllerInterface {
   
   override def getShouldDice = field.getShouldDice
 
-  override def getPlayer = field.player
+  override def getPlayer = field.getPlayer
 
-  override def getDice = field.dice
+  override def getDice = field.getDice
 
-  override def getMatrix = field.matrix
+  override def getMatrix = field.getMatrix
 
   override def getField = field
 

@@ -26,8 +26,8 @@ abstract class Player extends PlayerInterface {
       ))
     possible
 
-  def getTokens(field: Field) =
-    field.matrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
+  def getTokens(field: FieldInterface) =
+    field.getMatrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
 
 
   def add (from: Int, dice: Int): Option[Int] =

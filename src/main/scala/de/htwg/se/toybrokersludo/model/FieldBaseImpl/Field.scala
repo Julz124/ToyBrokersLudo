@@ -5,8 +5,8 @@ import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, 
 
 case class Field(matrix: MatrixInterface, player: PlayerInterface = GreenPlayer, playerNumber: Int = 0, dice: Int = 6, shouldDice: Boolean = true) extends FieldInterface {
 
-  def nextPlayer(player2: Player = player): Field = //Interator Pattern
-    player2 match
+  def nextPlayer(): FieldInterface = //Interator Pattern
+    player match
       case GreenPlayer if (playerNumber < 2) => this.copy(player = GreenPlayer)
       case GreenPlayer => this.copy(player = RedPlayer)
       case RedPlayer if (playerNumber < 3) => this.copy(player = GreenPlayer)
