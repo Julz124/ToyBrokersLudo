@@ -31,6 +31,24 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
       playerY_pM.possibleMoves(0, field) should be(List())
     }
 
+    "get's possible moves into endfields" in {
+      val matrix2: MatrixInterface = Matrix()
+      matrix2.put(Move(PlayToken.apply(1,"G"),59))
+      matrix2.put(Move(PlayToken.apply(1,"R"),29))
+      matrix2.put(Move(PlayToken.apply(1,"B"),39))
+      matrix2.put(Move(PlayToken.apply(1,"Y"),49))
+      val field2: FieldInterface = Field(matrix2)
+
+      val playerG_pM: PlayerInterface = GreenPlayer
+      playerG_pM.possibleMoves(2, field2) should be(List())
+      val playerR_pM: PlayerInterface = RedPlayer
+      playerR_pM.possibleMoves(2, field2) should be(List())
+      val playerB_pM: PlayerInterface = BluePlayer
+      playerB_pM.possibleMoves(2, field2) should be(List())
+      val playerY_pM: PlayerInterface = YellowPlayer
+      playerY_pM.possibleMoves(2, field2) should be(List())
+    }
+
     "get's default Fields" in {
       val playerG_dF: PlayerInterface = GreenPlayer
       playerG_dF.defaultField() should be (GreenPlayer.defaultField())
