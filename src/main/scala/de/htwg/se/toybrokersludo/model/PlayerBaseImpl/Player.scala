@@ -1,24 +1,14 @@
-package de.htwg.se.toybrokersludo.model
+package de.htwg.se.toybrokersludo.model.PlayerBaseImpl
+
+import de.htwg.se.toybrokersludo.model.{Move, PlayerInterface, FieldInterface}
 
 import scala.language.postfixOps
 //Strategy-Pattern
 
-abstract class Player {
-  def defaultField(): List[Int]
+abstract class Player extends PlayerInterface {
 
-  def startField(): Int
-
-  def endFields(): List[Int]
-
-  def lastField() : Int
-
-  def fooFields() : List[Int]
-
-  def playerString: String
-
-
-  def possibleMoves(diceroll: Int, field: Field): List[Move] =
-    val tokens: List[Move] = field.matrix.getToken
+  def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] =
+    val tokens: List[Move] = field.getMatrix.getToken
     var possible: List[Move] = Nil
     if (diceroll == 6) {
       possible = possible ::: tokens.filter((move: Move) => (move.token.getColor().equals(playerString)
@@ -36,8 +26,8 @@ abstract class Player {
       ))
     possible
 
-  def getTokens(field: Field) =
-    field.matrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
+  def getTokens(field: FieldInterface) =
+    field.getMatrix.getToken.filter((move : Move) => move.token.getColor().equals(playerString))
 
 
   def add (from: Int, dice: Int): Option[Int] =
@@ -56,35 +46,6 @@ abstract class Player {
     if(fooFields().contains(from - 40)) fromNew = from - 40
     if(fooFields().contains(to - 40)) toNew = to - 40
     from < lastField() && to > lastField()
-
-  /*
-  def add(from: Int, dice: Int): Option[Int] =
-    val result = from + dice
-    val lastindex = lastField() + 1
-    playerString match
-      case "G" =>
-        if (result <= lastField()) Option(result)
-        else if (result > lastField() && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-      case "R" =>
-        if (result <= 59 && (30 to 59 contains from)) Option(result)
-        else if (result > 59 && (30 to 59 contains from)) Option(result - 40)
-        else if (result <= lastField() && (20 to 29 contains from)) Option(result)
-        else if (result > lastField() && (20 to 29 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-      case "B" =>
-        if (result <= 59 && (40 to 59 contains from)) Option(result)
-        else if (result > 59 && (40 to 59 contains from)) Option(result - 40)
-        else if (result <= lastField() && (30 to 39 contains from)) Option(result)
-        else if (result > lastField() && (30 to 39 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-      case "Y" =>
-        if (result <= 59 && (50 to 59 contains from)) Option(result)
-        else if (result > 59 && (50 to 59 contains from)) Option(result - 40)
-        else if (result <= lastField() && (40 to 49 contains from)) Option(result)
-        else if (result > lastField() && (40 to 49 contains from) && result - lastindex <= 3) Option(endFields()(result - lastindex))
-        else None
-  */
 }
 
 
@@ -113,7 +74,7 @@ object RedPlayer extends Player {
 
   override def lastField(): Int = 29
 
-  override def fooFields(): List[Int] = (20 to 30).toList
+  override def fooFields(): List[Int] = (20 to 29).toList
 
   override def playerString = "R"
 
@@ -128,9 +89,9 @@ object BluePlayer extends Player {
 
   override def endFields(): List[Int] = List(78, 79, 80, 81)
 
-  override def lastField(): Int = 49
+  override def lastField(): Int = 39
 
-  override def fooFields(): List[Int] = (39 to 40).toList
+  override def fooFields(): List[Int] = (30 to 39).toList
 
   override def playerString = "B"
 
@@ -144,9 +105,9 @@ object YellowPlayer extends Player {
 
   override def endFields(): List[Int] = List(82, 83, 84, 85)
 
-  override def lastField(): Int = 39
+  override def lastField(): Int = 49
 
-  override def fooFields(): List[Int] = (40 to 50).toList
+  override def fooFields(): List[Int] = (40 to 49).toList
 
   override def playerString = "Y"
 

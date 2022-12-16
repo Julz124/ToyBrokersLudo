@@ -2,13 +2,14 @@ package de.htwg.se.toybrokersludo.aview
 
 
 import scala.swing.*
-import de.htwg.se.toybrokersludo.model.{BluePlayer, GreenPlayer, Move, PlayToken, RedPlayer, Stone, Token, YellowPlayer}
-import de.htwg.se.toybrokersludo.controller.Controller
+import de.htwg.se.toybrokersludo.controller.ControllerInterface
+import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.util.Observer
 import de.htwg.se.toybrokersludo.aview.UI
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
+import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 
 import javax.swing.SpringLayout.Constraints
-import scala.language.postfixOps
 import scala.swing
 import scala.swing.event.MouseClicked
 import scala.util.{Failure, Success, Try}
@@ -18,7 +19,7 @@ import javax.swing.ImageIcon
 import java.awt.Color
 
 
-class GUI(controller: Controller) extends Frame with UI(controller) {
+class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
 
   override def inputLoop: Unit = None
 
@@ -34,7 +35,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
         reactions += {
           case e: MouseClicked =>
             controller.startup(i)
-            controller.update
+            controller.update()
         }
       }, BorderPanel.Position.apply(i))
     }
@@ -65,22 +66,22 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
     }
 
   def label : Label =
-    if (controller.field.shouldDice) {
-      new Label(controller.field.player.toString + " have to dice")
+    if (controller.getShouldDice) {
+      new Label(controller.getPlayer.toString + " have to dice")
     } else {
-      new Label(controller.field.player.toString + " have to move")
+      new Label(controller.getPlayer.toString + " have to move")
     }
 
-  def dice : Button = new Button(controller.field.dice.toString) {
+  def dice : Button = new Button(controller.getDice.toString) {
     listenTo(mouse.clicks)
     reactions += {
       case e: MouseClicked =>
-        if (controller.field.shouldDice) {
+        if (controller.getShouldDice) {
           controller.dice()
-          if (controller.getPossibleMoves(controller.field.dice).nonEmpty) {
-            controller.invertDice
+          if (controller.getPossibleMoves(controller.getDice).nonEmpty) {
+            controller.invertDice()
           } else {
-            if (controller.field.dice != 6) {
+            if (controller.getDice != 6) {
               controller.nextPlayer()
             }
           }
@@ -110,7 +111,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
       }
       for (i <- 0 to 10) {
         for (j <- 0 to 10) {
-          add(new CellButton(controller.field.matrix.map(i)(j).index),
+          add(new CellButton(controller.getMatrix.getMap(i)(j).index),
             constraints(j + 1, i + 1))
         }
       }
@@ -122,7 +123,7 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
   case class CellButton(index: Int) extends Button() {
     preferredSize = new Dimension(40,40)
     listenTo(mouse.clicks)
-    val stone = controller.field.matrix.getStone(index)
+    val stone = controller.getMatrix.getStone(index)
     if (stone.isAPlayField == false) visible = false
     icon = getIcon(stone)
     reactions += {
@@ -142,17 +143,17 @@ class GUI(controller: Controller) extends Frame with UI(controller) {
         new ImageIcon("src/main/resources/Empty_Field.png")
 
   def fieldClicked(stone: Stone): Unit =
-    if (!controller.field.shouldDice) {
-      if (!controller.field.shouldDice && controller.getPossibleMoves(controller.field.dice).exists((move: Move) => move.token.equals(stone.token match
+    if (!controller.getShouldDice) {
+      if (!controller.getShouldDice && controller.getPossibleMoves(controller.getDice).exists((move: Move) => move.token.equals(stone.token match
         case Some(token: Token) => token
         case None => None))) {
-        controller.invertDice
-        controller.doAndPublish(controller.move, controller.getPossibleMoves(controller.field.dice).find((move: Move) => move.token.equals(stone.token match
+        controller.invertDice()
+        controller.doAndPublish(controller.move, controller.getPossibleMoves(controller.getDice).find((move: Move) => move.token.equals(stone.token match
           case Some(token: Token) => token
           case None => None
         )) match
           case Some(move: Move) => move)
-        if (controller.field.dice != 6) {
+        if (controller.getDice != 6) {
           controller.nextPlayer()
         }
       }

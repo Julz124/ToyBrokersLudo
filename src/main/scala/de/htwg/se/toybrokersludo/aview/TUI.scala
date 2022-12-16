@@ -1,16 +1,18 @@
 package de.htwg.se.toybrokersludo.aview
+
+import de.htwg.se.toybrokersludo.controller.ControllerInterface
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
-import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.util.Observer
-import scala.util.{Try,Success,Failure}
+
+import scala.util.{Failure, Success, Try}
 import scala.collection.mutable
 import scala.io.StdIn.readLine
 
-class TUI(controller: Controller) extends UI(controller) {
+class TUI(controller: ControllerInterface) extends UI(controller) {
 
-
-  override def update = println(controller.field.toString)
+  override def update = println(controller.getField.toString)
 
   override def menue = None
 
@@ -26,28 +28,28 @@ class TUI(controller: Controller) extends UI(controller) {
   }
 
   def dice(): Unit =
-    if (!controller.field.shouldDice) {
+    if (!controller.getShouldDice) {
       println("not dice")
       return
     }
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     controller.dice()
-    val dice = controller.field.dice
-    println(controller.field.player.playerString + " " + dice)
+    val dice = controller.getDice
+    println(controller.getPlayer.playerString + " " + dice)
     val options = controller.getPossibleMoves(dice)
     if (!options.isEmpty) {
-      controller.invertDice
+      controller.invertDice()
       println("choise between: " + options)
       var input = readLine().toInt
       while (options.size <= input) {
         println("choise one")
         input = readLine().toInt
       }
-      controller.invertDice
+      controller.invertDice()
       controller.doAndPublish(controller.move, options(input))
     }
     if (dice != 6) controller.nextPlayer()
-    controller.update
+    controller.update()
 
 
 
