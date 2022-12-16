@@ -115,6 +115,17 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
       playerY_pS.playerString should be(YellowPlayer.playerString)
     }
 
+    "convert player toString" in {
+      val playerG_ptS: PlayerInterface = GreenPlayer
+      playerG_ptS.toString should be(GreenPlayer.toString)
+      val playerR_ptS: PlayerInterface = RedPlayer
+      playerR_ptS.toString should be(RedPlayer.toString)
+      val playerB_ptS: PlayerInterface = BluePlayer
+      playerB_ptS.toString should be(BluePlayer.toString)
+      val playerY_ptS: PlayerInterface = YellowPlayer
+      playerY_ptS.toString should be(YellowPlayer.toString)
+    }
+
 
   }
 }
