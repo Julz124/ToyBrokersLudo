@@ -3,9 +3,15 @@ package de.htwg.se.toybrokersludo.model.PlayerBaseImpl
 import de.htwg.se.toybrokersludo.model.{Move, PlayerInterface, FieldInterface}
 
 import scala.language.postfixOps
-//Strategy-Pattern
 
-class Player extends PlayerInterface {
+class GPlayer(number: Int) {
+  
+  val player: List[PlayerInterface] = List(GreenPlayer,RedPlayer,BluePlayer,YellowPlayer)
+  def getPlayer(number: Int): PlayerInterface
+    player(number)
+}
+
+private abstract class Player extends PlayerInterface {
 
   def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] =
     val tokens: List[Move] = field.getMatrix.getToken
@@ -36,7 +42,7 @@ class Player extends PlayerInterface {
       result - lastField() <= endFields().size match
         case true => Some(endFields()(result - lastField() - 1))
         case false => None
-    else if (result > GreenPlayer.lastField()) Some(result - 40)
+    else if (result > 59) Some(result - 40)
     else Some(result)
 
   def goOverEnd(from: Int, to: Int) =
@@ -48,73 +54,45 @@ class Player extends PlayerInterface {
 
 }
 
-  case class GreenPlayer extends Player {
+object GreenPlayer extends Player {
+  def defaultField(): List[Int] = List(0, 1, 2, 3)
+  def startField(): Int = 20
+  def endFields(): List[Int] = List(70, 71, 72, 73)
+  def lastField(): Int = 59
+  def fooFields(): List[Int] = Nil
+  def playerString = "G"
+  override def toString(): String = "Green Player"
+}
 
-    def defaultField(): List[Int] = List(0, 1, 2, 3)
+object RedPlayer extends Player {
+  def defaultField(): List[Int] = List(4, 5, 6, 7)
+  def startField(): Int = 30
+  def endFields(): List[Int] = List(74, 75, 76, 77)
+  def lastField(): Int = 29
+  def fooFields(): List[Int] = (20 to 29).toList
+  def playerString = "R"
+  override def toString(): String = "Red Player"
+}
 
-    def startField(): Int = 20
+object BluePlayer extends Player {
+  def defaultField(): List[Int] = List(12, 13, 14, 15)
+  def startField(): Int = 40
+  def endFields(): List[Int] = List(78, 79, 80, 81)
+  def lastField(): Int = 39
+  def fooFields(): List[Int] = (30 to 39).toList
+  def playerString = "B"
+  override def toString(): String = "Blue Player"
+}
 
-    def endFields(): List[Int] = List(70, 71, 72, 73)
-
-    def lastField(): Int = 59
-
-    def fooFields(): List[Int] = Nil
-
-    def playerString = "G"
-
-    def toString(): String = "Green Player"
-  }
-
-  case class RedPlayer extends Player {
-
-    def defaultField(): List[Int] = List(4, 5, 6, 7)
-
-    def startField(): Int = 30
-
-    def endFields(): List[Int] = List(74, 75, 76, 77)
-
-    def lastField(): Int = 29
-
-    def fooFields(): List[Int] = (20 to 29).toList
-
-    def playerString = "R"
-
-    def toString(): String = "Red Player"
-  }
-
-  case class BluePlayer extends Player {
-
-    def defaultField(): List[Int] = List(12, 13, 14, 15)
-
-    def startField(): Int = 40
-
-    def endFields(): List[Int] = List(78, 79, 80, 81)
-
-    def lastField(): Int = 39
-
-    def fooFields(): List[Int] = (30 to 39).toList
-
-    def playerString = "B"
-
-    def toString(): String = "Blue Player"
-  }
-
-  case class YellowPlayer extends Player {
-
-    def defaultField(): List[Int] = List(8, 9, 10, 11)
-
-    def startField(): Int = 50
-
-    def endFields(): List[Int] = List(82, 83, 84, 85)
-
-    def lastField(): Int = 49
-
-    def fooFields(): List[Int] = (40 to 49).toList
-
-    def playerString = "Y"
-
-    def toString(): String = "YellowPlayer Player"
-  }
+object YellowPlayer extends Player {
+  def defaultField(): List[Int] = List(8, 9, 10, 11)
+  def startField(): Int = 50
+  def endFields(): List[Int] = List(82, 83, 84, 85)
+  def lastField(): Int = 49
+  def fooFields(): List[Int] = (40 to 49).toList
+  def playerString = "Y"
+  override def toString(): String = "Yellow Player"
+}
 
 
 /*
