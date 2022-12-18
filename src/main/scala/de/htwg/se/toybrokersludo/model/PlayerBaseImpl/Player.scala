@@ -4,14 +4,58 @@ import de.htwg.se.toybrokersludo.model.{Move, PlayerInterface, FieldInterface}
 
 import scala.language.postfixOps
 
+/*
 class GPlayer(number: Int) {
   
   val player: List[PlayerInterface] = List(GreenPlayer,RedPlayer,BluePlayer,YellowPlayer)
   def getPlayer(): PlayerInterface
     player(number)
 }
+*/
 
-private abstract class Player extends PlayerInterface {
+class Player(number: Int) extends PlayerInterface {
+
+  def defaultField() = number match
+    case 0 => GreenPlayer.defaultField()
+    case 1 => RedPlayer.defaultField()
+    case 2 => BluePlayer.defaultField()
+    case 3 => YellowPlayer.defaultField()
+
+  def startField() = number match
+    case 0 => GreenPlayer.startField()
+    case 1 => RedPlayer.startField()
+    case 2 => BluePlayer.startField()
+    case 3 => YellowPlayer.startField()
+
+  def endFields() = number match
+    case 0 => GreenPlayer.endFields()
+    case 1 => RedPlayer.endFields()
+    case 2 => BluePlayer.endFields()
+    case 3 => YellowPlayer.endFields()
+
+  def lastField() = number match
+    case 0 => GreenPlayer.lastField()
+    case 1 => RedPlayer.lastField()
+    case 2 => BluePlayer.lastField()
+    case 3 => YellowPlayer.lastField()
+
+  def fooFields() = number match
+    case 0 => GreenPlayer.fooFields()
+    case 1 => RedPlayer.fooFields()
+    case 2 => BluePlayer.fooFields()
+    case 3 => YellowPlayer.fooFields()
+
+  def playerString() = number match
+    case 0 => GreenPlayer.playerString
+    case 1 => RedPlayer.playerString
+    case 2 => BluePlayer.playerString
+    case 3 => YellowPlayer.playerString
+
+  def toString() = number match
+    case 0 => GreenPlayer.toString()
+    case 1 => RedPlayer.toString()
+    case 2 => BluePlayer.toString()
+    case 3 => YellowPlayer.toString()
 
   def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] =
     val tokens: List[Move] = field.getMatrix.getToken
@@ -54,43 +98,43 @@ private abstract class Player extends PlayerInterface {
 
 }
 
-object GreenPlayer extends Player {
-  def defaultField(): List[Int] = List(0, 1, 2, 3)
-  def startField(): Int = 20
-  def endFields(): List[Int] = List(70, 71, 72, 73)
-  def lastField(): Int = 59
-  def fooFields(): List[Int] = Nil
-  def playerString = "G"
+private object GreenPlayer {
+  override def defaultField(): List[Int] = List(0, 1, 2, 3)
+  override def startField(): Int = 20
+  override def endFields(): List[Int] = List(70, 71, 72, 73)
+  override def lastField(): Int = 59
+  override def fooFields(): List[Int] = Nil
+  override def playerString = "G"
   override def toString(): String = "Green Player"
 }
 
-object RedPlayer extends Player {
-  def defaultField(): List[Int] = List(4, 5, 6, 7)
-  def startField(): Int = 30
-  def endFields(): List[Int] = List(74, 75, 76, 77)
-  def lastField(): Int = 29
-  def fooFields(): List[Int] = (20 to 29).toList
-  def playerString = "R"
+private object RedPlayer {
+  override def defaultField(): List[Int] = List(4, 5, 6, 7)
+  override def startField(): Int = 30
+  override def endFields(): List[Int] = List(74, 75, 76, 77)
+  override def lastField(): Int = 29
+  override def fooFields(): List[Int] = (20 to 29).toList
+  override def playerString = "R"
   override def toString(): String = "Red Player"
 }
 
-object BluePlayer extends Player {
-  def defaultField(): List[Int] = List(12, 13, 14, 15)
-  def startField(): Int = 40
-  def endFields(): List[Int] = List(78, 79, 80, 81)
-  def lastField(): Int = 39
-  def fooFields(): List[Int] = (30 to 39).toList
-  def playerString = "B"
+private object BluePlayer {
+  override def defaultField(): List[Int] = List(12, 13, 14, 15)
+  override def startField(): Int = 40
+  override def endFields(): List[Int] = List(78, 79, 80, 81)
+  override def lastField(): Int = 39
+  override def fooFields(): List[Int] = (30 to 39).toList
+  override def playerString = "B"
   override def toString(): String = "Blue Player"
 }
 
-object YellowPlayer extends Player {
-  def defaultField(): List[Int] = List(8, 9, 10, 11)
-  def startField(): Int = 50
-  def endFields(): List[Int] = List(82, 83, 84, 85)
-  def lastField(): Int = 49
-  def fooFields(): List[Int] = (40 to 49).toList
-  def playerString = "Y"
+private object YellowPlayer {
+  override def defaultField(): List[Int] = List(8, 9, 10, 11)
+  override def startField(): Int = 50
+  override def endFields(): List[Int] = List(82, 83, 84, 85)
+  override def lastField(): Int = 49
+  override def fooFields(): List[Int] = (40 to 49).toList
+  override def playerString = "Y"
   override def toString(): String = "Yellow Player"
 }
 
