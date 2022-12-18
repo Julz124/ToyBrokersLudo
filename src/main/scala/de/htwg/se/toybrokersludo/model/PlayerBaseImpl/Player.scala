@@ -7,7 +7,7 @@ import scala.language.postfixOps
 class GPlayer(number: Int) {
   
   val player: List[PlayerInterface] = List(GreenPlayer,RedPlayer,BluePlayer,YellowPlayer)
-  def getPlayer(number: Int): PlayerInterface
+  def getPlayer(): PlayerInterface
     player(number)
 }
 
