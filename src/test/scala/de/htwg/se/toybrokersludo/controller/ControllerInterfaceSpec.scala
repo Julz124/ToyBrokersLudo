@@ -21,9 +21,9 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
       Stone(true, 1, None), Stone(false, -1, None)
     ))
 
-  val matrix : MatrixInterface = Matrix(map)
+  val matrix : Matrix = Matrix(map)
   val field : FieldInterface = Field(matrix)
-  val controller : ControllerInterface= Controller(field)
+  val controller : ControllerInterface= Controller(using field)
 
   "The Controller" should  {
     "get should dice" in {
@@ -244,8 +244,8 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "have fuc put" in {
-      val controller2 : ControllerInterface = Controller(Field(Matrix()))
-      val controller3 : ControllerInterface = Controller(Field(Matrix()))
+      val controller2 : ControllerInterface = Controller(using Field(Matrix()))
+      val controller3 : ControllerInterface = Controller(using Field(Matrix()))
       controller2.startup(1)
       controller3.startup(1)
       val field2 : FieldInterface = controller3.getField
@@ -264,7 +264,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "have fuc undo" in {
-      val controller2: ControllerInterface = Controller(Field(Matrix()))
+      val controller2: ControllerInterface = Controller(using Field(Matrix()))
       controller2.startup(1)
       controller2.doAndPublish(controller2.move, Move(PlayToken(1, "G"), 20))
       controller2.doAndPublish(controller2.undo)

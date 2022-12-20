@@ -49,7 +49,7 @@ case class Field(matrix: Matrix = Matrix() , player: PlayerInterface = GreenPlay
       case true => player.toString + " have to dice"
       case false => player.toString + "have to move")
 
-  def getMatrix: MatrixInterface = matrix
+  def getMatrix: Matrix = matrix
 
   def getPlayer: PlayerInterface = player
 

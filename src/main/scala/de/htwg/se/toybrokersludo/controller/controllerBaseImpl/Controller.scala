@@ -3,10 +3,10 @@ package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.util.UndoManager
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
-
+import de.htwg.se.toybrokersludo.model.given FieldInterface
 import scala.util.Random
 
-case class Controller(var field: FieldInterface) extends ControllerInterface {
+class Controller(using var field: FieldInterface) extends ControllerInterface {
   
   override def getShouldDice = field.getShouldDice
 

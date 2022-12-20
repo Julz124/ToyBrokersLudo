@@ -12,9 +12,9 @@ import org.scalatest.matchers.should.Matchers.should
 
 class FieldInterfaceSpec extends AnyWordSpec with Matchers {
 
-  val matrix: MatrixInterface = Matrix()
+  val matrix: Matrix = Matrix()
   val field: FieldInterface = Field(matrix)
-  val controller: ControllerInterface = Controller(field)
+  val controller: ControllerInterface = Controller(using field)
 
   val eol = "\n"
 
