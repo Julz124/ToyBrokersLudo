@@ -7,7 +7,7 @@ import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.util.Observer
 import de.htwg.se.toybrokersludo.aview.UI
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
-import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 
 import javax.swing.SpringLayout.Constraints
 import scala.swing

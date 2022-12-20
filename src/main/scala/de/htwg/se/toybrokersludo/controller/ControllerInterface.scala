@@ -1,8 +1,9 @@
 package de.htwg.se.toybrokersludo.controller
 
 
-import de.htwg.se.toybrokersludo.model.{FieldInterface, MatrixInterface, Move, PlayerInterface}
-import de.htwg.se.toybrokersludo.util.Observable
+import de.htwg.se.toybrokersludo.model.{FieldInterface, Move}
+import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Matrix
+import de.htwg.se.toybrokersludo.util.{Observable, PlayerInterface}
 
 trait ControllerInterface extends Observable{
   
@@ -12,7 +13,7 @@ trait ControllerInterface extends Observable{
   
   def getDice : Int
   
-  def getMatrix : MatrixInterface
+  def getMatrix : Matrix
   
   def getField: FieldInterface
   

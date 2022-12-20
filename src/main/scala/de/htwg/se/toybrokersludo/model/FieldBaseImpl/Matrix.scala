@@ -1,6 +1,6 @@
-package de.htwg.se.toybrokersludo.model.MatrixBaseImpl
+package de.htwg.se.toybrokersludo.model.FieldBaseImpl
 
-import de.htwg.se.toybrokersludo.model.{MatrixInterface, Move, Stone, Token}
+import de.htwg.se.toybrokersludo.model.{Move, Stone, Token}
 
 case class Matrix(var map: List[List[Stone]] = List(
   List(
@@ -71,7 +71,7 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(a, list))
 
 
-  def move(move: Move): MatrixInterface = {
+  def move(move: Move): Matrix = {
     this.copy(pull(move).put(move).getMap)
   }
 

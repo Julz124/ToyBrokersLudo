@@ -1,9 +1,9 @@
-package de.htwg.se.toybrokersludo.model
+package de.htwg.se.toybrokersludo.util
 
-import de.htwg.se.toybrokersludo.model.FieldInterface
+import de.htwg.se.toybrokersludo.model.{FieldInterface, Move}
 
 trait PlayerInterface {
-  
+
   def possibleMoves(diceroll: Int, field: FieldInterface): List[Move]
 
   def defaultField(): List[Int]

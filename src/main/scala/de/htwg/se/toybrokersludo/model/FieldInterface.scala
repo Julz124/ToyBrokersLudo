@@ -1,6 +1,8 @@
 package de.htwg.se.toybrokersludo.model
 
-import de.htwg.se.toybrokersludo.model.{FieldInterface, PlayerInterface, MatrixInterface}
+import de.htwg.se.toybrokersludo.model.FieldInterface
+import de.htwg.se.toybrokersludo.util.PlayerInterface
+import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Matrix
 
 trait FieldInterface {
   def put(move: Move): FieldInterface
@@ -17,7 +19,7 @@ trait FieldInterface {
 
   def toString: String
 
-  def getMatrix: MatrixInterface
+  def getMatrix: Matrix
 
   def getPlayer: PlayerInterface
 

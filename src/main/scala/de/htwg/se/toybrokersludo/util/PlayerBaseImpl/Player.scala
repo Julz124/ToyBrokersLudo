@@ -1,61 +1,11 @@
-package de.htwg.se.toybrokersludo.model.PlayerBaseImpl
+package de.htwg.se.toybrokersludo.util.PlayerBaseImpl
 
-import de.htwg.se.toybrokersludo.model.{Move, PlayerInterface, FieldInterface}
+import de.htwg.se.toybrokersludo.model.{Move, FieldInterface}
+import de.htwg.se.toybrokersludo.util.PlayerInterface
 
 import scala.language.postfixOps
 
-/*
-class GPlayer(number: Int) {
-  
-  val player: List[PlayerInterface] = List(GreenPlayer,RedPlayer,BluePlayer,YellowPlayer)
-  def getPlayer(): PlayerInterface
-    player(number)
-}
-*/
-
-class Player(number: Int) extends PlayerInterface {
-
-  def defaultField() = number match
-    case 0 => GreenPlayer.defaultField()
-    case 1 => RedPlayer.defaultField()
-    case 2 => BluePlayer.defaultField()
-    case 3 => YellowPlayer.defaultField()
-
-  def startField() = number match
-    case 0 => GreenPlayer.startField()
-    case 1 => RedPlayer.startField()
-    case 2 => BluePlayer.startField()
-    case 3 => YellowPlayer.startField()
-
-  def endFields() = number match
-    case 0 => GreenPlayer.endFields()
-    case 1 => RedPlayer.endFields()
-    case 2 => BluePlayer.endFields()
-    case 3 => YellowPlayer.endFields()
-
-  def lastField() = number match
-    case 0 => GreenPlayer.lastField()
-    case 1 => RedPlayer.lastField()
-    case 2 => BluePlayer.lastField()
-    case 3 => YellowPlayer.lastField()
-
-  def fooFields() = number match
-    case 0 => GreenPlayer.fooFields()
-    case 1 => RedPlayer.fooFields()
-    case 2 => BluePlayer.fooFields()
-    case 3 => YellowPlayer.fooFields()
-
-  def playerString() = number match
-    case 0 => GreenPlayer.playerString
-    case 1 => RedPlayer.playerString
-    case 2 => BluePlayer.playerString
-    case 3 => YellowPlayer.playerString
-
-  def toString() = number match
-    case 0 => GreenPlayer.toString()
-    case 1 => RedPlayer.toString()
-    case 2 => BluePlayer.toString()
-    case 3 => YellowPlayer.toString()
+abstract class Player() extends PlayerInterface {
 
   def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] =
     val tokens: List[Move] = field.getMatrix.getToken
@@ -98,7 +48,7 @@ class Player(number: Int) extends PlayerInterface {
 
 }
 
-private object GreenPlayer {
+object GreenPlayer extends Player {
   override def defaultField(): List[Int] = List(0, 1, 2, 3)
   override def startField(): Int = 20
   override def endFields(): List[Int] = List(70, 71, 72, 73)
@@ -108,7 +58,7 @@ private object GreenPlayer {
   override def toString(): String = "Green Player"
 }
 
-private object RedPlayer {
+object RedPlayer extends Player {
   override def defaultField(): List[Int] = List(4, 5, 6, 7)
   override def startField(): Int = 30
   override def endFields(): List[Int] = List(74, 75, 76, 77)
@@ -118,7 +68,7 @@ private object RedPlayer {
   override def toString(): String = "Red Player"
 }
 
-private object BluePlayer {
+object BluePlayer extends Player {
   override def defaultField(): List[Int] = List(12, 13, 14, 15)
   override def startField(): Int = 40
   override def endFields(): List[Int] = List(78, 79, 80, 81)
@@ -128,7 +78,7 @@ private object BluePlayer {
   override def toString(): String = "Blue Player"
 }
 
-private object YellowPlayer {
+object YellowPlayer extends Player {
   override def defaultField(): List[Int] = List(8, 9, 10, 11)
   override def startField(): Int = 50
   override def endFields(): List[Int] = List(82, 83, 84, 85)
