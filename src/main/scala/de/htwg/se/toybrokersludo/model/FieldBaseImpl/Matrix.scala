@@ -1,6 +1,8 @@
 package de.htwg.se.toybrokersludo.model.FieldBaseImpl
 
 import de.htwg.se.toybrokersludo.model.{Move, Stone, Token}
+import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import de.htwg.se.toybrokersludo.util.PlayerInterface
 
 case class Matrix(var map: List[List[Stone]] = List(
   List(
@@ -71,9 +73,19 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(a, list))
 
 
+
   def move(move: Move): Matrix = {
-    this.copy(pull(move).put(move).getMap)
+    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
+    val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
+    stone.token match
+      case Some(token: Token) => List(GreenPlayer, RedPlayer, BluePlayer, YellowPlayer)
+        .find((player: PlayerInterface) => player.playerString.equals(token.getColor())) match
+        case Some(player : PlayerInterface) => this.copy(put(Move(token,
+          player.defaultField()(token.getNumber() - 1))).pull(move).put(move).map)
+      case None => this.copy(pull(move).put(move).getMap)
   }
+
+
 
   def getToken: List[Move] =
     map.flatten.filter((stone: Stone) => stone.token != None).map((stone: Stone) => Move(stone.token match
