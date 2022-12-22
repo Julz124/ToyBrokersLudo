@@ -29,14 +29,14 @@ abstract class Player() extends PlayerInterface {
   def getTokens(field: FieldInterface) =
     field.getMatrix.getToken.filter((move: Move) => move.token.getColor().equals(playerString))
 
-
+  
   def add(from: Int, dice: Int): Option[Int] =
     val result = from + dice
     if (goOverEnd(from, result))
       result - lastField() <= endFields().size match
         case true => Some(endFields()(result - lastField() - 1))
         case false => None
-    else if (result > 59) Some(result - 40)
+    else if (result > 59 ) Some(result - 40)
     else Some(result)
 
   def goOverEnd(from: Int, to: Int) =
@@ -45,7 +45,6 @@ abstract class Player() extends PlayerInterface {
     if (fooFields().contains(from - 40)) fromNew = from - 40
     if (fooFields().contains(to - 40)) toNew = to - 40
     from < lastField() && to > lastField()
-
 }
 
 object GreenPlayer extends Player {
