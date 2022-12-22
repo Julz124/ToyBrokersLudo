@@ -1,31 +1,32 @@
 package de.htwg.se.toybrokersludo.aview
 
 
-import scala.swing.*
+
+import de.htwg.se.toybrokersludo.aview.UI
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.util.Observer
-import de.htwg.se.toybrokersludo.aview.UI
-import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 
+import scala.util.{Failure, Success, Try}
+import scala.swing.*
 import javax.swing.SpringLayout.Constraints
 import scala.swing
-import scala.swing.event.MouseClicked
-import scala.util.{Failure, Success, Try}
+import scala.swing.event.{ButtonClicked, MouseClicked}
 import javax.imageio.*
 import java.io.File
-import javax.swing.ImageIcon
+import javax.swing.{ImageIcon, JButton, JLabel, JPanel}
 import java.awt.Color
+import scala.runtime.BoxesRunTime.add
 
 
-class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
+class GUI(using controller: ControllerInterface) extends Frame with UI(controller) {
 
-  override def inputLoop: Unit = None
+  override def inputLoop(): Unit = None
 
   override def analyseInput(input: String): Try[Option[Move]] = Try(None)
 
-  override def menue =
+  def menue() =
     contents = new BorderPanel {
       add(new Label("Spieleranzahl auswählen"),
         BorderPanel.Position.North
@@ -35,7 +36,6 @@ class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
         reactions += {
           case e: MouseClicked =>
             controller.startup(i)
-            controller.update()
         }
       }, BorderPanel.Position.apply(i))
     }
@@ -73,20 +73,11 @@ class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
     }
 
   def dice : Button = new Button(controller.getDice.toString) {
-    listenTo(mouse.clicks)
+    listenTo(this)
     reactions += {
-      case e: MouseClicked =>
-        if (controller.getShouldDice) {
-          controller.dice()
-          if (controller.getPossibleMoves(controller.getDice).nonEmpty) {
-            controller.invertDice()
-          } else {
-            if (controller.getDice != 6) {
-              controller.nextPlayer()
-            }
-          }
-          update
-        }
+      case e: ButtonClicked =>
+        controller.dice()
+        update
     }
   }
 
@@ -118,16 +109,14 @@ class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
     }
 
 
-
-
   case class CellButton(index: Int) extends Button() {
     preferredSize = new Dimension(40,40)
-    listenTo(mouse.clicks)
+    listenTo(this)
     val stone = controller.getMatrix.getStone(index)
     if (stone.isAPlayField == false) visible = false
     icon = getIcon(stone)
     reactions += {
-      case e: MouseClicked => fieldClicked(stone)
+      case e: ButtonClicked => fieldClicked(stone)
     }
   }
 
@@ -147,16 +136,11 @@ class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
       if (!controller.getShouldDice && controller.getPossibleMoves(controller.getDice).exists((move: Move) => move.token.equals(stone.token match
         case Some(token: Token) => token
         case None => None))) {
-        controller.invertDice()
         controller.doAndPublish(controller.move, controller.getPossibleMoves(controller.getDice).find((move: Move) => move.token.equals(stone.token match
           case Some(token: Token) => token
           case None => None
         )) match
           case Some(move: Move) => move)
-        if (controller.getDice != 6) {
-          controller.nextPlayer()
-        }
       }
-      update
     }
 }

@@ -1,7 +1,6 @@
 package de.htwg.se.toybrokersludo.aview
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.util.Observer
@@ -10,54 +9,49 @@ import scala.util.{Failure, Success, Try}
 import scala.collection.mutable
 import scala.io.StdIn.readLine
 
-class TUI(controller: ControllerInterface) extends UI(controller) {
+class TUI(using controller: ControllerInterface) extends UI(controller) {
 
   override def update = println(controller.getField.toString)
 
-  override def menue = None
+  override def menue() =
+    println("choose number of player between 1 and 4")
+    var input = readLine()
+    while(!input.matches("[0-4]")) {
+      input = readLine()
+    }
+    controller.startup(input.toInt)
+      
 
   def analyseInput(input: String): Try[Option[Move]] = Try {
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     input match
       case "undo" => controller.doAndPublish(controller.undo); None
       case "redo" => controller.doAndPublish(controller.redo); None
-      case "dice" => dice(); None
+      case "dice" => controller.dice(); None
+      case "move" => doMove();
       case _ => pattern.findFirstIn(input) match
         case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
           input.split(" ")(0)), input.split(" ")(2).toInt))
   }
 
-  def dice(): Unit =
-    if (!controller.getShouldDice) {
-      println("not dice")
-      return
+
+  def doMove(): None.type =
+    val options = controller.getPossibleMoves(controller.getDice)
+    if (options.isEmpty) throw new IllegalStateException()
+    println("choose between: " + options)
+    var input = readLine().toInt
+    while (options.size <= input) {println ("choose one move")
+      input = readLine().toInt
     }
-    val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
-    controller.dice()
-    val dice = controller.getDice
-    println(controller.getPlayer.playerString + " " + dice)
-    val options = controller.getPossibleMoves(dice)
-    if (!options.isEmpty) {
-      controller.invertDice()
-      println("choise between: " + options)
-      var input = readLine().toInt
-      while (options.size <= input) {
-        println("choise one")
-        input = readLine().toInt
-      }
-      controller.invertDice()
-      controller.doAndPublish(controller.move, options(input))
-    }
-    if (dice != 6) controller.nextPlayer()
-    controller.update()
+    controller.doAndPublish (controller.move, options (input))
+    None
 
 
-
-  override def inputLoop : Unit =
+  override def inputLoop() : Unit =
     analyseInput(readLine()) match
       case Success(option : Option[Move]) => option match
           case Some(move) => controller.doAndPublish(controller.move, move)
-          case None => inputLoop
+          case None => inputLoop()
       case Failure(_) => println("False input")
-    inputLoop
+    inputLoop()
 }
