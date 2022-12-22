@@ -18,7 +18,8 @@ import javax.naming.ldap.Control
   given ControllerInterface = Controller(using Field())
   val controller : Controller = Controller(using field)
   
-  val gui = GUI(controller)
-  val tui = TUI(controller)
-  gui.run
-  tui.run
+  val gui = GUI(using controller)
+  val tui = TUI(using controller)
+
+  gui.run(true)
+  tui.run()
