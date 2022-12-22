@@ -20,14 +20,8 @@ trait ControllerInterface extends Observable{
   def startup (spieler: Int): Unit
   
   def dice() : Unit
-  
-  def update() : Unit
-  
-  def invertDice() : Unit
 
   def getPossibleMoves(dice : Int): List[Move]
-
-  def nextPlayer() : Unit
 
   def doAndPublish(doThis: Move => FieldInterface, move: Move) : Unit
 

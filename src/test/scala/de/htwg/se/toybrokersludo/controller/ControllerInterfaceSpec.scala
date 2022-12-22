@@ -229,10 +229,6 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
       )
     }
 
-    "next Player" in {
-      controller.nextPlayer()
-      controller.getField.getPlayer should be (GreenPlayer)
-    }
 
     "can publish_1" in {
       val move = Move(PlayToken.apply(1, "B"), 1)
