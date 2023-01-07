@@ -29,6 +29,8 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
       case "redo" => controller.doAndPublish(controller.redo); None
       case "dice" => controller.dice(); None
       case "move" => doMove();
+      case "load" => load();
+      case "save" => save();
       case _ => pattern.findFirstIn(input) match
         case Some(_) => Option(model.Move(PlayToken.apply(input.split(" ")(1).toInt,
           input.split(" ")(0)), input.split(" ")(2).toInt))
@@ -46,6 +48,16 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
     controller.doAndPublish (controller.move, options (input))
     None
 
+  def load() : None.type =
+    controller.getTargets().appended("choose between:").reverse.foreach((e : String) => println(e))
+    controller.load(readLine()) match
+      case false => println("false input")
+      case true => println("load")
+    None
+
+ def save() : None.type =
+   controller.save(readLine())
+   None
 
   override def inputLoop() : Unit =
     analyseInput(readLine()) match

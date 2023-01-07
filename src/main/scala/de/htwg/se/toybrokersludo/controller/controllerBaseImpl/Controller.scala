@@ -1,13 +1,16 @@
 package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
+import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
+import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
+import de.htwg.se.toybrokersludo.model.FileIO.FileIoJsonImpl
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
 import de.htwg.se.toybrokersludo.util.UndoManager
 import de.htwg.se.toybrokersludo.model.given FieldInterface
 
 import scala.util.Random
 
-class Controller(using var field: FieldInterface) extends ControllerInterface {
+class Controller(using var field: FieldInterface, fieleIO : FileIOInterface = FileIoJsonImpl()) extends ControllerInterface {
   
   override def getShouldDice = field.getShouldDice
 
@@ -67,12 +70,21 @@ class Controller(using var field: FieldInterface) extends ControllerInterface {
 
   def put(move: Move): FieldInterface = field.put(move)
 
-  def move(move: Move): FieldInterface =
+  override def move(move: Move): FieldInterface =
     undoManager.doStep(field, MoveCommander(field, move))
 
-  def undo(field: FieldInterface): FieldInterface = undoManager.undoStep(field)
+  override def undo(field: FieldInterface): FieldInterface = undoManager.undoStep(field)
 
-  def redo(field: FieldInterface): FieldInterface = undoManager.redoStep(field)
+  override def redo(field: FieldInterface): FieldInterface = undoManager.redoStep(field)
+
+  override def save(target: String): Unit =
+    fieleIO.save(field, target)
+
+  override def getTargets(): List[String] =
+    List("test", "test2")
+
+  override def load(source: String): Boolean =
+    !fieleIO.load(source).equals(field)
   
   def startGreen(): List[Move] = List(Move(PlayToken.apply(1, "G"), 0), Move(PlayToken.apply(2, "G"), 1), Move(PlayToken.apply(3, "G"), 2), Move(PlayToken.apply(4, "G"), 3))
   

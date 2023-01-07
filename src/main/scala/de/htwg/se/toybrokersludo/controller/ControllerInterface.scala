@@ -3,6 +3,7 @@ package de.htwg.se.toybrokersludo.controller
 
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move}
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Matrix
+import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
 import de.htwg.se.toybrokersludo.util.{Observable, PlayerInterface}
 
 trait ControllerInterface extends Observable{
@@ -34,5 +35,11 @@ trait ControllerInterface extends Observable{
   def undo(field : FieldInterface): FieldInterface
 
   def redo(field : FieldInterface): FieldInterface
+
+  def save(target : String) : Unit
+
+  def getTargets() : List[String]
+
+  def load(source : String) : Boolean
 
 }
