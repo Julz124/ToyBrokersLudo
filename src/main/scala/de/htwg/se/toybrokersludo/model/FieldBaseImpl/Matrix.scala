@@ -1,6 +1,8 @@
-package de.htwg.se.toybrokersludo.model.MatrixBaseImpl
+package de.htwg.se.toybrokersludo.model.FieldBaseImpl
 
-import de.htwg.se.toybrokersludo.model.{MatrixInterface, Move, Stone, Token}
+import de.htwg.se.toybrokersludo.model.{Move, Stone, Token}
+import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import de.htwg.se.toybrokersludo.util.PlayerInterface
 
 case class Matrix(var map: List[List[Stone]] = List(
   List(
@@ -47,9 +49,9 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(true, 10, None), Stone(false, -1, None), Stone(true, 11, None), Stone(false, -1, None),
     Stone(true, 50, None), Stone(true, 49, None), Stone(true, 48, None),
     Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None)),
-)) extends MatrixInterface {
+)) {
 
-  def put(move: Move): MatrixInterface =
+  def put(move: Move): Matrix =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
     val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.index == move.number),
@@ -57,7 +59,7 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(a, list))
 
 
-  def pull(move: Move): MatrixInterface =
+  def pull(move: Move): Matrix =
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.token match
       case Some(player: Token) => player.equals(move.token)
       case None => false))
@@ -71,9 +73,19 @@ case class Matrix(var map: List[List[Stone]] = List(
     this.copy(map.updated(a, list))
 
 
-  def move(move: Move): MatrixInterface = {
-    this.copy(pull(move).put(move).getMap)
+
+  def move(move: Move): Matrix = {
+    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
+    val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
+    stone.token match
+      case Some(token: Token) => List(GreenPlayer, RedPlayer, BluePlayer, YellowPlayer)
+        .find((player: PlayerInterface) => player.playerString.equals(token.getColor())) match
+        case Some(player : PlayerInterface) => this.copy(put(Move(token,
+          player.defaultField()(token.getNumber() - 1))).pull(move).put(move).map)
+      case None => this.copy(pull(move).put(move).getMap)
   }
+
+
 
   def getToken: List[Move] =
     map.flatten.filter((stone: Stone) => stone.token != None).map((stone: Stone) => Move(stone.token match

@@ -1,20 +1,20 @@
 package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.model.MatrixBaseImpl.Matrix
-import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
-import de.htwg.se.toybrokersludo.model.{FieldInterface, MatrixInterface}
-import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import de.htwg.se.toybrokersludo.model.FieldInterface
+import de.htwg.se.toybrokersludo.model.FieldBaseImpl.{Field, Matrix}
+import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
 
 class FieldInterfaceSpec extends AnyWordSpec with Matchers {
 
-  val matrix: MatrixInterface = Matrix()
+  val matrix: Matrix = Matrix()
   val field: FieldInterface = Field(matrix)
-  val controller: ControllerInterface = Controller(field)
+  val controller: ControllerInterface = Controller(using field)
 
   val eol = "\n"
 

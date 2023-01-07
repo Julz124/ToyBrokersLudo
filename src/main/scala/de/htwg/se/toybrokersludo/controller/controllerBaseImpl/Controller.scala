@@ -1,12 +1,13 @@
 package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.util.UndoManager
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
+import de.htwg.se.toybrokersludo.util.UndoManager
+import de.htwg.se.toybrokersludo.model.given FieldInterface
 
 import scala.util.Random
 
-case class Controller(var field: FieldInterface) extends ControllerInterface {
+class Controller(using var field: FieldInterface) extends ControllerInterface {
   
   override def getShouldDice = field.getShouldDice
 
@@ -35,27 +36,24 @@ case class Controller(var field: FieldInterface) extends ControllerInterface {
         for (move <- startBlue()) field = field.put(move)
         for (move <- startYellow()) field = field.put(move)
     }
+    /*
+    field = move(Move(PlayToken.apply(1, "G"), 54))
+    field = move(Move(PlayToken.apply(1, "R"), 28))
+    field = move(Move(PlayToken.apply(1, "B"), 36))
+    field = move(Move(PlayToken.apply(1, "Y"), 53))
+    */
     field = field.numberPlayer(spieler)
     notifyObservers
 
 
+  override def getPossibleMoves(dice: Int): List[Move] =
+    if (getShouldDice) Nil
+    else field.getPlayer.possibleMoves(dice, field)
 
   override def dice() =
-    field = field.dice((Random().nextDouble() * 6).toInt + 1)
-
-
-  override def update() =
+    if (!getShouldDice) return
+    field = undoManager.doStep(field, DiceCommander(field, (Random().nextDouble() * 6).toInt + 1))
     notifyObservers
-
-  override def invertDice() =
-    field = field.invertDice()
-    notifyObservers
-
-  override def getPossibleMoves(dice: Int): List[Move] =
-    field.getPlayer.possibleMoves(dice, field)
-
-  override def nextPlayer() =
-    field = field.nextPlayer()
 
   override def doAndPublish(doThis: Move => FieldInterface, move: Move) =
     field = doThis(move)
@@ -69,7 +67,8 @@ case class Controller(var field: FieldInterface) extends ControllerInterface {
 
   def put(move: Move): FieldInterface = field.put(move)
 
-  def move(move: Move): FieldInterface = undoManager.doStep(field, PutCommander(field, move))
+  def move(move: Move): FieldInterface =
+    undoManager.doStep(field, MoveCommander(field, move))
 
   def undo(field: FieldInterface): FieldInterface = undoManager.undoStep(field)
 

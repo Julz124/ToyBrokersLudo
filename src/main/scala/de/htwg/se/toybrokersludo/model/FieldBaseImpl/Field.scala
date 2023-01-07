@@ -1,9 +1,10 @@
 package de.htwg.se.toybrokersludo.model.FieldBaseImpl
 
-import de.htwg.se.toybrokersludo.model.{FieldInterface, MatrixInterface, PlayerInterface, Stone, Token, Move}
-import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import de.htwg.se.toybrokersludo.model.{FieldInterface, Stone, Token, Move}
+import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import de.htwg.se.toybrokersludo.util.PlayerInterface
 
-case class Field(matrix: MatrixInterface, player: PlayerInterface = GreenPlayer, playerNumber: Int = 0, dice: Int = 6, shouldDice: Boolean = true) extends FieldInterface {
+case class Field(matrix: Matrix = Matrix() , player: PlayerInterface = GreenPlayer, playerNumber: Int = 0, dice: Int = 6, shouldDice: Boolean = true) extends FieldInterface {
 
   def nextPlayer(): FieldInterface = //Interator Pattern
     player match
@@ -48,7 +49,7 @@ case class Field(matrix: MatrixInterface, player: PlayerInterface = GreenPlayer,
       case true => player.toString + " have to dice"
       case false => player.toString + "have to move")
 
-  def getMatrix: MatrixInterface = matrix
+  def getMatrix: Matrix = matrix
 
   def getPlayer: PlayerInterface = player
 

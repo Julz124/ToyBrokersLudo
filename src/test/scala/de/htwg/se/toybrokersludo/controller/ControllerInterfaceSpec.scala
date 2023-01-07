@@ -1,11 +1,10 @@
 package de.htwg.se.toybrokersludo.controller
 
 
-import de.htwg.se.toybrokersludo.model.{FieldInterface, MatrixInterface, Move, PlayToken, Stone}
-import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
-import de.htwg.se.toybrokersludo.model.MatrixBaseImpl.Matrix
+import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken, Stone}
+import de.htwg.se.toybrokersludo.model.FieldBaseImpl.{Field, Matrix}
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
-import de.htwg.se.toybrokersludo.model.PlayerBaseImpl.GreenPlayer
+import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.GreenPlayer
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -22,9 +21,9 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
       Stone(true, 1, None), Stone(false, -1, None)
     ))
 
-  val matrix : MatrixInterface = Matrix(map)
+  val matrix : Matrix = Matrix(map)
   val field : FieldInterface = Field(matrix)
-  val controller : ControllerInterface= Controller(field)
+  val controller : ControllerInterface= Controller(using field)
 
   "The Controller" should  {
     "get should dice" in {
@@ -49,7 +48,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
 
     "can startup player count 1" in {
       val field2 : FieldInterface = Field(Matrix())
-      val controller2 : ControllerInterface = Controller(field2)
+      val controller2 : ControllerInterface = Controller(using field2)
       controller2.startup(1)
       controller2.getField.toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -91,7 +90,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
 
     "can startup player count 2" in {
       val field2: FieldInterface = Field(Matrix())
-      val controller2: ControllerInterface = Controller(field2)
+      val controller2: ControllerInterface = Controller(using field2)
       controller2.startup(2)
       controller2.getField.toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -132,7 +131,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
     "can startup player count 3" in {
       val field2: FieldInterface = Field(Matrix())
-      val controller2: ControllerInterface = Controller(field2)
+      val controller2: ControllerInterface = Controller(using field2)
       controller2.startup(3)
       controller2.getField.toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -173,7 +172,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
     "can startup player count 4" in {
       val field2: FieldInterface = Field(Matrix())
-      val controller2: ControllerInterface = Controller(field2)
+      val controller2: ControllerInterface = Controller(using field2)
       controller2.startup(4)
       controller2.getField.toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -223,17 +222,13 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "get possibleMoves" in {
-      val controller2 = Controller(Field(Matrix()))
+      val controller2 = Controller(using Field())
       controller2.startup(1)
       controller2.getPossibleMoves(6) === (
         (List(Move(PlayToken(1, "G"),20), Move(PlayToken(2, "G"),20), Move(PlayToken(3, "G"),20), Move(PlayToken(4, "G"),20)))
       )
     }
 
-    "next Player" in {
-      controller.nextPlayer()
-      controller.getField.getPlayer should be (GreenPlayer)
-    }
 
     "can publish_1" in {
       val move = Move(PlayToken.apply(1, "B"), 1)
@@ -245,8 +240,8 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "have fuc put" in {
-      val controller2 : ControllerInterface = Controller(Field(Matrix()))
-      val controller3 : ControllerInterface = Controller(Field(Matrix()))
+      val controller2 : ControllerInterface = Controller(using Field(Matrix()))
+      val controller3 : ControllerInterface = Controller(using Field(Matrix()))
       controller2.startup(1)
       controller3.startup(1)
       val field2 : FieldInterface = controller3.getField
@@ -255,8 +250,8 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "have fuc move" in {
-      val controller2: ControllerInterface = Controller(Field(Matrix()))
-      val controller3: ControllerInterface = Controller(Field(Matrix()))
+      val controller2: ControllerInterface = Controller(using Field(Matrix()))
+      val controller3: ControllerInterface = Controller(using Field(Matrix()))
       controller2.startup(1)
       controller3.startup(1)
       val field2: FieldInterface = controller3.getField
@@ -265,7 +260,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "have fuc undo" in {
-      val controller2: ControllerInterface = Controller(Field(Matrix()))
+      val controller2: ControllerInterface = Controller(using Field(Matrix()))
       controller2.startup(1)
       controller2.doAndPublish(controller2.move, Move(PlayToken(1, "G"), 20))
       controller2.doAndPublish(controller2.undo)
@@ -308,7 +303,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "have fuc redo" in {
-      val controller2: ControllerInterface = Controller(Field(Matrix()))
+      val controller2: ControllerInterface = Controller(using Field(Matrix()))
       controller2.startup(1)
       controller2.doAndPublish(controller2.move, Move(PlayToken(1, "G"), 20))
       controller2.doAndPublish(controller2.undo)
