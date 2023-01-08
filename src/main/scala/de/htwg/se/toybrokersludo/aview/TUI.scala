@@ -50,12 +50,11 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
 
   def load() : None.type =
     controller.getTargets().appended("choose between:").reverse.foreach((e : String) => println(e))
-    controller.load(readLine()) match
-      case false => println("false input")
-      case true => println("load")
+    controller.load(readLine())
     None
 
  def save() : None.type =
+   print("target: ")
    controller.save(readLine())
    None
 

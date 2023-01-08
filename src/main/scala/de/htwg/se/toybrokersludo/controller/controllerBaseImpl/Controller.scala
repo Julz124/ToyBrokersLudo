@@ -81,10 +81,12 @@ class Controller(using var field: FieldInterface, fieleIO : FileIOInterface = Fi
     fieleIO.save(field, target)
 
   override def getTargets(): List[String] =
-    List("test", "test2")
+    fieleIO.getTargets()
 
-  override def load(source: String): Boolean =
-    !fieleIO.load(source).equals(field)
+  override def load(source: String): Unit =
+    field = fieleIO.load(source)
+    notifyObservers
+
   
   def startGreen(): List[Move] = List(Move(PlayToken.apply(1, "G"), 0), Move(PlayToken.apply(2, "G"), 1), Move(PlayToken.apply(3, "G"), 2), Move(PlayToken.apply(4, "G"), 3))
   

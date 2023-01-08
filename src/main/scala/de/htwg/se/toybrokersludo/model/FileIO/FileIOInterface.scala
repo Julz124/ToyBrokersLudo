@@ -8,4 +8,5 @@ trait FileIOInterface {
   
   def load(source : String) : FieldInterface
   
+  def getTargets() : List[String]
 }

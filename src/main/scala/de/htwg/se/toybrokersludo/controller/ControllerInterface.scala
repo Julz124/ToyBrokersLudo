@@ -40,6 +40,6 @@ trait ControllerInterface extends Observable{
 
   def getTargets() : List[String]
 
-  def load(source : String) : Boolean
+  def load(source : String) : Unit
 
 }
