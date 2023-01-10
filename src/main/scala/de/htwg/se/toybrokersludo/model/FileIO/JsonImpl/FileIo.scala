@@ -1,15 +1,15 @@
-package de.htwg.se.toybrokersludo.model.FileIO
+package de.htwg.se.toybrokersludo.model.FileIO.JsonImpl
 
-import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken, Stone, Token}
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.{Field, Matrix}
+import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
+import de.htwg.se.toybrokersludo.model.*
 import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
+import play.api.libs.json.{JsValue, Json}
 
-import java.io.*
-import java.nio.file.Files
-import java.nio.file.Paths
-import play.api.libs.json.*
+import java.io.{File, IOException, PrintWriter}
+import java.nio.file.{Files, Paths}
 
-class FileIoJsonImpl extends FileIOInterface {
+case class FileIo() extends FileIOInterface {
 
   val path = "saveGameJson"
 
@@ -20,17 +20,17 @@ class FileIoJsonImpl extends FileIOInterface {
       catch case e: IOException => e.printStackTrace()
 
   def getTargets(): List[String] =
-    val files : List[File] = File(path).listFiles().toList
-    files.map(file => file.toString.replaceAll(".json","").replaceAll(path + "/", ""))
+    val files: List[File] = File(path).listFiles().toList
+    files.map(file => file.toString.replaceAll(".json", "").replaceAll(path + "/", ""))
 
 
-  def save(field : FieldInterface, target : String): Unit =
+  def save(field: FieldInterface, target: String): Unit =
     makeFolder()
     val pw = new PrintWriter(new File(path + "/" + target + ".json"))
     pw.write(FildToJson(field).toString())
     pw.close()
 
-  def FildToJson(field : FieldInterface) =
+  def FildToJson(field: FieldInterface) =
     Json.obj(
       "matrix" -> {
         for (row <- field.getMatrix.map) yield lineToJson(row)
@@ -40,7 +40,7 @@ class FileIoJsonImpl extends FileIOInterface {
       },
       "playerNumber" -> {
         Json.obj(
-          "player" -> field.getMatrix.getToken.map((move : Move) => move.token.getColor()).groupBy((s : String) => s).size)
+          "player" -> field.getMatrix.getToken.map((move: Move) => move.token.getColor()).groupBy((s: String) => s).size)
       },
       "current dice" -> {
         Json.obj("dice" -> field.getDice)
@@ -50,16 +50,16 @@ class FileIoJsonImpl extends FileIOInterface {
       }
     )
 
-  def lineToJson(row : List[Stone]) =
+  def lineToJson(row: List[Stone]) =
     Json.obj(
       "row" -> {
         for (stone <- row) yield stoneToJson(stone)
       }
     )
 
-  def stoneToJson(stone : Stone) =
+  def stoneToJson(stone: Stone) =
     Json.obj(stone.token match
-      case Some(token : Token) => "stone" -> Json.obj(
+      case Some(token: Token) => "stone" -> Json.obj(
         "isAPlayField" -> stone.isAPlayField,
         "index" -> stone.index,
         "Option Token" -> tokenToJson(token)
@@ -70,7 +70,7 @@ class FileIoJsonImpl extends FileIOInterface {
         "Option Token" -> None
       ))
 
-  def tokenToJson(token : Token) =
+  def tokenToJson(token: Token) =
     Json.obj(
       "number" -> token.getNumber(),
       "color" -> token.getColor(),
@@ -94,15 +94,15 @@ class FileIoJsonImpl extends FileIOInterface {
     )
 
 
-  def jsonToRow(row : JsValue) =
+  def jsonToRow(row: JsValue) =
     row("row").as[Seq[JsValue]].map(stone => jsonToStone(stone))
 
-  def jsonToStone(stone : JsValue) =
+  def jsonToStone(stone: JsValue) =
     Stone(stone("stone")("isAPlayField").as[Boolean],
       stone("stone")("index").as[Int],
       jsonToToken(stone("stone")("Option Token")))
 
-  def jsonToToken(token : JsValue) : Option[Token] =
+  def jsonToToken(token: JsValue): Option[Token] =
     token.toString() match
       case "null" => None
       case _ => Option(PlayToken(token("number").as[Int], token("color").as[String]))

@@ -3,14 +3,15 @@ package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
 import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
-import de.htwg.se.toybrokersludo.model.FileIO.FileIoJsonImpl
+import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
 import de.htwg.se.toybrokersludo.util.UndoManager
 import de.htwg.se.toybrokersludo.model.given FieldInterface
+import de.htwg.se.toybrokersludo.model.given FileIOInterface
 
 import scala.util.Random
 
-class Controller(using var field: FieldInterface, fieleIO : FileIOInterface = FileIoJsonImpl()) extends ControllerInterface {
+class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInterface) extends ControllerInterface {
   
   override def getShouldDice = field.getShouldDice
 
