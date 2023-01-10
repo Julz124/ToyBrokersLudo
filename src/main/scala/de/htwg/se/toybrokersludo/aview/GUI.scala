@@ -64,22 +64,23 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
   def load() =
     new MainFrame {
       contents = new BorderPanel{
-        add(new Label("save"), BorderPanel.Position.North)
-        add(new Button("cancel") {
-          preferredSize = new Dimension(80, 30)
-          listenTo(this)
-          reactions += {
-            case e: ButtonClicked => dispose()
-          }
-        }, BorderPanel.Position.East)
+        add(new Label("load"), BorderPanel.Position.North)
         add(new BoxPanel(Orientation.Vertical) {
-          listenTo(this)
-          contents ++= controller.getTargets().map(string => Button(string) {
+          controller.getTargets().foreach((string : String) =>
+            contents += new Button(string) {
+              reactions += {
+                case e: ButtonClicked => controller.load(string); dispose()
+              }
+              listenTo(this)
+            }
+          )
+          contents += new Button("cancel") {
+            this.foreground = Color.BLUE
             listenTo(this)
             reactions += {
-              case e: ButtonClicked => controller.load(string); dispose()
+              case e: ButtonClicked => dispose()
             }
-          })
+          }
         }, BorderPanel.Position.West)
       resizable = false
       pack()
@@ -87,8 +88,7 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
       open()
     }}
 
-
-
+  
   def save() =
     controller.save(Dialog.showInput(contents.head, "save", initial = "") match
       case Some(string: String) => string)
