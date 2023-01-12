@@ -13,7 +13,8 @@ lazy val root = project
     ),
     libraryDependencies += ("org.scala-lang.modules" %% "scala-swing" % "3.0.0").cross(CrossVersion.for3Use2_13),
     libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.9.3").cross(CrossVersion.for3Use2_13),// JSON
-    jacocoReportSettings := JacocoReportSettings(
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.1.1", //XML
+      jacocoReportSettings := JacocoReportSettings(
       "Jacoco Coverage Report",
       None,
       JacocoThresholds(),
