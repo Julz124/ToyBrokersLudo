@@ -101,11 +101,17 @@ case class FileIO() extends FileIOInterface {
   def load(source: String): FieldInterface =
     import scala.io.Source
     import scala.xml._
-    val sourcePath: String = Source.fromFile(path + "/" + source + ".xml").getLines.mkString
-    val xml = XML.loadString(source.mkString)
+    val source_path: String = Source.fromFile(path + "/" + source + ".xml").getLines.mkString
+    val xml = XML.loadString(source_path.mkString)
 
-    val field = (xml \ "field").asInstanceOf[Field[Matrix[]]]
+    val curr_player = (xml \ "currentPlayer").toString() match
+      case "G" => GreenPlayer
+      case "R" => RedPlayer
+      case "B" => BluePlayer
+      case "Y" => YellowPlayer
     val player_nr = (xml \ "player").text.trim.toInt
-    val curr_dice = (xml \"dice").text.trim.toInt
+    val curr_dice = (xml \ "dice").text.trim.toInt
     val shd_dice = (xml \ "should dice").text.trim.toBoolean
+
+    Field(Matrix(), curr_player, player_nr, curr_dice, shd_dice)
 }
