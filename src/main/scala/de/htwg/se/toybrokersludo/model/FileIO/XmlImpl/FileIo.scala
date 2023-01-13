@@ -103,16 +103,24 @@ case class FileIo() extends FileIOInterface {
     import scala.io.Source
     import scala.xml._
     val source_path: String = Source.fromFile(path + "/" + source + ".xml").getLines.mkString
-    val xml = XML.loadString(source_path.mkString)
-
-    val curr_player = (xml \ "currentPlayer").toString() match
+    val xml = XML.loadString(source_path)
+    val field = (xml \\ "field")
+    val matrix = ((xml \ "matrix").map(row => xmlToRow(row)).asInstanceOf[List[List[Stone]]])
+    println(matrix)
+    val curr_player = (field \ "currentPlayer").text.trim match
       case "G" => GreenPlayer
       case "R" => RedPlayer
       case "B" => BluePlayer
       case "Y" => YellowPlayer
-    val player_nr = (xml \ "player").text.trim.toInt
-    val curr_dice = (xml \ "dice").text.trim.toInt
-    val shd_dice = (xml \ "should dice").text.trim.toBoolean
-
+    val player_nr = (field \ "playerNumber").text.trim.toInt
+    val curr_dice = (field \ "currentDice").text.trim.toInt
+    val shd_dice = (field \ "shouldDice").text.trim.toBoolean
     Field(Matrix(), curr_player, player_nr, curr_dice, shd_dice)
+
+
+  def xmlToRow(row : NodeSeq) =
+    (row \ "row").map(stone => xmlToStone)
+
+  def xmlToStone(stone : Node) =
+    Stone(false, -1, None).asInstanceOf[Stone]
 }
