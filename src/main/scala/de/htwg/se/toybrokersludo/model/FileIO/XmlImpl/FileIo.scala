@@ -10,7 +10,7 @@ import java.io.{File, IOException, PrintWriter}
 import java.nio.file.{Files, Paths}
 import scala.xml._
 
-case class FileIO() extends FileIOInterface {
+case class FileIo() extends FileIOInterface {
 
   val path = "saveGameXml"
 
@@ -21,6 +21,7 @@ case class FileIO() extends FileIOInterface {
       catch case e: IOException => e.printStackTrace()
 
   def getTargets(): List[String] =
+    makeFolder()
     val files: List[File] = File(path).listFiles().toList
     files.map(file => file.toString.replaceAll(".xml", "").replaceAll(path + "/", ""))
 
