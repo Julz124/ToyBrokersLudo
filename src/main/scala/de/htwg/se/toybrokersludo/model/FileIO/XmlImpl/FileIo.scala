@@ -40,9 +40,9 @@ case class FileIo() extends FileIOInterface {
           yield lineToXml(row)
         }
       </matrix>
-      <currentplayer>
+      <currentPlayer>
         {field.getPlayer.playerString}
-      </currentplayer>
+      </currentPlayer>
       <playerNumber>
         {field.getMatrix.getToken.map((move: Move) => move.token.getColor()).groupBy((s: String) => s).size}
       </playerNumber>
