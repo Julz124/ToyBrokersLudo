@@ -105,7 +105,7 @@ case class FileIo() extends FileIOInterface {
     val source_path: String = Source.fromFile(path + "/" + source + ".xml").getLines.mkString
     val xml = XML.loadString(source_path)
     val field = (xml \\ "field")
-    val matrix = ((xml \ "matrix").map(row => xmlToRow(row)).asInstanceOf[List[List[Stone]]])
+    val matrix = Matrix((xml \ "matrix" \ "row").map(row => xmlToRow(row)).asInstanceOf[List[List[Stone]]])
     println(matrix)
     val curr_player = (field \ "currentPlayer").text.trim match
       case "G" => GreenPlayer
@@ -115,12 +115,21 @@ case class FileIo() extends FileIOInterface {
     val player_nr = (field \ "playerNumber").text.trim.toInt
     val curr_dice = (field \ "currentDice").text.trim.toInt
     val shd_dice = (field \ "shouldDice").text.trim.toBoolean
-    Field(Matrix(), curr_player, player_nr, curr_dice, shd_dice)
+    Field(matrix, curr_player, player_nr, curr_dice, shd_dice)
 
 
   def xmlToRow(row : NodeSeq) =
-    (row \ "row").map(stone => xmlToStone)
+    (row \ "stone").map(stone => xmlToStone(stone)).asInstanceOf[List[Stone]]
 
   def xmlToStone(stone : Node) =
-    Stone(false, -1, None).asInstanceOf[Stone]
+    Stone((stone \ "isAPlayField").text.trim.toBoolean,
+      (stone \ "index").text.trim.toInt,
+      xmlToToken((stone \ "OptionToken").head))
+
+  def xmlToToken(token : Node) =
+    println(token \ "token")
+    token.text.trim match
+      case "None" => None
+      case _ => Option(PlayToken((token \ "token" \ "number").text.trim.toInt,
+        (token \ "token" \ "color").text.trim))
 }
