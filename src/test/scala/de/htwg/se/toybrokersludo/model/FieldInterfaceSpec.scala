@@ -4,8 +4,9 @@ import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.{Field, Matrix}
+import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
+import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
 import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
-
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
@@ -14,7 +15,8 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
 
   val matrix: Matrix = Matrix()
   val field: FieldInterface = Field(matrix)
-  val controller: ControllerInterface = Controller(using field)
+  val fileIO : FileIOInterface = FileIo()
+  val controller: ControllerInterface = Controller(using field)(using fileIO)
 
   val eol = "\n"
 

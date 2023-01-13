@@ -3,6 +3,8 @@ package de.htwg.se.toybrokersludo.util
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.{Field, Matrix}
+import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
+import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
 import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 import de.htwg.se.toybrokersludo.util.PlayerInterface
@@ -14,7 +16,8 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
 
   val matrix: Matrix = Matrix()
   val field: FieldInterface = Field(matrix,GreenPlayer,1)
-  val controller: ControllerInterface = Controller(using field)
+  val fileIO : FileIOInterface = FileIo()
+  val controller: ControllerInterface = Controller(using field)(using fileIO)
 
   val eol = "\n"
 
