@@ -6,17 +6,10 @@
             true
           </isAPlayField>
           <index>
-           0
-          </index>  
+            0
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        1
-      </number>
-      <color>
-        G
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -33,17 +26,10 @@
             true
           </isAPlayField>
           <index>
-           1
-          </index>  
+            1
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        2
-      </number>
-      <color>
-        G
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -100,17 +86,10 @@
             true
           </isAPlayField>
           <index>
-           4
-          </index>  
+            4
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        1
-      </number>
-      <color>
-        R
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -127,17 +106,10 @@
             true
           </isAPlayField>
           <index>
-           5
-          </index>  
+            5
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        2
-      </number>
-      <color>
-        R
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone>
     </row><row>
@@ -258,17 +230,10 @@
             true
           </isAPlayField>
           <index>
-           2
-          </index>  
+            2
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        3
-      </number>
-      <color>
-        G
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -285,17 +250,10 @@
             true
           </isAPlayField>
           <index>
-           3
-          </index>  
+            3
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        4
-      </number>
-      <color>
-        G
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -352,17 +310,10 @@
             true
           </isAPlayField>
           <index>
-           6
-          </index>  
+            6
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        3
-      </number>
-      <color>
-        R
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -379,17 +330,10 @@
             true
           </isAPlayField>
           <index>
-           7
-          </index>  
+            7
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        4
-      </number>
-      <color>
-        R
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone>
     </row><row>
@@ -958,17 +902,10 @@
             true
           </isAPlayField>
           <index>
-           8
-          </index>  
+            8
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        1
-      </number>
-      <color>
-        Y
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -985,17 +922,10 @@
             true
           </isAPlayField>
           <index>
-           9
-          </index>  
+            9
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        2
-      </number>
-      <color>
-        Y
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -1052,17 +982,10 @@
             true
           </isAPlayField>
           <index>
-           12
-          </index>  
+            12
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        1
-      </number>
-      <color>
-        B
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -1079,17 +1002,10 @@
             true
           </isAPlayField>
           <index>
-           13
-          </index>  
+            13
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        2
-      </number>
-      <color>
-        B
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone>
     </row><row>
@@ -1210,17 +1126,10 @@
             true
           </isAPlayField>
           <index>
-           10
-          </index>  
+            10
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        3
-      </number>
-      <color>
-        Y
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -1237,17 +1146,10 @@
             true
           </isAPlayField>
           <index>
-           11
-          </index>  
+            11
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        4
-      </number>
-      <color>
-        Y
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -1304,17 +1206,10 @@
             true
           </isAPlayField>
           <index>
-           14
-          </index>  
+            14
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        3
-      </number>
-      <color>
-        B
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -1331,26 +1226,19 @@
             true
           </isAPlayField>
           <index>
-           15
-          </index>  
+            15
+          </index>
           <OptionToken>
-            <token>
-      <number>
-        4
-      </number>
-      <color>
-        B
-      </color>
-    </token>
+            None
           </OptionToken>
         </stone>
     </row>
       </matrix>
       <currentPlayer>
-        G
+        Y
       </currentPlayer>
       <playerNumber>
-        4
+        0
       </playerNumber>
       <currentDice>
         6
