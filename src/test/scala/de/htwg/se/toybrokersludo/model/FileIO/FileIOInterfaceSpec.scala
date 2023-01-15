@@ -46,10 +46,10 @@ class FileIOInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "can getTargets" in {
-      jsonImpl.getTargets() should contain ("saveGameJson\\SpecTestJsonGreen")
-      jsonImpl.getTargets() should contain (  "saveGameJson\\SpecTestJsonRed")
-      jsonImpl.getTargets() should contain ("saveGameJson\\SpecTestJsonBlue")
-      jsonImpl.getTargets() should contain ("saveGameJson\\SpecTestJsonYellow")
+      jsonImpl.getTargets() should contain ("SpecTestJsonGreen")
+      jsonImpl.getTargets() should contain ("SpecTestJsonRed")
+      jsonImpl.getTargets() should contain ("SpecTestJsonBlue")
+      jsonImpl.getTargets() should contain ("SpecTestJsonYellow")
     }
 
   }
@@ -87,10 +87,10 @@ class FileIOInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "can getTargets" in {
-      xmlImpl.getTargets() should contain("saveGameXml\\SpecTestXmlGreen")
-      xmlImpl.getTargets() should contain("saveGameXml\\SpecTestXmlRed")
-      xmlImpl.getTargets() should contain("saveGameXml\\SpecTestXmlBlue")
-      xmlImpl.getTargets() should contain("saveGameXml\\SpecTestXmlYellow")
+      xmlImpl.getTargets() should contain("SpecTestXmlGreen")
+      xmlImpl.getTargets() should contain("SpecTestXmlRed")
+      xmlImpl.getTargets() should contain("SpecTestXmlBlue")
+      xmlImpl.getTargets() should contain("SpecTestXmlYellow")
     }
   }
 
