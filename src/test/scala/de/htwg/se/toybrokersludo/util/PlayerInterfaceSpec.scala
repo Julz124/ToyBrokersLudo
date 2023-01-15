@@ -23,15 +23,60 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
 
   "player" should {
 
-    "get's possible moves" in {
-      val playerG_pM: PlayerInterface = GreenPlayer
-      playerG_pM.possibleMoves(0,field) should be (List())
-      val playerR_pM: PlayerInterface = RedPlayer
-      playerR_pM.possibleMoves(0, field) should be(List())
-      val playerB_pM: PlayerInterface = BluePlayer
-      playerB_pM.possibleMoves(0, field) should be(List())
-      val playerY_pM: PlayerInterface = YellowPlayer
-      playerY_pM.possibleMoves(0, field) should be(List())
+    var field: FieldInterface = Field(matrix)
+    val playerG_pM: PlayerInterface = GreenPlayer
+    val playerR_pM: PlayerInterface = RedPlayer
+    val playerB_pM: PlayerInterface = BluePlayer
+    val playerY_pM: PlayerInterface = YellowPlayer
+    field = field.put(Move(PlayToken.apply(1, "G"), 21))
+    field = field.put(Move(PlayToken.apply(1, "R"), 31))
+    field = field.put(Move(PlayToken.apply(1, "B"), 41))
+    field = field.put(Move(PlayToken.apply(1, "Y"), 51))
+    field = field.put(Move(PlayToken.apply(2, "G"), 0))
+    field = field.put(Move(PlayToken.apply(2, "R"), 4))
+    field = field.put(Move(PlayToken.apply(2, "B"), 12))
+    field = field.put(Move(PlayToken.apply(2, "Y"), 8))
+
+    "get's possible moves with diceroll  1" in {
+      playerG_pM.possibleMoves(1, field).toString() should equal("List(Move(G1,22))")
+      playerR_pM.possibleMoves(1, field).toString() should equal("List(Move(R1,32))")
+      playerB_pM.possibleMoves(1, field).toString() should equal("List(Move(B1,42))")
+      playerY_pM.possibleMoves(1, field).toString() should equal("List(Move(Y1,52))")
+    }
+
+    "get's possible moves with diceroll  2" in {
+      playerG_pM.possibleMoves(2, field).toString() should equal("List(Move(G1,23))")
+      playerR_pM.possibleMoves(2, field).toString() should equal("List(Move(R1,33))")
+      playerB_pM.possibleMoves(2, field).toString() should equal("List(Move(B1,43))")
+      playerY_pM.possibleMoves(2, field).toString() should equal("List(Move(Y1,53))")
+    }
+
+    "get's possible moves with diceroll  3" in {
+      playerG_pM.possibleMoves(3, field).toString() should equal("List(Move(G1,24))")
+      playerR_pM.possibleMoves(3, field).toString() should equal("List(Move(R1,34))")
+      playerB_pM.possibleMoves(3, field).toString() should equal("List(Move(B1,44))")
+      playerY_pM.possibleMoves(3, field).toString() should equal("List(Move(Y1,54))")
+    }
+
+    "get's possible moves with diceroll  4" in {
+      playerG_pM.possibleMoves(4, field).toString() should equal("List(Move(G1,25))")
+      playerR_pM.possibleMoves(4, field).toString() should equal("List(Move(R1,35))")
+      playerB_pM.possibleMoves(4, field).toString() should equal("List(Move(B1,45))")
+      playerY_pM.possibleMoves(4, field).toString() should equal("List(Move(Y1,55))")
+    }
+
+    "get's possible moves with diceroll  5" in {
+      playerG_pM.possibleMoves(5, field).toString() should equal("List(Move(G1,26))")
+      playerR_pM.possibleMoves(5, field).toString() should equal("List(Move(R1,36))")
+      playerB_pM.possibleMoves(5, field).toString() should equal("List(Move(B1,46))")
+      playerY_pM.possibleMoves(5, field).toString() should equal("List(Move(Y1,56))")
+    }
+
+    "get's possible moves with diceroll  6" in {
+      playerG_pM.possibleMoves(6, field).toString() should equal("List(Move(G2,20), Move(G1,27))")
+      playerR_pM.possibleMoves(6, field).toString() should equal("List(Move(R2,30), Move(R1,37))")
+      playerB_pM.possibleMoves(6, field).toString() should equal("List(Move(B2,40), Move(B1,47))")
+      playerY_pM.possibleMoves(6, field).toString() should equal("List(Move(Y2,50), Move(Y1,57))")
     }
 
     "get's possible moves into endfields" in {

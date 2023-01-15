@@ -18,31 +18,31 @@ class FileIOInterfaceSpec extends AnyWordSpec with Matchers {
     val jsonImpl: FileIOInterface = FileIo()
 
     "can load with GreenPlayer" in {
-      val field: FieldInterface = Field(matrix,GreenPlayer,1)
-      field.put(Move(PlayToken.apply(1, "G"), 20))
+      var field: FieldInterface = Field(matrix,GreenPlayer,1)
+      field = field.put(Move(PlayToken.apply(1, "G"), 20))
       jsonImpl.save(field, "SpecTestJsonGreen")
-      jsonImpl.load("SpecTestJsonGreen").toString should equal (Field(matrix,GreenPlayer,1).toString)
+      jsonImpl.load("SpecTestJsonGreen").toString should equal (field.toString)
     }
 
     "can load with RedPlayer" in {
-      val field: FieldInterface = Field(matrix, RedPlayer, 2)
-      field.put(Move(PlayToken.apply(2, "R"), 20))
+      var field: FieldInterface = Field(matrix, RedPlayer, 2)
+      field = field.put(Move(PlayToken.apply(2, "R"), 20))
       jsonImpl.save(field, "SpecTestJsonRed")
-      jsonImpl.load("SpecTestJsonRed").toString should equal(Field(matrix, RedPlayer, 2).toString)
+      jsonImpl.load("SpecTestJsonRed").toString should equal(field.toString)
     }
 
     "can load with BluePlayer" in {
-      val field: FieldInterface = Field(matrix, BluePlayer, 3)
-      field.put(Move(PlayToken.apply(3, "B"), 20))
+      var field: FieldInterface = Field(matrix, BluePlayer, 3)
+      field = field.put(Move(PlayToken.apply(3, "B"), 20))
       jsonImpl.save(field, "SpecTestJsonBlue")
-      jsonImpl.load("SpecTestJsonBlue").toString should equal(Field(matrix, BluePlayer, 3).toString)
+      jsonImpl.load("SpecTestJsonBlue").toString should equal(field.toString)
     }
 
     "can load with YellowPlayer" in {
-      val field: FieldInterface = Field(matrix, YellowPlayer, 4)
-      field.put(Move(PlayToken.apply(4, "Y"), 20))
+      var field: FieldInterface = Field(matrix, YellowPlayer, 4)
+      field = field.put(Move(PlayToken.apply(4, "Y"), 20))
       jsonImpl.save(field, "SpecTestJsonYellow")
-      jsonImpl.load("SpecTestJsonYellow").toString should equal(Field(matrix, YellowPlayer, 4).toString)
+      jsonImpl.load("SpecTestJsonYellow").toString should equal(field.toString)
     }
 
     "can getTargets" in {
@@ -59,31 +59,31 @@ class FileIOInterfaceSpec extends AnyWordSpec with Matchers {
     val xmlImpl: FileIOInterface = FileIo()
 
     "can load with GreenPlayer" in {
-      val field: FieldInterface = Field(matrix, GreenPlayer, 1)
-      field.put(Move(PlayToken.apply(1, "G"), 20))
+      var field: FieldInterface = Field(matrix, GreenPlayer, 1)
+      field = field.put(Move(PlayToken.apply(1, "G"), 20))
       xmlImpl.save(field, "SpecTestXmlGreen")
-      xmlImpl.load("SpecTestXmlGreen").toString should equal(Field(matrix, GreenPlayer, 1).toString)
+      xmlImpl.load("SpecTestXmlGreen").toString should equal(field.toString)
     }
 
     "can load with RedPlayer" in {
-      val field: FieldInterface = Field(matrix, RedPlayer, 1)
-      field.put(Move(PlayToken.apply(2, "R"), 20))
+      var field: FieldInterface = Field(matrix, RedPlayer, 1)
+      field = field.put(Move(PlayToken.apply(2, "R"), 20))
       xmlImpl.save(field, "SpecTestXmlRed")
-      xmlImpl.load("SpecTestXmlRed").toString should equal(Field(matrix, RedPlayer, 2).toString)
+      xmlImpl.load("SpecTestXmlRed").toString should equal(field.toString)
     }
 
     "can load with BluePlayer" in {
-      val field: FieldInterface = Field(matrix, BluePlayer, 3)
-      field.put(Move(PlayToken.apply(3, "B"), 20))
+      var field: FieldInterface = Field(matrix, BluePlayer, 3)
+      field = field.put(Move(PlayToken.apply(3, "B"), 20))
       xmlImpl.save(field, "SpecTestXmlBlue")
-      xmlImpl.load("SpecTestXmlBlue").toString should equal(Field(matrix, BluePlayer, 3).toString)
+      xmlImpl.load("SpecTestXmlBlue").toString should equal(field.toString)
     }
 
     "can load with YellowPlayer" in {
-      val field: FieldInterface = Field(matrix, YellowPlayer, 4)
-      field.put(Move(PlayToken.apply(4, "Y"), 20))
+      var field: FieldInterface = Field(matrix, YellowPlayer, 4)
+      field = field.put(Move(PlayToken.apply(4, "Y"), 20))
       xmlImpl.save(field, "SpecTestXmlYellow")
-      xmlImpl.load("SpecTestXmlYellow").toString should equal(Field(matrix, YellowPlayer, 4).toString)
+      xmlImpl.load("SpecTestXmlYellow").toString should equal(field.toString)
     }
 
     "can getTargets" in {

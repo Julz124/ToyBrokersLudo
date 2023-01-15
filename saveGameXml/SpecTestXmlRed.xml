@@ -454,10 +454,17 @@
             true
           </isAPlayField>
           <index>
-            20
-          </index>
+           20
+          </index>  
           <OptionToken>
-            None
+            <token>
+      <number>
+        2
+      </number>
+      <color>
+        R
+      </color>
+    </token>
           </OptionToken>
         </stone><stone>
           <isAPlayField>
@@ -1238,7 +1245,7 @@
         R
       </currentPlayer>
       <playerNumber>
-        0
+        1
       </playerNumber>
       <currentDice>
         6
