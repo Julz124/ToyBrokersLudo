@@ -348,5 +348,15 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
           "Green Player have to dice"
       )
     }
+
+    "can save and load" in {
+      controller.save("SpecTestController")
+      controller.load("SpecTestController").toString should equal ("()")
+    }
+
+    "can getTargets" in {
+      controller.getTargets() should contain ("SpecTestController")
+    }
+
   }
 }
