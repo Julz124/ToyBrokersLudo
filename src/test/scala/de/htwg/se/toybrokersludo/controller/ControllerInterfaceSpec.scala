@@ -349,6 +349,51 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
       )
     }
 
+      "have fuc redo for dice" in {
+        val controller2: ControllerInterface = Controller(using Field(Matrix()))(using fileIO)
+        controller2.startup(1)
+        controller2.dice()
+        controller2.doAndPublish(controller2.undo)
+        controller2.doAndPublish(controller2.redo)
+        controller2.getField.toString should be(
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "| G1 |      | G2 |      |    ||    ||    |      |    |      |    |" + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "                        +----++----++----+                        " + eol +
+            "                        |    ||    ||    |                        " + eol +
+            "                        +----++----++----+                        " + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "| G3 |      | G4 |      |    ||    ||    |      |    |      |    |" + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "                        +----++----++----+                        " + eol +
+            "                        |    ||    ||    |                        " + eol +
+            "                        +----++----++----+                        " + eol +
+            "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+            "|    ||    ||    ||    ||    ||    ||    ||    ||    ||    ||    |" + eol +
+            "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+            "+----++----++----++----++----+      +----++----++----++----++----+" + eol +
+            "|    ||    ||    ||    ||    |      |    ||    ||    ||    ||    |" + eol +
+            "+----++----++----++----++----+      +----++----++----++----++----+" + eol +
+            "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+            "|    ||    ||    ||    ||    ||    ||    ||    ||    ||    ||    |" + eol +
+            "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+            "                        +----++----++----+                        " + eol +
+            "                        |    ||    ||    |                        " + eol +
+            "                        +----++----++----+                        " + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "                        +----++----++----+                        " + eol +
+            "                        |    ||    ||    |                        " + eol +
+            "                        +----++----++----+                        " + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+            "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+            "Green Player have to dice"
+        )
+    }
+
+
     "can save and load" in {
       controller.save("SpecTestController")
       controller.load("SpecTestController").toString should equal ("()")
@@ -359,4 +404,6 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
   }
+
+
 }

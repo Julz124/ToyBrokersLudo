@@ -7,7 +7,7 @@ import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
 
 import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
-import de.htwg.se.toybrokersludo.model.FileIO.XmlImpl.FileIo
+import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller

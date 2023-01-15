@@ -225,6 +225,10 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
       field_gSD.getShouldDice should be (true)
     }
 
+    "can get a Stone" in  {
+      matrix.getStone(2) should equal(Stone(true, 2, None))
+    }
+
   }
 }
 
