@@ -183,6 +183,13 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
       )
     }
 
+    "can get stone" in {
+      var field_gs: FieldInterface = Field(matrix)
+      field_gs = field_gs.put(Move(PlayToken.apply(1, "B"), 20))
+      matrix.getStone(20) should be (Stone(true,20,None))
+      matrix.getStone(30) should be (Stone(true,30,None))
+    }
+
     "can invert dice" in {
       val field_iD: FieldInterface = Field(matrix,GreenPlayer,1)
       field_iD.invertDice() should be (Field(matrix,GreenPlayer,1,6,false))
