@@ -216,7 +216,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "can dice" in {
-      controller.dice()
+      controller.doAndPublish(controller.dice)
       (1 to 6).contains(controller.getField.getDice)
     }
 
@@ -352,7 +352,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
       "have fuc redo for dice" in {
         val controller2: ControllerInterface = Controller(using Field(Matrix()))(using fileIO)
         controller2.startup(1)
-        controller2.dice()
+        controller2.doAndPublish(controller.dice)
         controller2.doAndPublish(controller2.undo)
         controller2.doAndPublish(controller2.redo)
         controller2.getField.toString should be(

@@ -54,10 +54,7 @@ class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInt
     if (getShouldDice) Nil
     else field.getPlayer.possibleMoves(dice, field)
 
-  override def dice() =
-    if (!getShouldDice) return
-    field = undoManager.doStep(field, DiceCommander(field, (Random().nextDouble() * 6).toInt + 1))
-    notifyObservers
+
 
   override def doAndPublish(doThis: Move => FieldInterface, move: Move) =
     field = doThis(move)
@@ -73,6 +70,9 @@ class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInt
 
   override def move(move: Move): FieldInterface =
     undoManager.doStep(field, MoveCommander(field, move))
+
+  override def dice(field: FieldInterface) : FieldInterface =
+    undoManager.doStep(field, DiceCommander(field, (Random().nextDouble() * 6).toInt + 1))
 
   override def undo(field: FieldInterface): FieldInterface = undoManager.undoStep(field)
 

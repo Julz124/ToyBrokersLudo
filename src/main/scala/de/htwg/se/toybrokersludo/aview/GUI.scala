@@ -112,8 +112,7 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
     listenTo(this)
     reactions += {
       case e: ButtonClicked =>
-        controller.dice()
-        update
+        controller.doAndPublish(controller.dice)
     }
   }
 

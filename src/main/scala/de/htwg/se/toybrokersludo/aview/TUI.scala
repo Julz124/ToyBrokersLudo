@@ -27,7 +27,7 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
     input match
       case "undo" => controller.doAndPublish(controller.undo); None
       case "redo" => controller.doAndPublish(controller.redo); None
-      case "dice" => controller.dice(); None
+      case "dice" => controller.doAndPublish(controller.dice); None
       case "move" => doMove();
       case "load" => load();
       case "save" => save();
