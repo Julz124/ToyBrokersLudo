@@ -353,6 +353,9 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
         val controller2: ControllerInterface = Controller(using Field(Matrix()))(using fileIO)
         controller2.startup(1)
         controller2.doAndPublish(controller.dice)
+        while (!controller2.getShouldDice) {
+          controller2.doAndPublish(controller.dice)
+        }
         controller2.doAndPublish(controller2.undo)
         controller2.doAndPublish(controller2.redo)
         controller2.getField.toString should equal(
