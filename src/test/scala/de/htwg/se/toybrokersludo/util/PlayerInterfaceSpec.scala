@@ -15,7 +15,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
 
   val matrix: Matrix = Matrix()
-  val field: FieldInterface = Field(matrix,GreenPlayer,1)
+  var field: FieldInterface = Field(matrix,GreenPlayer,1)
   val fileIO : FileIOInterface = FileIo()
   val controller: ControllerInterface = Controller(using field)(using fileIO)
 
@@ -77,6 +77,14 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
       playerR_pM.possibleMoves(6, field).toString() should equal("List(Move(R2,30), Move(R1,37))")
       playerB_pM.possibleMoves(6, field).toString() should equal("List(Move(B2,40), Move(B1,47))")
       playerY_pM.possibleMoves(6, field).toString() should equal("List(Move(Y2,50), Move(Y1,57))")
+    }
+
+    "get's possible moves, walk in endfields" in {
+      var field_end: FieldInterface = Field(matrix)
+      field_end = field_end.put(Move(PlayToken.apply(3, "G"), 70))
+      field_end = field_end.put(Move(PlayToken.apply(4, "G"), 73))
+
+      playerG_pM.possibleMoves(1, field_end).toString() should equal("List(Move(G3,71))")
     }
 
     "get's possible moves into endfields" in {
