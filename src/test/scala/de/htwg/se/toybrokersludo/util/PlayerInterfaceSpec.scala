@@ -15,7 +15,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
 
   val matrix: Matrix = Matrix()
-  var field: FieldInterface = Field(matrix,GreenPlayer,1)
+  var field: FieldInterface = Field(matrix)
   val fileIO : FileIOInterface = FileIo()
   val controller: ControllerInterface = Controller(using field)(using fileIO)
 
@@ -23,7 +23,6 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
 
   "player" should {
 
-    var field: FieldInterface = Field(matrix)
     val playerG_pM: PlayerInterface = GreenPlayer
     val playerR_pM: PlayerInterface = RedPlayer
     val playerB_pM: PlayerInterface = BluePlayer
@@ -88,21 +87,16 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "get's possible moves into endfields" in {
-      val matrix2: Matrix = Matrix()
-      matrix2.put(Move(PlayToken.apply(1,"G"),59))
-      matrix2.put(Move(PlayToken.apply(1,"R"),29))
-      matrix2.put(Move(PlayToken.apply(1,"B"),39))
-      matrix2.put(Move(PlayToken.apply(1,"Y"),49))
-      val field2: FieldInterface = Field(matrix2)
+      var field_intoEnd: FieldInterface = Field(matrix)
+      field_intoEnd = field_intoEnd.put(Move(PlayToken.apply(1,"G"),59))
+      field_intoEnd = field_intoEnd.put(Move(PlayToken.apply(1,"R"),29))
+      field_intoEnd = field_intoEnd.put(Move(PlayToken.apply(1,"B"),39))
+      field_intoEnd = field_intoEnd.put(Move(PlayToken.apply(1,"Y"),49))
 
-      val playerG_pM: PlayerInterface = GreenPlayer
-      playerG_pM.possibleMoves(2, field2) should be(List())
-      val playerR_pM: PlayerInterface = RedPlayer
-      playerR_pM.possibleMoves(2, field2) should be(List())
-      val playerB_pM: PlayerInterface = BluePlayer
-      playerB_pM.possibleMoves(2, field2) should be(List())
-      val playerY_pM: PlayerInterface = YellowPlayer
-      playerY_pM.possibleMoves(2, field2) should be(List())
+      playerG_pM.possibleMoves(2, field_intoEnd).toString() should be("List(Move(G1,71))")
+      playerR_pM.possibleMoves(2, field_intoEnd).toString() should be("List(Move(R1,75))")
+      playerB_pM.possibleMoves(2, field_intoEnd).toString() should be("List(Move(B1,79))")
+      playerY_pM.possibleMoves(2, field_intoEnd).toString() should be("List(Move(Y1,83))")
     }
 
     "get's default Fields" in {
