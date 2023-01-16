@@ -9,8 +9,8 @@ import de.htwg.se.toybrokersludo.util.Observer
 import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
 
 import scala.util.{Failure, Success, Try}
-import scala.swing.*
-import javax.swing.SpringLayout.Constraints
+import scala.swing.{BorderPanel, Dimension, Frame, *}
+import javax.swing.SpringLayout.{Constraints, VERTICAL_CENTER}
 import scala.swing
 import scala.swing.event.{ButtonClicked, MouseClicked}
 import javax.imageio.*
@@ -28,14 +28,13 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
 
   def menue() =
     contents = new BorderPanel {
-      add(new Label("Spieleranzahl auswählen"),
+      add(new Label("how many players?"),
         BorderPanel.Position.North
       )
       for (i <- 2 to 4) add(new Button(i + " Player") {
         listenTo(mouse.clicks)
         reactions += {
-          case e: MouseClicked =>
-            controller.startup(i)
+          case e: MouseClicked => controller.startup(i)
         }
       }, BorderPanel.Position.apply(i))
     }
@@ -49,13 +48,50 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
       contents += new MenuItem(Action("Exit") {
         sys.exit(0)
       })
+      contents += new MenuItem(Action("Load") {
+        load()
+      })
+      contents += new MenuItem(Action("Save") {
+        save()
+      })
     }
   }
   resizable = false
   pack()
   centerOnScreen()
   open()
+
+  def load() =
+    new MainFrame {
+      contents = new BorderPanel{
+        add(new Label("load"), BorderPanel.Position.North)
+        add(new BoxPanel(Orientation.Vertical) {
+          controller.getTargets().foreach((string : String) =>
+            contents += new Button(string) {
+              reactions += {
+                case e: ButtonClicked => controller.load(string); dispose()
+              }
+              listenTo(this)
+            }
+          )
+          contents += new Button("cancel") {
+            this.foreground = Color.BLUE
+            listenTo(this)
+            reactions += {
+              case e: ButtonClicked => dispose()
+            }
+          }
+        }, BorderPanel.Position.West)
+      resizable = false
+      pack()
+      centerOnScreen()
+      open()
+    }}
+
   
+  def save() =
+    controller.save(Dialog.showInput(contents.head, "save", initial = "") match
+      case Some(string: String) => string)
 
   override def update =
     contents = new BorderPanel {
@@ -76,8 +112,7 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
     listenTo(this)
     reactions += {
       case e: ButtonClicked =>
-        controller.dice()
-        update
+        controller.doAndPublish(controller.dice)
     }
   }
 
@@ -143,4 +178,6 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
           case Some(move: Move) => move)
       }
     }
+
+
 }

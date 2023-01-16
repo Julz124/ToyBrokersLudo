@@ -6,6 +6,7 @@ import de.htwg.se.toybrokersludo.util.Command
 
 class DiceCommander(field: FieldInterface, dice : Int) extends Command[FieldInterface] :
   override def doStep(field: FieldInterface): FieldInterface =
+    if (!field.getShouldDice) field
     var field2 : FieldInterface = field
     field2 = field2.dice(dice)
     if (field2.getPlayer.possibleMoves(dice, field2).nonEmpty) field2 = field2.invertDice()

@@ -4,8 +4,9 @@ import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.{Field, Matrix}
+import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
+import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
 import de.htwg.se.toybrokersludo.util.PlayerBaseImpl.{BluePlayer, GreenPlayer, RedPlayer, YellowPlayer}
-
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.should
@@ -14,7 +15,8 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
 
   val matrix: Matrix = Matrix()
   val field: FieldInterface = Field(matrix)
-  val controller: ControllerInterface = Controller(using field)
+  val fileIO : FileIOInterface = FileIo()
+  val controller: ControllerInterface = Controller(using field)(using fileIO)
 
   val eol = "\n"
 
@@ -98,8 +100,9 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
     }
 
     "can insert player into random field" in {
-      val field_p: FieldInterface = Field(matrix,GreenPlayer,1)
-      field_p.put(Move(PlayToken.apply(1, "B"), 20)).toString should be(
+      var field_p: FieldInterface = Field(matrix,GreenPlayer,1)
+      field_p = field_p.put(Move(PlayToken.apply(1, "B"), 20))
+      field_p.toString should be(
         "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -135,6 +138,56 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
           "Green Player have to dice"
       )
+    }
+
+    "can beat other player" in {
+      var field_bop: FieldInterface = Field(matrix)
+      field_bop = field_bop.put(Move(PlayToken.apply(1, "B"), 25))
+      field_bop = field_bop.put(Move(PlayToken.apply(1, "G"), 20))
+      field_bop = field_bop.move(Move(PlayToken.apply(1, "G"), 25))
+      field_bop.toString should be (
+        "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "                        +----++----++----+                        " + eol +
+          "                        |    ||    ||    |                        " + eol +
+          "                        +----++----++----+                        " + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "                        +----++----++----+                        " + eol +
+          "                        | G1 ||    ||    |                        " + eol +
+          "                        +----++----++----+                        " + eol +
+          "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+          "|    ||    ||    ||    ||    ||    ||    ||    ||    ||    ||    |" + eol +
+          "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+          "+----++----++----++----++----+      +----++----++----++----++----+" + eol +
+          "|    ||    ||    ||    ||    |      |    ||    ||    ||    ||    |" + eol +
+          "+----++----++----++----++----+      +----++----++----++----++----+" + eol +
+          "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+          "|    ||    ||    ||    ||    ||    ||    ||    ||    ||    ||    |" + eol +
+          "+----++----++----++----++----++----++----++----++----++----++----+" + eol +
+          "                        +----++----++----+                        " + eol +
+          "                        |    ||    ||    |                        " + eol +
+          "                        +----++----++----+                        " + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "|    |      |    |      |    ||    ||    |      | B1 |      |    |" + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "                        +----++----++----+                        " + eol +
+          "                        |    ||    ||    |                        " + eol +
+          "                        +----++----++----+                        " + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
+          "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
+          "Green Player have to dice"
+      )
+    }
+
+    "can get stone" in {
+      var field_gs: FieldInterface = Field(matrix)
+      field_gs = field_gs.put(Move(PlayToken.apply(1, "B"), 20))
+      matrix.getStone(20) should be (Stone(true,20,None))
+      matrix.getStone(30) should be (Stone(true,30,None))
     }
 
     "can invert dice" in {
@@ -177,6 +230,10 @@ class FieldInterfaceSpec extends AnyWordSpec with Matchers {
     "can get ShouldDice" in {
       val field_gSD: FieldInterface = Field(matrix,GreenPlayer,1)
       field_gSD.getShouldDice should be (true)
+    }
+
+    "can get a Stone" in  {
+      matrix.getStone(2) should equal(Stone(true, 2, None))
     }
 
   }
