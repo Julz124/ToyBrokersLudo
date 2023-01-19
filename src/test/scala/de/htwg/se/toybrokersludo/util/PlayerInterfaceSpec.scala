@@ -143,17 +143,6 @@ class PlayerInterfaceSpec extends AnyWordSpec with Matchers {
       playerY_lF.lastField() should be(YellowPlayer.lastField())
     }
 
-    "get's foo Fields" in {
-      val playerG_fF: PlayerInterface = GreenPlayer
-      playerG_fF.fooFields() should be(GreenPlayer.fooFields())
-      val playerR_fF: PlayerInterface = RedPlayer
-      playerR_fF.fooFields() should be(RedPlayer.fooFields())
-      val playerB_fF: PlayerInterface = BluePlayer
-      playerB_fF.fooFields() should be(BluePlayer.fooFields())
-      val playerY_fF: PlayerInterface = YellowPlayer
-      playerY_fF.fooFields() should be(YellowPlayer.fooFields())
-    }
-
     "get's player String" in {
       val playerG_pS: PlayerInterface = GreenPlayer
       playerG_pS.playerString should be(GreenPlayer.playerString)

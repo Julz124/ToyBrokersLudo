@@ -54,7 +54,6 @@ object GreenPlayer extends Player {
   override def startField(): Int = 20
   override def endFields(): List[Int] = List(70, 71, 72, 73)
   override def lastField(): Int = 59
-  override def fooFields(): List[Int] = Nil
   override def playerString = "G"
   override def toString(): String = "Green Player"
 }
@@ -64,7 +63,6 @@ object RedPlayer extends Player {
   override def startField(): Int = 30
   override def endFields(): List[Int] = List(74, 75, 76, 77)
   override def lastField(): Int = 29
-  override def fooFields(): List[Int] = (20 to 29).toList
   override def playerString = "R"
   override def toString(): String = "Red Player"
 }
@@ -74,7 +72,6 @@ object BluePlayer extends Player {
   override def startField(): Int = 40
   override def endFields(): List[Int] = List(78, 79, 80, 81)
   override def lastField(): Int = 39
-  override def fooFields(): List[Int] = (30 to 39).toList
   override def playerString = "B"
   override def toString(): String = "Blue Player"
 }
@@ -84,7 +81,6 @@ object YellowPlayer extends Player {
   override def startField(): Int = 50
   override def endFields(): List[Int] = List(82, 83, 84, 85)
   override def lastField(): Int = 49
-  override def fooFields(): List[Int] = (40 to 49).toList
   override def playerString = "Y"
   override def toString(): String = "Yellow Player"
 }
