@@ -8,11 +8,11 @@ case class Field(matrix: Matrix = Matrix() ,player: PlayerInterface = GreenPlaye
 
   def nextPlayer(): FieldInterface = //Interator Pattern
     player match
-      case GreenPlayer if (playerNumber < 2) => this.copy(player = GreenPlayer)
+      case GreenPlayer if playerNumber < 2 => this.copy(player = GreenPlayer)
       case GreenPlayer => this.copy(player = RedPlayer)
-      case RedPlayer if (playerNumber < 3) => this.copy(player = GreenPlayer)
+      case RedPlayer if playerNumber < 3 => this.copy(player = GreenPlayer)
       case RedPlayer => this.copy(player = BluePlayer)
-      case BluePlayer if (playerNumber < 4) => this.copy(player = GreenPlayer)
+      case BluePlayer if playerNumber < 4 => this.copy(player = GreenPlayer)
       case BluePlayer => this.copy(player = YellowPlayer)
       case YellowPlayer => this.copy(player = GreenPlayer)
 
