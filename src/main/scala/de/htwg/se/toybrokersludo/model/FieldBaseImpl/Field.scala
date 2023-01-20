@@ -48,7 +48,7 @@ case class Field(matrix: Matrix = Matrix() ,player: PlayerInterface = GreenPlaye
   override def toString: String =
     mash().mkString.appendedAll(shouldDice match
       case true => player.toString + " have to dice"
-      case false => player.toString + "have to move")
+      case false => player.toString + " have to move")
 
   def getMatrix: Matrix = matrix
 
