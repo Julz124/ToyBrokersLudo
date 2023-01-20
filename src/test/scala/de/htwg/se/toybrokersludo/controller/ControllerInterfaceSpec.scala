@@ -358,6 +358,8 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
         }
         controller2.doAndPublish(controller2.undo)
         controller2.doAndPublish(controller2.redo)
+        controller2.doAndPublish(controller2.undo)
+        controller2.doAndPublish(controller2.redo)
         controller2.getField.toString should equal(
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
             "| G1 |      | G2 |      |    ||    ||    |      |    |      |    |" + eol +
