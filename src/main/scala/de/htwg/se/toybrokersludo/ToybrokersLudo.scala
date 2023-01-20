@@ -26,10 +26,10 @@ import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
   given ControllerInterface = Controller(using field) (using fileIO)
   val controller : Controller = Controller(using field) (using fileIO)
   
-  //val gui = GUI(using controller)
+  val gui = GUI(using controller)
   val tui = TUI(using controller)
 
 
   // true for a menue and false for no one
-  //gui.run(true)
-  tui.run(true)
+  gui.run(true)
+  tui.run(false)
