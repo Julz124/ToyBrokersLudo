@@ -392,7 +392,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
             "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
             "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
             "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
-            "Green Player have to move"
+            "Green Player  have to move"
         )
     }
 
