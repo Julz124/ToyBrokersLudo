@@ -14,7 +14,7 @@ import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 
 import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
 
-@main def run: Unit =
+@main def main: Unit =
   println("welcome to Toybrokersludo")
   
   given FieldInterface = Field()
