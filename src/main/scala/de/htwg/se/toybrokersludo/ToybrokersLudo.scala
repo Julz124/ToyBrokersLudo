@@ -7,14 +7,14 @@ import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
 
 import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
-import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
+import de.htwg.se.toybrokersludo.model.FileIO.XmlImpl.FileIo
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 
 import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
 
-@main def run: Unit =
+@main def main: Unit =
   println("welcome to Toybrokersludo")
   
   given FieldInterface = Field()
@@ -26,8 +26,10 @@ import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
   given ControllerInterface = Controller(using field) (using fileIO)
   val controller : Controller = Controller(using field) (using fileIO)
   
-  val gui = GUI(using controller)
+  //val gui = GUI(using controller)
   val tui = TUI(using controller)
 
-  gui.run(true)
-  tui.run()
+
+  // true for a menue and false for no one
+  //gui.run(true)
+  tui.run(true)

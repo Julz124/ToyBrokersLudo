@@ -353,9 +353,12 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
         val controller2: ControllerInterface = Controller(using Field(Matrix()))(using fileIO)
         controller2.startup(1)
         controller2.doAndPublish(controller.dice)
+        while (controller2.getShouldDice) {
+          controller2.doAndPublish(controller.dice)
+        }
         controller2.doAndPublish(controller2.undo)
         controller2.doAndPublish(controller2.redo)
-        controller2.getField.toString should be(
+        controller2.getField.toString should equal(
           "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
             "| G1 |      | G2 |      |    ||    ||    |      |    |      |    |" + eol +
             "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
@@ -389,7 +392,7 @@ class ControllerInterfaceSpec extends AnyWordSpec with Matchers {
             "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
             "|    |      |    |      |    ||    ||    |      |    |      |    |" + eol +
             "+----+      +----+      +----++----++----+      +----+      +----+" + eol +
-            "Green Player have to dice"
+            "Green Player have to move"
         )
     }
 

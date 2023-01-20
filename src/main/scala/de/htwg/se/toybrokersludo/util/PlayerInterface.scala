@@ -14,7 +14,5 @@ trait PlayerInterface {
 
   def lastField(): Int
 
-  def fooFields(): List[Int]
-
   def playerString: String
 }
