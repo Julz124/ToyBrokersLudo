@@ -42,8 +42,8 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
     while (options.size <= input) {println ("choose one move")
       input = readLine().toInt
     } 
-  controller.doAndPublish (controller.move, options (input)) 
-  None
+    controller.doAndPublish (controller.move, options (input)) 
+    None
 
   def load() : None.type =
     controller.getTargets().appended("choose between:").reverse.foreach((e : String) => println(e))
