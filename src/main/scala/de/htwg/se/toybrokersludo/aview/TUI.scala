@@ -4,7 +4,6 @@ import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.model
 import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.util.Observer
-
 import scala.util.{Failure, Success, Try}
 import scala.collection.mutable
 import scala.io.StdIn.readLine
@@ -21,7 +20,6 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
     }
     controller.startup(input.toInt)
       
-
   def analyseInput(input: String): Try[Option[Move]] = Try {
     val pattern = "((B|R|Y|G)\\s[0-4]\\s[0-9]{1,2})".r
     input match
@@ -36,7 +34,6 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
           input.split(" ")(0)), input.split(" ")(2).toInt))
   }
 
-
   def doMove(): None.type =
     val options = controller.getPossibleMoves(controller.getDice)
     if (options.isEmpty) throw new IllegalStateException()
@@ -44,9 +41,7 @@ class TUI(using controller: ControllerInterface) extends UI(controller) {
     var input = readLine().toInt
     while (options.size <= input) {println ("choose one move")
       input = readLine().toInt
-    }
-    controller.doAndPublish (controller.move, options (input))
-    None
+    } controller.doAndPublish (controller.move, options (input)) None
 
   def load() : None.type =
     controller.getTargets().appended("choose between:").reverse.foreach((e : String) => println(e))
