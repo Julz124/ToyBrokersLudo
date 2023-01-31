@@ -117,6 +117,8 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
   }
 
 
+
+
   def gamePanal : GridBagPanel =
     new GridBagPanel {
       background = Color.white

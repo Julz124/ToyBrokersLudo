@@ -11,7 +11,6 @@ trait Token {
     getNumber() == token.getNumber() && getColor().equals(token.getColor())
 }
 
-
 object PlayToken {
   def apply(number : Int, color : String) : Token = {
     (List (1, 2, 3, 4).contains (number) && List ("G", "R", "B", "Y").contains (color)) match

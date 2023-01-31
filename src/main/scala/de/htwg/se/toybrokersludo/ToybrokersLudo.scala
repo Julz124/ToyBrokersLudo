@@ -29,7 +29,6 @@ import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
   val gui = GUI(using controller)
   val tui = TUI(using controller)
 
-
   // true for a menue and false for no one
   gui.run(true)
   tui.run(false)
