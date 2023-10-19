@@ -75,17 +75,18 @@ case class Matrix(var map: List[List[Stone]] = List(
   }
 
 
-
   def move(move: Move): Matrix = {
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
     stone.token match {
-      case Some(token: Token) => List(GreenPlayer, RedPlayer, BluePlayer, YellowPlayer)
+      case Some(token: Token)
+      => List(GreenPlayer, RedPlayer, BluePlayer, YellowPlayer)
         .find((player: PlayerInterface) => player.playerString.equals(token.getColor())) match {
-        case Some(player: PlayerInterface) => this.copy(put(Move(token,
+        case Some(player: PlayerInterface)
+        => this.copy(put(Move(token,
           player.defaultField()(token.getNumber() - 1))).pull(move).put(move).map)
-        case None => this.copy(pull(move).put(move).getMap)
       }
+      case None => this.copy(pull(move).put(move).getMap)
     }
   }
 
