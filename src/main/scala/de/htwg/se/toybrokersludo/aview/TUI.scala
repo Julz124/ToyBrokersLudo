@@ -11,8 +11,7 @@ import scala.io.StdIn.readLine
 class TUI(controller: ControllerInterface) extends UI {
 
   controller.add(this)
-
-  this.run(true)
+  controller.startup(4)
 
   override def update = println(controller.getField.toString)
 

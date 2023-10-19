@@ -49,19 +49,21 @@ class Controller(var field: FieldInterface, val fieleIO : FileIOInterface) exten
   }
 
 
-  override def getPossibleMoves(dice: Int): List[Move] =
+  override def getPossibleMoves(dice: Int): List[Move] = {
     if (getShouldDice) Nil
-    else field.getPlayer.possibleMoves(dice, field)
+    else field.getPlayer.possibleMoves (dice, field)
+  }
 
 
-
-  override def doAndPublish(doThis: Move => FieldInterface, move: Move) =
+  override def doAndPublish(doThis: Move => FieldInterface, move: Move) = {
     field = doThis(move)
     notifyObservers
+  }
 
-  override def doAndPublish(doThis: FieldInterface => FieldInterface) =
+  override def doAndPublish(doThis: FieldInterface => FieldInterface) = {
     field = doThis(field)
     notifyObservers
+  }
 
   val undoManager: UndoManager[FieldInterface] = new UndoManager()
 

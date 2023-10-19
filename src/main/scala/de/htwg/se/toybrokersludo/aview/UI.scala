@@ -8,13 +8,6 @@ import scala.util.{Try,Success,Failure}
 
 trait UI extends Observer {
 
-  def run(makeMenue : Boolean = false): Unit = {
-    if (makeMenue) {
-      menue()
-    }
-    inputLoop ()
-  }
-
   def menue(): Unit
 
   def inputLoop(): Unit
