@@ -1,17 +1,15 @@
-package de.htwg.se.toybrokersludo.controller.controllerBaseImpl
+package de.htwg.se.toybrokersludo.controller
 
-import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
+
+import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.{DiceCommander, MoveCommander}
 import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
-import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
 import de.htwg.se.toybrokersludo.model.{FieldInterface, Move, PlayToken}
-import de.htwg.se.toybrokersludo.util.UndoManager
-import de.htwg.se.toybrokersludo.model.given FieldInterface
-import de.htwg.se.toybrokersludo.model.given FileIOInterface
 
 import scala.util.Random
+import de.htwg.se.toybrokersludo.util.UndoManager
 
-class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInterface) extends ControllerInterface {
+
+class Controller(var field: FieldInterface, val fieleIO : FileIOInterface) extends ControllerInterface {
   
   override def getShouldDice = field.getShouldDice
 
@@ -23,7 +21,7 @@ class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInt
 
   override def getField = field
 
-  override def startup(spieler: Int) =
+  override def startup(spieler: Int) = {
     spieler match {
       case 1 =>
         for (move <- startGreen()) field = field.put(move)
@@ -48,6 +46,7 @@ class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInt
     */
     field = field.numberPlayer(spieler)
     notifyObservers
+  }
 
 
   override def getPossibleMoves(dice: Int): List[Move] =
@@ -64,7 +63,7 @@ class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInt
     field = doThis(field)
     notifyObservers
 
-  val undoManager = UndoManager[FieldInterface]
+  val undoManager: UndoManager[FieldInterface] = new UndoManager()
 
   def put(move: Move): FieldInterface = field.put(move)
 
@@ -72,7 +71,7 @@ class Controller(using var field: FieldInterface) (using val fieleIO : FileIOInt
     undoManager.doStep(field, MoveCommander(field, move))
 
   override def dice(field: FieldInterface) : FieldInterface =
-    undoManager.doStep(field, DiceCommander(field, (Random().nextDouble() * 6).toInt + 1))
+    undoManager.doStep(field, new DiceCommander(field, (new Random().nextDouble() * 6).toInt + 1))
 
   override def undo(field: FieldInterface): FieldInterface = undoManager.undoStep(field)
 

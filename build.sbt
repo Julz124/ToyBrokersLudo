@@ -1,11 +1,11 @@
-val scala3Version = "3.1.3"
+val scala2Version = "2.13.12"
 
 lazy val root = project
   .in(file("."))
   .settings(
     name := "ToyBrokersLudo",
     version := "0.1.0-SNAPSHOT",
-    scalaVersion := scala3Version,
+    scalaVersion := scala2Version,
     javacOptions ++= Seq("-encoding", "UTF-8"),
     libraryDependencies ++= Seq(
       "org.scalactic" %% "scalactic" % "3.2.13",
@@ -29,6 +29,16 @@ lazy val root = project
     jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
     jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
     jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
-
   )
   .enablePlugins(JacocoCoverallsPlugin)
+
+assemblyMergeStrategy in assembly := {
+  case PathList("module-info.class") => MergeStrategy.discard
+  case x => (assemblyMergeStrategy in assembly).value(x)
+}
+
+
+
+
+
+

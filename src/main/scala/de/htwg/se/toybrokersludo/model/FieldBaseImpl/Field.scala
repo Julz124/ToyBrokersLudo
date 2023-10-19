@@ -7,8 +7,8 @@ import de.htwg.se.toybrokersludo.util.PlayerInterface
 case class Field(matrix: Matrix = Matrix() ,player: PlayerInterface = GreenPlayer, playerNumber: Int = 0, dice: Int = 6,
                  shouldDice: Boolean = true) extends FieldInterface {
 
-  def nextPlayer(): FieldInterface = //Interator Pattern
-    player match
+  def nextPlayer(): FieldInterface = { //Interator Pattern
+    player match {
       case GreenPlayer if playerNumber < 2 => this.copy(player = GreenPlayer)
       case GreenPlayer => this.copy(player = RedPlayer)
       case RedPlayer if playerNumber < 3 => this.copy(player = GreenPlayer)
@@ -16,6 +16,8 @@ case class Field(matrix: Matrix = Matrix() ,player: PlayerInterface = GreenPlaye
       case BluePlayer if playerNumber < 4 => this.copy(player = GreenPlayer)
       case BluePlayer => this.copy(player = YellowPlayer)
       case YellowPlayer => this.copy(player = GreenPlayer)
+    }
+  }
 
   def numberPlayer(number: Int): FieldInterface =
     this.copy(playerNumber = number)
@@ -46,9 +48,10 @@ case class Field(matrix: Matrix = Matrix() ,player: PlayerInterface = GreenPlaye
   def move(move: Move): Field = this.copy(matrix.move(move))
 
   override def toString: String =
-    mash().mkString.appendedAll(shouldDice match
+    mash().mkString.appendedAll(shouldDice match {
       case true => player.toString + " have to dice"
-      case false => player.toString + " have to move")
+      case false => player.toString + " have to move"})
+
 
   def getMatrix: Matrix = matrix
 

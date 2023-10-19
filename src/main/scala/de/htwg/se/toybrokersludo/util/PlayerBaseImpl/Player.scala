@@ -7,46 +7,51 @@ import scala.language.postfixOps
 
 abstract class Player() extends PlayerInterface {
 
-  def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] =
+  def possibleMoves(diceroll: Int, field: FieldInterface): List[Move] = {
     val tokens: List[Move] = field.getMatrix.getToken
     var possible: List[Move] = Nil
     if (diceroll == 6) {
-      possible = possible ::: tokens.filter((move: Move) => (move.token.getColor().equals(playerString)
-        && defaultField().contains(move.number)
-        && !getTokens(field).exists((move: Move) => move.number == startField())))
-        .map((move: Move) => move.copy(number = startField()))
-    }
-    possible = possible ::: tokens.filter((move: Move) => move.token.getColor().equals(playerString)
-      && !getTokens(field).exists((move2: Move) => add(move.number, diceroll) match
-      case Some(result: Int) => result.equals(move2.number)
-      case None => true)
-      && !defaultField().contains(move.number))
-      .map((move: Move) => move.copy(number = add(move.number, diceroll) match
-        case Some(result: Int) => result
-      ))
+    possible = possible ::: tokens.filter ((move: Move) => (move.token.getColor ().equals (playerString)
+    && defaultField ().contains (move.number)
+    && ! getTokens (field).exists ((move: Move) => move.number == startField () ) ) )
+  .map ((move: Move) => move.copy (number = startField () ) )
+  }
+    possible = possible ::: tokens.filter ((move: Move) => move.token.getColor ().equals (playerString)
+    && ! getTokens (field).exists ((move2: Move) => add (move.number, diceroll) match {
+    case Some (result: Int) => result.equals (move2.number)
+    case None => true})
+    && ! defaultField ().contains (move.number) )
+  .map ((move: Move) => move.copy (number = add (move.number, diceroll) match {
+    case Some (result: Int) => result }
+    ) )
     possible
+  }
 
   def getTokens(field: FieldInterface) =
     field.getMatrix.getToken.filter((move: Move) => move.token.getColor().equals(playerString))
 
 
-  def add(from: Int, dice: Int): Option[Int] =
-    if (endFields().contains(from))
-      endFields().contains(from + dice) match
-        case true => Some(from + dice)
-        case false => None
-    else if (goOverEnd(from, dice))
-      from + dice - lastField() <= endFields().size match
-        case true => Some(endFields()(from + dice - lastField() - 1))
-        case false => None
-    else if (from + dice > GreenPlayer.lastField()) Some(from + dice - 40)
-    else Some(from + dice)
+  def add(from: Int, dice: Int): Option[Int] = {
+    if (endFields ().contains (from) )
+    endFields ().contains (from + dice) match {
+      case true => Some(from + dice)
+      case false => None
+    }
+    else if (goOverEnd (from, dice) )
+    from + dice - lastField () <= endFields ().size match {
+      case true => Some(endFields()(from + dice - lastField() - 1))
+      case false => None
+    }
+    else if (from + dice > GreenPlayer.lastField () ) Some (from + dice - 40)
+    else Some (from + dice)
+  }
 
 
   def goOverEnd(from: Int, dice : Int) =
-    this match
+    this match {
       case GreenPlayer => from + dice > GreenPlayer.lastField()
       case _ => lastField() >= from && lastField() < from + dice
+    }
 }
 
 object GreenPlayer extends Player {

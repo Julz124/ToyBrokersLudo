@@ -51,50 +51,55 @@ case class Matrix(var map: List[List[Stone]] = List(
     Stone(false, -1, None), Stone(true, 14, None), Stone(false, -1, None), Stone(true, 15, None)),
 )) {
 
-  def put(move: Move): Matrix =
+  def put(move: Move): Matrix = {
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
     val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.index == move.number),
       Stone(stone.isAPlayField, stone.index, Option(move.token)))
     this.copy(map.updated(a, list))
+}
 
 
-  def pull(move: Move): Matrix =
-    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.token match
-      case Some(player: Token) => player.equals(move.token)
-      case None => false))
-    val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.token match
-      case Some(player: Token) => player.equals(move.token)
-      case None => false))
-    val list = map(a).updated(map(a).indexWhere((stone: Stone) => stone.token match
-      case Some(player: Token) => player.equals(move.token)
-      case None => false),
-      Stone(stone.isAPlayField, stone.index, None))
-    this.copy(map.updated(a, list))
+  def pull(move: Move): Matrix = {
+    val a = map.indexWhere ((list: List[Stone] ) => list.exists ((stone: Stone) => stone.token match {
+    case Some (player: Token) => player.equals (move.token)
+    case None => false }) )
+    val stone = map (a) (map (a).indexWhere ((stone: Stone) => stone.token match {
+    case Some (player: Token) => player.equals (move.token)
+    case None => false }) )
+    val list = map (a).updated (map (a).indexWhere ((stone: Stone) => stone.token match {
+    case Some (player: Token) => player.equals (move.token)
+    case None => false }),
+    Stone (stone.isAPlayField, stone.index, None) )
+    this.copy (map.updated (a, list) )
+  }
 
 
 
   def move(move: Move): Matrix = {
     val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == move.number))
     val stone = map(a)(map(a).indexWhere((stone: Stone) => stone.index == move.number))
-    stone.token match
+    stone.token match {
       case Some(token: Token) => List(GreenPlayer, RedPlayer, BluePlayer, YellowPlayer)
-        .find((player: PlayerInterface) => player.playerString.equals(token.getColor())) match
-        case Some(player : PlayerInterface) => this.copy(put(Move(token,
+        .find((player: PlayerInterface) => player.playerString.equals(token.getColor())) match {
+        case Some(player: PlayerInterface) => this.copy(put(Move(token,
           player.defaultField()(token.getNumber() - 1))).pull(move).put(move).map)
-      case None => this.copy(pull(move).put(move).getMap)
+        case None => this.copy(pull(move).put(move).getMap)
+      }
+    }
   }
 
 
 
   def getToken: List[Move] =
-    map.flatten.filter((stone: Stone) => stone.token != None).map((stone: Stone) => Move(stone.token match
-      case Some(playToken: Token) => playToken
+    map.flatten.filter((stone: Stone) => stone.token != None).map((stone: Stone) => Move(stone.token match {
+      case Some(playToken: Token) => playToken }
         , stone.index))
 
-  def getStone(index: Int): Stone =
-    val a = map.indexWhere((list: List[Stone]) => list.exists((stone: Stone) => stone.index == index))
-    map(a)(map(a).indexWhere((stone: Stone) => stone.index == index))
+  def getStone(index: Int): Stone = {
+    val a = map.indexWhere ((list: List[Stone] ) => list.exists ((stone: Stone) => stone.index == index) )
+    map (a) (map (a).indexWhere ((stone: Stone) => stone.index == index) )
+  }
 
   def getMap = map
 

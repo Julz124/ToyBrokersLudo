@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.aview
 
 
-
+/*
 import de.htwg.se.toybrokersludo.aview.UI
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Stone, Token}
@@ -20,7 +20,7 @@ import java.awt.Color
 import scala.runtime.BoxesRunTime.add
 
 
-class GUI(using controller: ControllerInterface) extends Frame with UI(controller) {
+class GUI(controller: ControllerInterface) extends Frame with UI(controller) {
 
   override def inputLoop(): Unit = None
 
@@ -183,3 +183,4 @@ class GUI(using controller: ControllerInterface) extends Frame with UI(controlle
 
 
 }
+*/

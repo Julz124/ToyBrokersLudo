@@ -1,11 +1,14 @@
 package de.htwg.se.toybrokersludo.util
 
-class UndoManager[T]:
+class UndoManager[T] {
   private var undoStack: List[Command[T]] = Nil
   private var redoStack: List[Command[T]] = Nil
-  def doStep(t: T, command: Command[T]): T =
+
+  def doStep(t: T, command: Command[T]): T = {
     undoStack = command :: undoStack
-    command.doStep(t)
+    command.doStep (t)
+  }
+
   def undoStep(t: T): T =
     undoStack match {
       case Nil => t
@@ -16,6 +19,7 @@ class UndoManager[T]:
         result
       }
     }
+
   def redoStep(t: T): T =
     redoStack match {
       case Nil => t
@@ -26,3 +30,4 @@ class UndoManager[T]:
         result
       }
     }
+}

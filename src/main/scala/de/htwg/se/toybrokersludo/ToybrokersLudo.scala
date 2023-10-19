@@ -1,34 +1,20 @@
 package de.htwg.se.toybrokersludo
 
-import javax.naming.ldap.Control
-
-
-import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
+import de.htwg.se.toybrokersludo.model.FileIO.JsonImpl.FileIo
+import de.htwg.se.toybrokersludo.aview.{TUI}
+import de.htwg.se.toybrokersludo.controller.Controller
 
-import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
-import de.htwg.se.toybrokersludo.model.FileIO.XmlImpl.FileIo
+object Main {
+  def main(args: Array[String]): Unit = {
+    println("welcome to Toybrokersludo")
 
-import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
+    val field: Field = Field()
 
-import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
+    val fileIO: FileIo = FileIo()
 
-@main def main: Unit =
-  println("welcome to Toybrokersludo")
-  
-  given FieldInterface = Field()
-  val field : Field = Field()
+    val controller: Controller = new Controller(field, fileIO)
 
-  given FileIOInterface : FileIo()
-  val fileIO : FileIo = FileIo()
-  
-  given ControllerInterface = Controller(using field) (using fileIO)
-  val controller : Controller = Controller(using field) (using fileIO)
-  
-  val gui = GUI(using controller)
-  val tui = TUI(using controller)
-
-  // true for a menue and false for no one
-  gui.run(true)
-  tui.run(false)
+    val tui = new TUI(controller)
+  }
+}

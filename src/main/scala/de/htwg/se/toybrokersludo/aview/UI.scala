@@ -1,18 +1,19 @@
 package de.htwg.se.toybrokersludo.aview
 
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
 import de.htwg.se.toybrokersludo.model.{Move, PlayToken, Token}
 import de.htwg.se.toybrokersludo.util.Observer
 
 import scala.util.{Try,Success,Failure}
 
-trait UI (controller: ControllerInterface) extends Observer {
-  controller.add(this)
+trait UI extends Observer {
 
-  def run(makeMenue : Boolean = false): Unit =
-    if (makeMenue) menue()
-    inputLoop()
+  def run(makeMenue : Boolean = false): Unit = {
+    if (makeMenue) {
+      menue()
+    }
+    inputLoop ()
+  }
 
   def menue(): Unit
 
