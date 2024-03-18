@@ -1,13 +1,10 @@
 package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo
-import de.htwg.se.toybrokersludo.model.{Cell, Dice}
+import de.htwg.se.toybrokersludo.model.Cell
 import Player.{Blue, Green, Red, Yellow}
 
-import scala.util.Random
-
-case class GameField(map: Map[(Int, Int), Cell], currentPlayer: Player, dice: Dice)  {
-
+case class GameField(map: Map[(Int, Int), Cell], gameState: GameState) {
   def move(move: Move): GameField =
     GameField(
       map.map { case ((x, y), cell) =>
@@ -17,20 +14,10 @@ case class GameField(map: Map[(Int, Int), Cell], currentPlayer: Player, dice: Di
           cell.copy(token = map.find(_._2.index == move.fromIndex).flatMap(_._2.token))
         else (x, y) ->
           cell
-      },
-      currentPlayer,
-      dice
+      }, gameState.computeMove(map.find(_._2.index == move.fromIndex).flatMap(_._2.token).get.player)
     )
 
-  def nextPlayer(): GameField =
-    currentPlayer match
-      case Green => toybrokersludo.model.GameField(map, Red, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-      case Red => toybrokersludo.model.GameField(map, Blue, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-      case Blue => toybrokersludo.model.GameField(map, Yellow, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-      case Yellow => toybrokersludo.model.GameField(map, Green, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-
-  def rollDice(): GameField =
-    GameField(map, currentPlayer, Dice(shouldDice = false, diceNumber = Random.nextInt(6) + 1))
+  def rollDice: GameField = this.copy(gameState = gameState.rollDice(map))
 
   override def toString: String =
     map.keys.toList.sortBy(key => (key._2, key._1))
@@ -38,7 +25,9 @@ case class GameField(map: Map[(Int, Int), Cell], currentPlayer: Player, dice: Di
       .grouped(map.keys.map(_._1).max + 1)
       .map(_.mkString(""))
       .mkString("\n") +
-      s"\nCurrent Player: $currentPlayer\nDice: $dice"
+      s"\nCurrent Player: ${gameState.currentPlayer}\n" +
+      s"Should Dice: ${gameState.shouldDice}\n" +
+      s"Dice: ${gameState.diceNumber}"
 }
 
 object GameField {
@@ -138,8 +127,6 @@ object GameField {
         case _ => Cell(isAPlayField = false, index = -1, token = None)
       }
       (x, y) -> cellValue
-    }).toMap,
-      Player.Green,
-      Dice(shouldDice = true, diceNumber = 0)
+    }).toMap, GameState(shouldDice = true, diceNumber = 0, currentPlayer = Green)
     )
 }

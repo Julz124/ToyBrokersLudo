@@ -1,8 +1,7 @@
-package de.htwg.se.toybrokersludo.neu.view
+package de.htwg.se.toybrokersludo.aview
 
 import de.htwg.se.toybrokersludo.controller.Controller
-import de.htwg.se.toybrokersludo.util.Observer
-
+import de.htwg.se.toybrokersludo.util.{Observer, possibleMoves}
 import scala.io.StdIn.readLine
 import scala.util.Try
 
@@ -10,24 +9,24 @@ class Tui(using controller: Controller) extends Observer {
   controller.add(this)
   println(controller.getGameField.toString)
 
-  override def update = println(controller.getGameField.toString)
+  override def update(): Unit = println(controller.getGameField.toString)
 
   def inputLoop(): Unit =
     analyseInput(readLine())
     inputLoop()
 
-  def analyseInput(input: String): Unit =
+  private def analyseInput(input: String): Unit =
     input match
-      case "undo" =>
-      case "redo" =>
+      case "undo" => controller.undo()
+      case "redo" => controller.redo()
       case "dice" => controller.dice()
       case "move" => doMove()
       case "load" =>
       case "save" =>
       case _ => println(input + " is not a valid command")
 
-  def doMove(): Unit =
-    val options = controller.possibleMoves(controller.getGameField)
+  private def doMove(): Unit =
+    val options = possibleMoves(controller.getGameField)
     if (options.isEmpty) return
     println("choose between: " + options)
     var input = readLine().toInt

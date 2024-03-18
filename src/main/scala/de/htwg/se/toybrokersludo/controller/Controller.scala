@@ -5,7 +5,8 @@ import de.htwg.se.toybrokersludo.util.Observable
 
 trait Controller extends Observable{
   def getGameField: GameField
-  def possibleMoves(gameField: GameField): List[Move]
   def makeMove(move: Move): Unit
+  def undo(): Unit
+  def redo(): Unit
   def dice(): Unit
 }

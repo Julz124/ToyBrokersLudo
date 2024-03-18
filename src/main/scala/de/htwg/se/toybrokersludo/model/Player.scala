@@ -6,12 +6,20 @@ enum Player(val color: String) {
   case Yellow extends Player("Yellow")
   case Green extends Player("Green")
 
+  def next: Player =
+    this match {
+      case Player.Green => Player.Red
+      case Player.Red => Player.Blue
+      case Player.Blue => Player.Yellow
+      case Player.Yellow => Player.Red
+    }
+
   def firstCellIndex: Int =
     this match {
       case Player.Green => 20
       case Player.Red => 30
-      case Player.Yellow => 40
-      case Player.Blue => 50
+      case Player.Yellow => 50
+      case Player.Blue => 40
     }
 
   def lastCellIndex(): Int =
