@@ -1,21 +1,24 @@
 package de.htwg.se.toybrokersludo
 
 import javax.naming.ldap.Control
-
-
 import de.htwg.se.toybrokersludo.model.FieldInterface
 import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
-
 import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
 import de.htwg.se.toybrokersludo.model.FileIO.XmlImpl.FileIo
-
 import de.htwg.se.toybrokersludo.controller.ControllerInterface
 import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
-
 import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
+import de.htwg.se.toybrokersludo.neu.model.{GameField, Move}
 
-@main def main: Unit =
+@main def main(): Unit =
   println("welcome to Toybrokersludo")
+
+  val controller: de.htwg.se.toybrokersludo.neu.controller.Controller = de.htwg.se.toybrokersludo.neu.controller.impl.DefaultController()
+  val tui = de.htwg.se.toybrokersludo.neu.view.Tui(using controller)
+
+  tui.inputLoop()
+
+  /*
   
   given FieldInterface = Field()
   val field : Field = Field()
@@ -32,3 +35,4 @@ import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
   // true for a menue and false for no one
   gui.run(true)
   tui.run(false)
+   */
