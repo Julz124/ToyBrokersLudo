@@ -1,8 +1,8 @@
-package de.htwg.se.toybrokersludo.neu.controller.impl
+package de.htwg.se.toybrokersludo.controller.impl
 
-import de.htwg.se.toybrokersludo.neu.controller.Controller
-import de.htwg.se.toybrokersludo.neu.model.Player.{Blue, Green, Red, Yellow}
-import de.htwg.se.toybrokersludo.neu.model.{Cell, Dice, GameField, Move, Token}
+import de.htwg.se.toybrokersludo.controller.Controller
+import de.htwg.se.toybrokersludo.model.{Cell, Dice, GameField, Move, Token}
+import de.htwg.se.toybrokersludo.model.Player.{Blue, Green, Red, Yellow}
 
 class DefaultController extends Controller with PossibleMovesExtension {
 

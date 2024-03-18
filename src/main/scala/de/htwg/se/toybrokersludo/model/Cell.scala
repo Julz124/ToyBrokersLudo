@@ -1,6 +1,4 @@
-package de.htwg.se.toybrokersludo.neu.model
-
-import de.htwg.se.toybrokersludo.neu.model.Token
+package de.htwg.se.toybrokersludo.model
 
 case class Cell(isAPlayField: Boolean, index: Int, token: Option[Token]) {
   override def toString: String = {

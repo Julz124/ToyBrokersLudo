@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.neu.model
+package de.htwg.se.toybrokersludo.model
 
 enum Player(val color: String) {
   case Red extends Player("Red")

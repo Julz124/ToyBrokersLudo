@@ -1,6 +1,6 @@
-package de.htwg.se.toybrokersludo.neu.controller.impl
+package de.htwg.se.toybrokersludo.controller.impl
 
-import de.htwg.se.toybrokersludo.neu.model.{Cell, Dice, GameField, Move, Player}
+import de.htwg.se.toybrokersludo.model.{Cell, Dice, GameField, Move, Player}
 
 trait PossibleMovesExtension {
   this: DefaultController =>

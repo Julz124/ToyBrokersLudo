@@ -1,7 +1,9 @@
-package de.htwg.se.toybrokersludo.neu.model
+package de.htwg.se.toybrokersludo.model
 
-import de.htwg.se.toybrokersludo.neu.model
-import de.htwg.se.toybrokersludo.neu.model.Player.{Blue, Green, Red, Yellow}
+import de.htwg.se.toybrokersludo
+import de.htwg.se.toybrokersludo.model.{Cell, Dice}
+import Player.{Blue, Green, Red, Yellow}
+
 import scala.util.Random
 
 case class GameField(map: Map[(Int, Int), Cell], currentPlayer: Player, dice: Dice)  {
@@ -22,10 +24,10 @@ case class GameField(map: Map[(Int, Int), Cell], currentPlayer: Player, dice: Di
 
   def nextPlayer(): GameField =
     currentPlayer match
-      case Green => GameField(map, Red, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-      case Red => GameField(map, Blue, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-      case Blue => GameField(map, Yellow, Dice(shouldDice = true, diceNumber = dice.diceNumber))
-      case Yellow => GameField(map, Green, Dice(shouldDice = true, diceNumber = dice.diceNumber))
+      case Green => toybrokersludo.model.GameField(map, Red, Dice(shouldDice = true, diceNumber = dice.diceNumber))
+      case Red => toybrokersludo.model.GameField(map, Blue, Dice(shouldDice = true, diceNumber = dice.diceNumber))
+      case Blue => toybrokersludo.model.GameField(map, Yellow, Dice(shouldDice = true, diceNumber = dice.diceNumber))
+      case Yellow => toybrokersludo.model.GameField(map, Green, Dice(shouldDice = true, diceNumber = dice.diceNumber))
 
   def rollDice(): GameField =
     GameField(map, currentPlayer, Dice(shouldDice = false, diceNumber = Random.nextInt(6) + 1))
