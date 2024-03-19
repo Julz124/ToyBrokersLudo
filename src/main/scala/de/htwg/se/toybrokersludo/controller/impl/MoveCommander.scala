@@ -5,7 +5,7 @@ import de.htwg.se.toybrokersludo.util.Command
 
 import scala.util.Random
 
-class MoveCommander(moves: List[Move], var gameState: GameState) extends Command[GameField] :
+class MoveCommander(moves: List[Move], var gameState: GameState) extends Command[GameField]:
   override def doStep(gameField: GameField): GameField =
     gameState = gameField.gameState
     moves.foldLeft(gameField)((currentGameField, move) => 

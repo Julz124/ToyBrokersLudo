@@ -26,3 +26,7 @@ class UndoManager[T]:
         result
       }
     }
+  
+  def clear(): Unit =
+    undoStack = List()
+    redoStack = List()

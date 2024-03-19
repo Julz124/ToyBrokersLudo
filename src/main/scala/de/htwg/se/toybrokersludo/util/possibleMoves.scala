@@ -9,6 +9,7 @@ def possibleMoves(gameField: GameField): List[Move] =
     .map(cell => mapToMove(cell, gameField.gameState) )
     .toList
 
+
 private def hasTokenFromCurrentPlayer(cell: Cell, currentPlayer: Player): Boolean =
   cell.token match {
     case Some(token) => token.player == currentPlayer
@@ -16,26 +17,20 @@ private def hasTokenFromCurrentPlayer(cell: Cell, currentPlayer: Player): Boolea
   }
 
 private def moveOffsetIsLegal(cell: Cell, gameField: GameField): Boolean =
-  if cell.index < 20 then
-    gameField.gameState.diceNumber == 6
-  else
-    gameField.gameState match {
-      case GameState(true, _, _) =>
-        false
-      case GameState(false, 6, _) =>
-        gameField.map.find(cell =>
-          cell._2.index == gameField.gameState.currentPlayer.firstCellIndex).get._2.token match {
-          case Some(token) => token.player != gameField.gameState.currentPlayer
-          case None => true
-        }
-      case GameState(false, number, _) =>
-        add(gameField.gameState.currentPlayer, cell.index, gameField.gameState.diceNumber) match
-          case None => false
-          case Some(newIndex) => gameField.map.find(cell =>
-            cell._2.index == newIndex).get._2.token match {
-            case Some(token) => token.player == gameField.gameState.currentPlayer
-            case None => true
-          }
+  if (cell.index < 20) {
+    if (gameField.gameState.diceNumber != 6) return false
+    gameField.map.values.find(cell =>
+      cell.index == gameField.gameState.currentPlayer.firstCellIndex
+    ).get.token match
+      case Some(token) => return token.player != gameField.gameState.currentPlayer
+      case None => return true
+  }
+  add(gameField.gameState.currentPlayer, cell.index, gameField.gameState.diceNumber) match
+    case None => false
+    case Some(newIndex) => gameField.map.find(cell =>
+      cell._2.index == newIndex).get._2.token match {
+      case Some(token) => token.player == gameField.gameState.currentPlayer
+      case None => true
     }
 
 private def mapToMove(cell: Cell, gameState: GameState): Move =

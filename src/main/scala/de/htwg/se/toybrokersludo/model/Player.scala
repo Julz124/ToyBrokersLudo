@@ -1,11 +1,23 @@
 package de.htwg.se.toybrokersludo.model
 
-enum Player(val color: String) {
-  case Red extends Player("Red")
-  case Blue extends Player("Blue")
-  case Yellow extends Player("Yellow")
-  case Green extends Player("Green")
+object Player:
+  case object Red extends Player("Red")
+  case object Blue extends Player("Blue")
+  case object Yellow extends Player("Yellow")
+  case object Green extends Player("Green")
 
+  def fromString(str: String): Player =
+    val firstChar = str.toLowerCase.headOption.getOrElse(' ')
+    firstChar match {
+      case 'r' => Red
+      case 'b' => Blue
+      case 'y' => Yellow
+      case 'g' => Green
+      case _ => throw new IllegalArgumentException("Invalid player initial")
+    }
+
+
+sealed abstract class Player(val color: String):
   def next: Player =
     this match {
       case Player.Green => Player.Red
@@ -37,4 +49,3 @@ enum Player(val color: String) {
       case Player.Yellow => List(82, 83, 84, 85)
       case Player.Blue => List(78, 79, 80, 81)
     }
-}

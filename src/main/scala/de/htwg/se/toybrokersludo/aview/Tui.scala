@@ -5,7 +5,7 @@ import de.htwg.se.toybrokersludo.util.{Observer, possibleMoves}
 import scala.io.StdIn.readLine
 import scala.util.Try
 
-class Tui(using controller: Controller) extends Observer {
+class Tui(using controller: Controller) extends Observer:
   controller.add(this)
   println(controller.getGameField.toString)
 
@@ -21,8 +21,8 @@ class Tui(using controller: Controller) extends Observer {
       case "redo" => controller.redo()
       case "dice" => controller.dice()
       case "move" => doMove()
-      case "load" =>
-      case "save" =>
+      case "load" => load()
+      case "save" => save()
       case _ => println(input + " is not a valid command")
 
   private def doMove(): Unit =
@@ -35,4 +35,13 @@ class Tui(using controller: Controller) extends Observer {
       input = readLine().toInt
     }
     controller.makeMove(options(input))
-}
+
+  def load(): Unit =
+    print("choose between:")
+    println(controller.getTargets.mkString(", "))
+    controller.load(readLine())
+
+  def save(): Unit =
+    print("target: ")
+    controller.save(readLine())
+

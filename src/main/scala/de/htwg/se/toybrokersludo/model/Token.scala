@@ -2,17 +2,14 @@ package de.htwg.se.toybrokersludo.model
 
 import de.htwg.se.toybrokersludo.model.Player
 
-case class Token(player: Player, number: Int) {
-  override def toString: String = {
+case class Token(player: Player, number: Int):
+  override def toString: String =
     player.color(0) + number.toString
-  }
 
-  def playerHouseIndex: Int = {
+  def playerHouseIndex: Int =
     player match {
       case Player.Green => -1 + number
       case Player.Red => 3 + number
       case Player.Yellow => 7 + number
       case Player.Blue => 11 + number
     }
-  }
-}

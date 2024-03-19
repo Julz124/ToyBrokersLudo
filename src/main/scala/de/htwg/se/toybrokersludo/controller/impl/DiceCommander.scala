@@ -5,7 +5,7 @@ import de.htwg.se.toybrokersludo.util.{Command, possibleMoves}
 
 import scala.util.Random
 
-class DiceCommander(var gameState: GameState) extends Command[GameField] :
+class DiceCommander(var gameState: GameState) extends Command[GameField]:
   override def doStep(gameField: GameField): GameField =
      gameState = gameField.gameState
      gameField.rollDice

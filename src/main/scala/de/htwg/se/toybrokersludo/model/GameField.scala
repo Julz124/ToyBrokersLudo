@@ -4,7 +4,7 @@ import de.htwg.se.toybrokersludo
 import de.htwg.se.toybrokersludo.model.Cell
 import Player.{Blue, Green, Red, Yellow}
 
-case class GameField(map: Map[(Int, Int), Cell], gameState: GameState) {
+case class GameField(map: Map[(Int, Int), Cell], gameState: GameState):
   def move(move: Move): GameField =
     GameField(
       map.map { case ((x, y), cell) =>
@@ -28,9 +28,9 @@ case class GameField(map: Map[(Int, Int), Cell], gameState: GameState) {
       s"\nCurrent Player: ${gameState.currentPlayer}\n" +
       s"Should Dice: ${gameState.shouldDice}\n" +
       s"Dice: ${gameState.diceNumber}"
-}
 
-object GameField {
+
+object GameField:
   def init(): GameField =
     GameField((for {
       x <- 0 to 10
@@ -127,6 +127,5 @@ object GameField {
         case _ => Cell(isAPlayField = false, index = -1, token = None)
       }
       (x, y) -> cellValue
-    }).toMap, GameState(shouldDice = true, diceNumber = 0, currentPlayer = Green)
-    )
-}
+    }).toMap, GameState(shouldDice = true, diceNumber = 0, currentPlayer = Green))
+
