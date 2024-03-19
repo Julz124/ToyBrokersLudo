@@ -11,10 +11,13 @@ case class GameField(map: Map[(Int, Int), Cell], gameState: GameState):
         if (cell.index == move.fromIndex) (x, y) ->
           cell.copy(token = None)
         else if (cell.index == move.toIndex) (x, y) ->
-          cell.copy(token = map.find(_._2.index == move.fromIndex).flatMap(_._2.token))
+          cell.copy(token = map.values.find(cell => cell.index == move.fromIndex).get.token)
         else (x, y) ->
           cell
-      }, gameState.computeMove(map.find(_._2.index == move.fromIndex).flatMap(_._2.token).get.player)
+      },
+      gameState.computeMove(
+        map.values.find(cell => cell.index == move.fromIndex).get.token.get.player
+      )
     )
 
   def rollDice: GameField = this.copy(gameState = gameState.rollDice(map))
@@ -24,11 +27,10 @@ case class GameField(map: Map[(Int, Int), Cell], gameState: GameState):
       .map(key => map(key).toString)
       .grouped(map.keys.map(_._1).max + 1)
       .map(_.mkString(""))
-      .mkString("\n") +
-      s"\nCurrent Player: ${gameState.currentPlayer}\n" +
-      s"Should Dice: ${gameState.shouldDice}\n" +
-      s"Dice: ${gameState.diceNumber}"
-
+      .mkString("\n") + "\n" +
+      s"Dice: ${gameState.diceNumber}\n" +
+      s"${gameState.currentPlayer.toString}" +
+      s"${if gameState.shouldDice then " have to dice" else " have to move"}"
 
 object GameField:
   def init(): GameField =
