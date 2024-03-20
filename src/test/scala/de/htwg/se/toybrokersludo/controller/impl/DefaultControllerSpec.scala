@@ -2,7 +2,7 @@ package de.htwg.se.toybrokersludo.controller.impl
 
 import de.htwg.se.toybrokersludo.FileIOStub
 import de.htwg.se.toybrokersludo.controller.impl.DefaultController
-import de.htwg.se.toybrokersludo.model.{GameField, Move, Token}
+import de.htwg.se.toybrokersludo.model.{GameField, Move, Player, Token}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -16,6 +16,24 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false" in {
       val gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      sut.gameField = gameField
+
+      sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
+    }
+
+    "return possible moves when shouldDice is false greenPlayerStart" in {
+      var gameField = GameField.init()
+      gameField = gameField.move(Move(0, Player.Green.firstCellIndex))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      sut.gameField = gameField
+
+      sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
+    }
+
+    "return possible moves when shouldDice is false redPlayerStart" in {
+      var gameField = GameField.init()
+      gameField = gameField.move(Move(4, Player.Red.firstCellIndex))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
 
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
