@@ -45,8 +45,8 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
 
     "return possible moves when shouldDice is false bluePlayerStart" in {
       var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
-      gameField = gameField.move(Move(8, Player.Blue.firstCellIndex))
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      gameField = gameField.move(Move(12, Player.Blue.firstCellIndex))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6, currentPlayer = Player.Blue))
       sut.gameField = gameField
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
@@ -77,11 +77,19 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
     }
 
     "make a move successfully" in {
-      val move = Move(0, 1)
+      val move = Move(0, 20)
       val gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
 
       sut.makeMove(move) shouldBe Success(())
+    }
+
+    "make a move with should dice" in {
+      val move = Move(0, 20)
+      val gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = true))
+      sut.gameField = gameField
+
+      sut.makeMove(move) shouldBe a[Failure[_]]
     }
 
     "return failure when shouldDice is false in dice" in {
