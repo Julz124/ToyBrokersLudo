@@ -5,7 +5,6 @@ import de.htwg.se.toybrokersludo.model.{Cell, GameField, GameState, Player, Toke
 import play.api.libs.json.{JsError, JsObject, JsResult, JsSuccess, JsValue, Json, Reads}
 
 object JsonReaders:
-
   implicit val gameFieldReads: Reads[GameField] = new Reads[GameField]:
     def reads(json: JsValue): JsResult[GameField] =
       for {

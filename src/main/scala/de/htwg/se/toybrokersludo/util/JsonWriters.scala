@@ -4,7 +4,6 @@ import de.htwg.se.toybrokersludo.model.{Cell, GameField, GameState, Token}
 import play.api.libs.json.{JsValue, Json, Writes}
 
 object JsonWriters:
-
   implicit val gameFieldWrites: Writes[GameField] = new Writes[GameField]:
     def writes(gameField: GameField): JsValue =
       Json.obj(
