@@ -37,7 +37,7 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
       sut.save(gameField1, "test1")
       sut.save(gameField2, "test2")
 
-      sut.getTargets shouldBe List("test1", "test2")
+      sut.getTargets should contain theSameElementsAs List("test1", "test2")
     }
 
     "create folder if it does not exist" in {
@@ -45,7 +45,7 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
       folder.exists() shouldBe false
 
       sut.save(GameField.init(), "test")
-      
+
       folder.exists() shouldBe true
     }
   }
