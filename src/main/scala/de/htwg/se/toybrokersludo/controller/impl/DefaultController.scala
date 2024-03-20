@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.controller.impl
 
+import de.htwg.se.toybrokersludo.FileIO.FileIO
 import de.htwg.se.toybrokersludo.controller.Controller
-import de.htwg.se.toybrokersludo.controller.FileIO.FileIO
 import de.htwg.se.toybrokersludo.model.{Cell, GameField, Move, Token}
 import de.htwg.se.toybrokersludo.model.Player.{Blue, Green, Red, Yellow}
 import de.htwg.se.toybrokersludo.util.UndoManager
@@ -68,8 +68,8 @@ class DefaultController(using fileIO: FileIO) extends Controller:
     move.toCell(gameField.map).token match
       case Some(token: Token) => List(Move(
         fromIndex = move.toIndex,
-        toIndex = gameField.map.find { 
-          cell => cell._2.index == token.playerHouseIndex 
-        }.get._2.index), move)
+        toIndex = gameField.map.values.find {
+          cell => cell.index == token.playerHouseIndex
+        }.get.index), move)
       case None => List(move)
 

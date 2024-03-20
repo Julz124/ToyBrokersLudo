@@ -1,6 +1,6 @@
-package de.htwg.se.toybrokersludo.controller.FileIO.impl
+package de.htwg.se.toybrokersludo.FileIO.impl
 
-import de.htwg.se.toybrokersludo.controller.FileIO.FileIO
+import de.htwg.se.toybrokersludo.FileIO.FileIO
 import de.htwg.se.toybrokersludo.model.GameField
 import play.api.libs.json.{JsValue, Json, Writes}
 
@@ -8,6 +8,7 @@ import java.io.{File, FileNotFoundException, IOException, PrintWriter}
 import java.nio.file.{Files, Paths}
 import de.htwg.se.toybrokersludo.util.json.JsonWriters.gameFieldWrites
 import de.htwg.se.toybrokersludo.util.json.JsonReaders.gameFieldReads
+
 import scala.io.Source
 
 case class JsonFileIO() extends FileIO:
@@ -18,6 +19,7 @@ case class JsonFileIO() extends FileIO:
     val json = Json.toJson(gameField)
     pw.write(Json.stringify(json))
     pw.close()
+    
   def load(source: String): GameField = 
     val filePath = path + "/" + source + ".json"
     if (!Files.exists(Paths.get(filePath))) {

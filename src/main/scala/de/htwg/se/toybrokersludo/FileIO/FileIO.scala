@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.controller.FileIO
+package de.htwg.se.toybrokersludo.FileIO
 
 import de.htwg.se.toybrokersludo.model.GameField
 import play.api.libs.json.{JsValue, Json, Writes}

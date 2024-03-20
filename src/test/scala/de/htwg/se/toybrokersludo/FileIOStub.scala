@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo
 
-import de.htwg.se.toybrokersludo.controller.FileIO.FileIO
+import de.htwg.se.toybrokersludo.FileIO.FileIO
 import de.htwg.se.toybrokersludo.model.GameField
 
 class FileIOStub extends FileIO:

@@ -1,4 +1,6 @@
-import de.htwg.se.toybrokersludo.controller.FileIO.impl.JsonFileIO
+package de.htwg.se.toybrokersludo.FileIO
+
+import de.htwg.se.toybrokersludo.FileIO.impl.JsonFileIO
 import de.htwg.se.toybrokersludo.model.GameField
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
