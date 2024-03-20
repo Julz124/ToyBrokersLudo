@@ -31,7 +31,7 @@ class Tui(using controller: Controller) extends Observer:
     controller.possibleMoves match
       case scala.util.Failure(exception) => println(exception.getMessage)
       case Success(moves) => doMove(moves)
-  
+
   private def doMove(options: List[Move]): Unit =
     if (options.isEmpty) return
     println("choose between: " + options)
@@ -51,15 +51,13 @@ class Tui(using controller: Controller) extends Observer:
       case Failure(exception) =>
         println(exception.getMessage)
 
-  private def save(): Unit = {
+  private def save(): Unit =
     print("target: ")
     doAction(() => controller.save(readLine()))
-  }
 
-  private def doAction(action: () => Try[Unit]): Unit = {
+  private def doAction(action: () => Try[Unit]): Unit =
     action() match {
       case scala.util.Success(_) =>
       case scala.util.Failure(exception) => println(exception.getMessage)
     }
-  }
 

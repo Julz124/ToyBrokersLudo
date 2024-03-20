@@ -9,8 +9,8 @@ import de.htwg.se.toybrokersludo.util.UndoManager
 import scala.util.Try
 
 class DefaultController(using fileIO: FileIO) extends Controller:
-  private var gameField: GameField = GameField.init()
-  private val  undoManager = UndoManager[GameField]
+  var gameField: GameField = GameField.init()
+  val  undoManager = UndoManager[GameField]
 
   override def getGameField: GameField = gameField
 
