@@ -6,8 +6,8 @@ import play.api.libs.json.{JsValue, Json, Writes}
 
 import java.io.{File, FileNotFoundException, IOException, PrintWriter}
 import java.nio.file.{Files, Paths}
-import de.htwg.se.toybrokersludo.util.JsonWriters.gameFieldWrites
-import de.htwg.se.toybrokersludo.util.JsonReaders.gameFieldReads
+import de.htwg.se.toybrokersludo.util.json.JsonWriters.gameFieldWrites
+import de.htwg.se.toybrokersludo.util.json.JsonReaders.gameFieldReads
 import scala.io.Source
 
 case class JsonFileIO() extends FileIO:

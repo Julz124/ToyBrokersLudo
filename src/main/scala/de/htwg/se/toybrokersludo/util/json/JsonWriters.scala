@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.util
+package de.htwg.se.toybrokersludo.util.json
 
 import de.htwg.se.toybrokersludo.model.{Cell, GameField, GameState, Token}
 import play.api.libs.json.{JsValue, Json, Writes}

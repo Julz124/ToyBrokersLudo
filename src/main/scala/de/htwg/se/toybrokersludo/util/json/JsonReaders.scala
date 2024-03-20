@@ -1,8 +1,8 @@
-package de.htwg.se.toybrokersludo.util
+package de.htwg.se.toybrokersludo.util.json
 
 import de.htwg.se.toybrokersludo.model.Player.Red
-import de.htwg.se.toybrokersludo.model.{Cell, GameField, GameState, Player, Token}
-import play.api.libs.json.{JsError, JsObject, JsResult, JsSuccess, JsValue, Json, Reads}
+import de.htwg.se.toybrokersludo.model.*
+import play.api.libs.json.*
 
 object JsonReaders:
   implicit val gameFieldReads: Reads[GameField] = new Reads[GameField]:
