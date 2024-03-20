@@ -110,6 +110,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
       val move = Move(0, 1)
       val gameField = GameField.init()
       sut.gameField = gameField
+      sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
       sut.makeMove(move)
       sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
       sut.undo()
