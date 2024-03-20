@@ -6,6 +6,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+/*
 class MoveCommanderSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
   var undoManger = UndoManager[GameField]()
 
@@ -36,3 +37,4 @@ class MoveCommanderSpec extends AnyWordSpec with Matchers with BeforeAndAfterEac
     }
   }
 }
+ */

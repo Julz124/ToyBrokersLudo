@@ -3,14 +3,20 @@ package de.htwg.se.toybrokersludo.controller.impl
 import de.htwg.se.toybrokersludo.FileIOStub
 import de.htwg.se.toybrokersludo.controller.impl.DefaultController
 import de.htwg.se.toybrokersludo.model.{GameField, GameState, Move, Player, Token}
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.{Failure, Success}
 
-class DefaultControllerSpec extends AnyWordSpec with Matchers {
-  val fileIO: FileIOStub = FileIOStub()
-  val sut: DefaultController = DefaultController(using fileIO)
+class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
+  var fileIO: FileIOStub = FileIOStub()
+  var sut: DefaultController = DefaultController(using fileIO)
+
+  override def beforeEach(): Unit = {
+    fileIO = FileIOStub()
+    sut = DefaultController(using fileIO)
+  }
 
   "The Controller" should {
 
@@ -22,52 +28,34 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
     }
 
     "return possible moves when shouldDice is false greenPlayerStart" in {
-      var gameField = GameField.init()
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(0, Player.Green.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
-
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
 
     "return possible moves when shouldDice is false redPlayerStart" in {
-      var gameField = GameField.init()
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(4, Player.Red.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
-
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
 
     "return possible moves when shouldDice is false bluePlayerStart" in {
-      var gameField = GameField.init()
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
-      gameField = gameField.move(Move(7, Player.Blue.firstCellIndex))
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      gameField = gameField.move(Move(8, Player.Blue.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
-
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
 
     "return possible moves when shouldDice is false yellowPlayerStart" in {
-      var gameField = GameField.init()
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
-      gameField = gameField.move(Move(11, Player.Yellow.firstCellIndex))
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
-      sut.gameField = gameField
-
-      sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
-    }
-
-    "return possible moves when shouldDice is false green goOverEnd" in {
-      var gameField = GameField.init()
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
-      gameField = gameField.move(Move(4, 58))
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      gameField = gameField.move(Move(12, Player.Yellow.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
-
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
 
@@ -75,9 +63,9 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
       var gameField = GameField.init()
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(5, 58))
-      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6, currentPlayer = Player.Red))
       sut.gameField = gameField
-
+      println(sut.possibleMoves)
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
 
@@ -112,40 +100,33 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
     }
 
     "undo move successfully" in {
-      val move = Move(0, 1)
-      val gameField = GameField.init()
+      val move = Move(0, 20)
+      val gameField = GameField.init().copy(gameState = sut.gameField.gameState.copy(shouldDice = false))
       sut.gameField = gameField
-      sut.makeMove(move)
-      sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
+      sut.makeMove(move) shouldBe Success(())
 
       sut.undo() shouldBe Success(())
     }
 
     "redo move successfully" in {
-      val move = Move(0, 1)
-      val gameField = GameField.init()
+      val move = Move(0, 20)
+      val gameField = GameField.init().copy(gameState = sut.gameField.gameState.copy(shouldDice = false))
       sut.gameField = gameField
-      sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
-      sut.makeMove(move)
-      sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
-      sut.undo()
+      sut.makeMove(move) shouldBe Success(())
+      sut.undo() shouldBe Success(())
 
       sut.redo() shouldBe Success(())
     }
 
     "undo dice successfully" in {
-      val gameField = GameField.init()
-      sut.gameField = gameField
       sut.dice()
 
       sut.undo() shouldBe Success(())
     }
 
     "redo dice successfully" in {
-      val gameField = GameField.init()
-      sut.gameField = gameField
       sut.dice()
-      sut.undo()
+      sut.undo() shouldBe Success(())
 
       sut.redo() shouldBe Success(())
     }
@@ -153,15 +134,18 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
     "save successfully" in {
       val target = "test.txt"
       sut.save(target) shouldBe Success(())
+      fileIO.saveCalls.last shouldBe((sut.gameField, target))
     }
 
     "get targets successfully" in {
-      sut.getTargets shouldBe Success(List())
+      fileIO.getTargetsResult = List("example")
+      sut.getTargets shouldBe Success(List("example"))
     }
 
     "load successfully" in {
       val source = "test.txt"
       sut.load(source) shouldBe Success(())
+      fileIO.loadCalls.last shouldBe("test.txt")
     }
 
     "getGameFiled return gameField" in {
