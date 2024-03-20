@@ -3,7 +3,8 @@ import de.htwg.se.toybrokersludo.model.GameField
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.BeforeAndAfterEach
-import java.io.File
+
+import java.io.{File, FileNotFoundException}
 
 class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
   val sut = JsonFileIO()
@@ -24,6 +25,17 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
       sut.save(gameField, target)
       val loadedGameField = sut.load(target)
       loadedGameField shouldBe gameField
+    }
+
+    "load method should throw FileNotFoundException when file not found" in {
+      val nonExistentFile = "nonExistentFile"
+      
+      val exception = intercept[FileNotFoundException] {
+        sut.load(nonExistentFile)
+      }
+      
+      exception.getMessage should startWith("File not found:")
+      exception.getMessage should include(nonExistentFile)
     }
 
     "return empty list if no targets available" in {

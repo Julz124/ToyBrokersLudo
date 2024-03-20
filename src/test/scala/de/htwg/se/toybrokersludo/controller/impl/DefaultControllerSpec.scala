@@ -132,6 +132,12 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
     "getGameFiled return gameField" in {
       sut.getGameField.toString shouldEqual (sut.getGameField.toString)
     }
-  }
-}
 
+    "gameField init should return a valid gameField" in {
+      val expected = "G1G2OOOR1R2OOOG3G4OOOR3R4OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOY1Y2OOOB1B2OOOY3Y4OOOB3B4Dice:0Greenhavetodice"
+
+      val actual = GameField.init().toString
+
+      actual.replaceAll("\\s+", "") shouldEqual expected.replaceAll("\\s+", "")
+    }
+  }}
