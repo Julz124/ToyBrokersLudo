@@ -23,6 +23,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false greenPlayerStart" in {
       var gameField = GameField.init()
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(0, Player.Green.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
@@ -32,6 +33,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false redPlayerStart" in {
       var gameField = GameField.init()
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(4, Player.Red.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
@@ -41,6 +43,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false bluePlayerStart" in {
       var gameField = GameField.init()
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(7, Player.Blue.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
@@ -50,6 +53,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false yellowPlayerStart" in {
       var gameField = GameField.init()
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(11, Player.Yellow.firstCellIndex))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
@@ -59,6 +63,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false green goOverEnd" in {
       var gameField = GameField.init()
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(4, 58))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
@@ -68,6 +73,7 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
 
     "return possible moves when shouldDice is false red goOverEnd" in {
       var gameField = GameField.init()
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       gameField = gameField.move(Move(5, 58))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
       sut.gameField = gameField
