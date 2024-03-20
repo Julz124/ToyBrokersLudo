@@ -181,7 +181,15 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
       gameField = gameField.move(Move(0, 58))
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 4))
       sut.gameField = gameField
-      println(sut.possibleMoves)
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
+    }
+
+    "make a move to anther player" in {
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false))
+      gameField = gameField.move(Move(0, 58))
+      gameField = gameField.move(Move(4, 54))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 4, currentPlayer = Player.Red))
+      sut.gameField = gameField
+      sut.makeMove(Move(54, 58)) shouldBe Success(())
     }
   }}
