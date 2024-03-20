@@ -128,6 +128,10 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
       val source = "test.txt"
       sut.load(source) shouldBe Success(())
     }
+
+    "getGameFiled return gameField" in {
+      sut.getGameField.toString shouldEqual (sut.getGameField.toString)
+    }
   }
 }
 

@@ -33,7 +33,8 @@ case class JsonFileIO() extends FileIO:
       sourceOption.foreach(_.close())
     }
 
-  def getTargets: List[String] = 
+  def getTargets: List[String] =
+    makeFolder()
     val files: List[File] = File(path).listFiles().toList
     files.map(file => file.toString.replaceAll(".json", "").replaceAll(path + "/", ""))
 
