@@ -59,6 +59,14 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
       sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
     }
 
+    "return possible moves when shouldDice is false 2" in {
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      gameField = gameField.move(Move(12, 13))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
+      sut.gameField = gameField
+      sut.possibleMoves shouldBe Success(de.htwg.se.toybrokersludo.util.possibleMoves(gameField))
+    }
+
     "return possible moves when shouldDice is false red goOverEnd" in {
       var gameField = GameField.init()
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 6))
