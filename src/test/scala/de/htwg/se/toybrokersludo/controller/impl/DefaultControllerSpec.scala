@@ -192,4 +192,12 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
       sut.gameField = gameField
       sut.makeMove(Move(54, 58)) shouldBe Success(())
     }
+
+    "make a move in end fields" in {
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false))
+      gameField = gameField.move(Move(4, 74))
+      gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 4, currentPlayer = Player.Red))
+      sut.gameField = gameField
+      sut.makeMove(Move(74, 75)) shouldBe Success(())
+    }
   }}
