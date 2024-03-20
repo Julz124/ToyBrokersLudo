@@ -1,10 +1,10 @@
 package de.htwg.se.toybrokersludo.model
 
+import de.htwg.se.toybrokersludo.util.{Command, UndoManager}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class TokenSpec extends AnyWordSpec with Matchers {
-
+class TokenSpec extends AnyWordSpec with Matchers  {
   "The Token" should {
 
     "return playerHouseIndex" in {
