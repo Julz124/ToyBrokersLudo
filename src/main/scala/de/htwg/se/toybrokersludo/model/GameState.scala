@@ -22,3 +22,6 @@ case class GameState(shouldDice: Boolean, diceNumber: Int, currentPlayer: Player
       this.copy(shouldDice = true, currentPlayer = currentPlayer.next)
     }
 
+  override def toString: String =
+    s"Dice: $diceNumber\n" + s"${currentPlayer.toString}" + s"${if shouldDice then " have to dice" else " have to move"}"
+

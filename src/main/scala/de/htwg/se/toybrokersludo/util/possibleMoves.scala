@@ -9,7 +9,6 @@ def possibleMoves(gameField: GameField): List[Move] =
     .map(cell => mapToMove(cell, gameField.gameState) )
     .toList
 
-
 private def hasTokenFromCurrentPlayer(cell: Cell, currentPlayer: Player): Boolean =
   cell.token match {
     case Some(token) => token.player == currentPlayer

@@ -1,9 +1,11 @@
 package de.htwg.se.toybrokersludo.aview
 
 import de.htwg.se.toybrokersludo.controller.Controller
+import de.htwg.se.toybrokersludo.model.Move
 import de.htwg.se.toybrokersludo.util.{Observer, possibleMoves}
+
 import scala.io.StdIn.readLine
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 class Tui(using controller: Controller) extends Observer:
   controller.add(this)
@@ -17,31 +19,47 @@ class Tui(using controller: Controller) extends Observer:
 
   private def analyseInput(input: String): Unit =
     input match
-      case "undo" => controller.undo()
-      case "redo" => controller.redo()
-      case "dice" => controller.dice()
-      case "move" => doMove()
+      case "undo" => doAction(controller.undo)
+      case "redo" => doAction(controller.redo)
+      case "dice" => doAction(controller.dice)
+      case "move" => findMoves()
       case "load" => load()
       case "save" => save()
       case _ => println(input + " is not a valid command")
 
-  private def doMove(): Unit =
-    val options = possibleMoves(controller.getGameField)
+  private def findMoves(): Unit =
+    controller.possibleMoves match
+      case scala.util.Failure(exception) => println(exception.getMessage)
+      case Success(moves) => doMove(moves)
+  
+  private def doMove(options: List[Move]): Unit =
     if (options.isEmpty) return
     println("choose between: " + options)
-    var input = readLine().toInt
-    while (options.size <= input) {
+    var input = readLine().toIntOption
+    while (options.size <= input.getOrElse(0)) {
       println("choose one move")
-      input = readLine().toInt
+      input = readLine().toIntOption
     }
-    controller.makeMove(options(input))
+    doAction(() => controller.makeMove(options(input.get)))
 
-  def load(): Unit =
+  private def load(): Unit =
     print("choose between:")
-    println(controller.getTargets.mkString(", "))
-    controller.load(readLine())
+    controller.getTargets match
+      case Success(list) =>
+        println(list.mkString(", "))
+        doAction(() => controller.load(readLine()))
+      case Failure(exception) =>
+        println(exception.getMessage)
 
-  def save(): Unit =
+  private def save(): Unit = {
     print("target: ")
-    controller.save(readLine())
+    doAction(() => controller.save(readLine()))
+  }
+
+  private def doAction(action: () => Try[Unit]): Unit = {
+    action() match {
+      case scala.util.Success(_) =>
+      case scala.util.Failure(exception) => println(exception.getMessage)
+    }
+  }
 
