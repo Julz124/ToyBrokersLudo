@@ -2,7 +2,7 @@ package de.htwg.se.toybrokersludo.controller.impl
 
 import de.htwg.se.toybrokersludo.FileIOStub
 import de.htwg.se.toybrokersludo.controller.impl.DefaultController
-import de.htwg.se.toybrokersludo.model.{GameField, Move, Player, Token}
+import de.htwg.se.toybrokersludo.model.{GameField, GameState, Move, Player, Token}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -96,20 +96,39 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers {
       sut.gameField.gameState.diceNumber should (be >= 1 and be <= 6)
     }
 
-    "undo successfully" in {
+    "undo move successfully" in {
       val move = Move(0, 1)
       val gameField = GameField.init()
       sut.gameField = gameField
       sut.makeMove(move)
+      sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
 
       sut.undo() shouldBe Success(())
     }
 
-    "redo successfully" in {
+    "redo move successfully" in {
       val move = Move(0, 1)
       val gameField = GameField.init()
       sut.gameField = gameField
       sut.makeMove(move)
+      sut.gameField = sut.getGameField.copy(gameState = gameField.gameState.copy(shouldDice = false, diceNumber = 6))
+      sut.undo()
+
+      sut.redo() shouldBe Success(())
+    }
+
+    "undo dice successfully" in {
+      val gameField = GameField.init()
+      sut.gameField = gameField
+      sut.dice()
+
+      sut.undo() shouldBe Success(())
+    }
+
+    "redo dice successfully" in {
+      val gameField = GameField.init()
+      sut.gameField = gameField
+      sut.dice()
       sut.undo()
 
       sut.redo() shouldBe Success(())

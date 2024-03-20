@@ -7,5 +7,5 @@ case class Move(fromIndex: Int, toIndex: Int):
     map.values.find( cell => cell.index == fromIndex ).get
 
   def toCell(map: Map[(Int, Int), Cell]): Cell =
-    map.values.find( cell => cell.index == toIndex ).get 
+    map.values.find( cell => cell.index == toIndex ).get
 
