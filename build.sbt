@@ -22,8 +22,8 @@ lazy val root = project
       "utf-8"
     ),
     jacocoExcludes := Seq(
-      "de.htwg.se.mill.Mill*",
-      "de.htwg.se.mill.util*"
+      "de.htwg.se.toybrokersludo.aview*",
+      "de.htwg.se.toybrokersludo.util*"
     ),
     jacocoCoverallsServiceName := "github-actions",
     jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
