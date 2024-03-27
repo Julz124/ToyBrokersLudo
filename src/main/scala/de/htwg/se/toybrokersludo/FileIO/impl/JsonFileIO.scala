@@ -18,40 +18,30 @@ import concurrent.ExecutionContext.Implicits.global
 case class JsonFileIO() extends FileIO:
   private val path = "saveGameJson"
   override def save(gameField: GameField, target: String): Unit =
-    makeFolder()
+    createFolderIfNotExists()
     val pw = new PrintWriter(new File(path + "/" + target + ".json"))
     val json = Json.toJson(gameField)
     pw.write(Json.stringify(json))
     pw.close()
 
-  override def load(source: String): Future[GameField] =
-    Future {
-      val filePath = path + "/" + source + ".json"
-      if (!Files.exists(Paths.get(filePath))) {
-        throw new FileNotFoundException("File not found: " + filePath)
-      }
-      var sourceOption: Option[Source] = None
-      try {
-        val source = Source.fromFile(filePath)
-        sourceOption = Some(source)
-        val fileContent: String = source.getLines.mkString
-        Json.fromJson(Json.parse(fileContent)).get
-      } finally {
-        sourceOption.foreach(_.close())
-      }
+  def load(source: String): Future[GameField] = Future {
+    createFolderIfNotExists()
+    val filePath: String = path + "/" + source + ".json"
+    if (!Files.exists(Paths.get(filePath))) {
+      throw new FileNotFoundException("File not found: " + filePath)
     }
+    val file = Source.fromFile(filePath)
+    Json.fromJson(Json.parse(file.mkString)).get
+  }
 
   override def getTargets: List[String] =
-    makeFolder()
+    createFolderIfNotExists()
     val files: List[File] = File(path).listFiles().toList
     files.map(file => file.toString.replaceAll(".json", "").replaceAll(path + "/", ""))
 
-  private def makeFolder(): Unit =
+  private def createFolderIfNotExists(): Unit =
     val folder = new File(path)
     if (!folder.exists) {
-      try Files.createDirectory(Paths.get(path))
-      catch {
-        case e: IOException => e.printStackTrace()
-      }
+      Files.createDirectory(Paths.get(path))
     }
 
