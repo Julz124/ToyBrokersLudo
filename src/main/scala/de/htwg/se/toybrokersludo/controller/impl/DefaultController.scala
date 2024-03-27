@@ -6,7 +6,9 @@ import de.htwg.se.toybrokersludo.model.{Cell, GameField, Move, Token}
 import de.htwg.se.toybrokersludo.model.Player.{Blue, Green, Red, Yellow}
 import de.htwg.se.toybrokersludo.util.UndoManager
 
-import scala.util.Try
+import concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success, Try}
 
 class DefaultController(using fileIO: FileIO) extends Controller:
   var gameField: GameField = GameField.init()
@@ -57,11 +59,16 @@ class DefaultController(using fileIO: FileIO) extends Controller:
   override def getTargets: Try[List[String]] = Try {
     fileIO.getTargets
   }
-  
+
   override def load(source: String): Try[Unit] = Try {
-    gameField = fileIO.load(source)
-    undoManager.clear()
-    notifyObservers()
+    fileIO.load(source).onComplete {
+      case Success(gameField) =>
+        this.gameField = gameField
+        undoManager.clear()
+        notifyObservers()
+      case Failure(exception) =>
+        throw RuntimeException("Cant load from fileIO" + exception.getMessage)
+    }
   }
   
   private def generateValidMoveList(move: Move): List[Move] =
