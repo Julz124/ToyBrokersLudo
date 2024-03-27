@@ -10,7 +10,7 @@ import scala.util.Try
 
 class DefaultController(using fileIO: FileIO) extends Controller:
   var gameField: GameField = GameField.init()
-  val  undoManager = UndoManager[GameField]
+  private val  undoManager = UndoManager[GameField]
 
   override def getGameField: GameField = gameField
 

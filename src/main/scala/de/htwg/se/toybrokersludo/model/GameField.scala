@@ -33,5 +33,3 @@ case class GameField(map: Map[(Int, Int), Cell], gameState: GameState):
 
 object GameField:
   def init(): GameField = gameFieldInit()
-
-

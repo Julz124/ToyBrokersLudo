@@ -43,21 +43,24 @@ class Tui(using controller: Controller) extends Observer:
     doAction(() => controller.makeMove(options(input.get)))
 
   private def load(): Unit =
-    print("choose between:")
-    controller.getTargets match
-      case Success(list) =>
+    doAction(
+      action = () => {
+        print("Choose between: ")
+        controller.getTargets
+      },
+      onSuccess = (list: List[String]) => {
         println(list.mkString(", "))
         doAction(() => controller.load(readLine()))
-      case Failure(exception) =>
-        println(exception.getMessage)
+      }
+    )
 
   private def save(): Unit =
     print("target: ")
     doAction(() => controller.save(readLine()))
 
-  private def doAction(action: () => Try[Unit]): Unit =
+  private def doAction[A](action: () => Try[A], onSuccess: A => Unit = (_: A) => ()): Unit =
     action() match {
-      case scala.util.Success(_) =>
+      case scala.util.Success(result) => onSuccess(result)
       case scala.util.Failure(exception) => println(exception.getMessage)
     }
 
