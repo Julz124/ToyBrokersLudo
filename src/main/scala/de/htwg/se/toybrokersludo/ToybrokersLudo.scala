@@ -1,34 +1,17 @@
 package de.htwg.se.toybrokersludo
 
+import de.htwg.se.toybrokersludo.FileIO.FileIO
+import de.htwg.se.toybrokersludo.FileIO.impl.JsonFileIO
+import de.htwg.se.toybrokersludo.aview.Tui
+import de.htwg.se.toybrokersludo.controller.Controller
+import de.htwg.se.toybrokersludo.controller.impl.DefaultController
+import de.htwg.se.toybrokersludo.model.{GameField, Move}
+
 import javax.naming.ldap.Control
 
+@main def main(): Unit =
+  val fileIO: FileIO = JsonFileIO()
+  val controller: Controller = DefaultController(using fileIO)
+  val tui = Tui(using controller)
 
-import de.htwg.se.toybrokersludo.model.FieldInterface
-import de.htwg.se.toybrokersludo.model.FieldBaseImpl.Field
-
-import de.htwg.se.toybrokersludo.model.FileIO.FileIOInterface
-import de.htwg.se.toybrokersludo.model.FileIO.XmlImpl.FileIo
-
-import de.htwg.se.toybrokersludo.controller.ControllerInterface
-import de.htwg.se.toybrokersludo.controller.controllerBaseImpl.Controller
-
-import de.htwg.se.toybrokersludo.aview.{GUI, TUI}
-
-@main def main: Unit =
-  println("welcome to Toybrokersludo")
-  
-  given FieldInterface = Field()
-  val field : Field = Field()
-
-  given FileIOInterface : FileIo()
-  val fileIO : FileIo = FileIo()
-  
-  given ControllerInterface = Controller(using field) (using fileIO)
-  val controller : Controller = Controller(using field) (using fileIO)
-  
-  val gui = GUI(using controller)
-  val tui = TUI(using controller)
-
-  // true for a menue and false for no one
-  gui.run(true)
-  tui.run(false)
+  tui.inputLoop()

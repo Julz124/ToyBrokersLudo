@@ -1,9 +1,9 @@
 package de.htwg.se.toybrokersludo.util
 
 trait Observer:
-  def update: Unit
+  def update(): Unit
 
 trait Observable:
-  var subscribers: Vector[Observer] = Vector()
-  def add(s: Observer) = subscribers = subscribers :+ s
-  def notifyObservers = subscribers.foreach(o => o.update)
+  private var subscribers: Vector[Observer] = Vector()
+  def add(s: Observer): Unit = subscribers = subscribers :+ s
+  def notifyObservers(): Unit = subscribers.foreach(o => o.update())

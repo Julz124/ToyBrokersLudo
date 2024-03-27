@@ -1,3 +1,8 @@
 package de.htwg.se.toybrokersludo.model
 
-case class Move(token: Token, number: Int) // Command Patter
+import de.htwg.se.toybrokersludo.model.Cell
+
+case class Move(fromIndex: Int, toIndex: Int):
+  def toCell(map: Map[(Int, Int), Cell]): Cell =
+    map.values.find( cell => cell.index == toIndex ).get
+
