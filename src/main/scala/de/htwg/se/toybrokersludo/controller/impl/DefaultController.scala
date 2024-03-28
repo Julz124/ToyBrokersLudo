@@ -67,7 +67,7 @@ class DefaultController(using fileIO: FileIO) extends Controller:
         undoManager.clear()
         notifyObservers()
       case Failure(exception) =>
-        throw RuntimeException("Cant load from fileIO" + exception.getMessage)
+        throw RuntimeException("Cant load from fileIO " + exception.getMessage)
     }
   }
   
