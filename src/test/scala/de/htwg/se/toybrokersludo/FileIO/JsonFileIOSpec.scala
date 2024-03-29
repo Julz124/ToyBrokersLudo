@@ -6,7 +6,9 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.BeforeAndAfterEach
 
+import concurrent.ExecutionContext.Implicits.global
 import java.io.{File, FileNotFoundException}
+import scala.util.{Failure, Success}
 
 class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
   val sut = JsonFileIO()
@@ -26,18 +28,25 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
 
       sut.save(gameField, target)
       val loadedGameField = sut.load(target)
-      loadedGameField shouldBe gameField
+      loadedGameField.onComplete {
+        case Success(loadedGameField) =>
+          loadedGameField shouldBe gameField
+        case Failure(exception) =>
+          throw RuntimeException("Cant load from fileIO " + exception.getMessage)
+      }
     }
 
     "load method should throw FileNotFoundException when file not found" in {
       val nonExistentFile = "nonExistentFile"
-      
-      val exception = intercept[FileNotFoundException] {
-        sut.load(nonExistentFile)
+
+      val futureResult = sut.load(nonExistentFile)
+
+      futureResult.failed.map {
+        case e: FileNotFoundException =>
+          assert(e.getMessage.startsWith("File not found:"))
+          assert(e.getMessage.contains(nonExistentFile))
+        case _ => fail("Expected FileNotFoundException but no exception was thrown")
       }
-      
-      exception.getMessage should startWith("File not found:")
-      exception.getMessage should include(nonExistentFile)
     }
 
     "return empty list if no targets available" in {
