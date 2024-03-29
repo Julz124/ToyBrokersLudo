@@ -5,6 +5,7 @@ import de.htwg.se.toybrokersludo.controller.Controller
 import de.htwg.se.toybrokersludo.model.{Cell, GameField, Move, Token}
 import de.htwg.se.toybrokersludo.model.Player.{Blue, Green, Red, Yellow}
 import de.htwg.se.toybrokersludo.util.UndoManager
+import de.htwg.se.toybrokersludo.model.possibleMoves
 
 import concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -20,7 +21,7 @@ class DefaultController(using fileIO: FileIO) extends Controller:
     if (gameField.gameState.shouldDice) {
       throw new IllegalStateException("You have to Dice")
     } else {
-      de.htwg.se.toybrokersludo.util.possibleMoves(gameField)
+      gameField.possibleMoves()
     }
   }
 
