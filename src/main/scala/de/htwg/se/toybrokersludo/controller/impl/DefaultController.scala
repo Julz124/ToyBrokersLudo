@@ -2,12 +2,11 @@ package de.htwg.se.toybrokersludo.controller.impl
 
 import de.htwg.se.toybrokersludo.FileIO.FileIO
 import de.htwg.se.toybrokersludo.controller.Controller
-import de.htwg.se.toybrokersludo.model.{Cell, GameField, Move, Token}
-import de.htwg.se.toybrokersludo.model.Player.{Blue, Green, Red, Yellow}
 import de.htwg.se.toybrokersludo.util.UndoManager
-import de.htwg.se.toybrokersludo.model.possibleMoves
+import model.Player.{Blue, Green, Red, Yellow}
+import model.*
 
-import concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 

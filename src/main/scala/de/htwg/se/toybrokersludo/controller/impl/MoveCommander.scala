@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.controller.impl
 
-import de.htwg.se.toybrokersludo.model.{GameField, GameState, Move}
 import de.htwg.se.toybrokersludo.util.Command
+import model.{GameField, GameState, Move}
 
 import scala.util.Random
 

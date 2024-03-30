@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.util.json
 
-import de.htwg.se.toybrokersludo.model.Player.Red
-import de.htwg.se.toybrokersludo.model.*
+import model.Player.Red
+import model.*
 import play.api.libs.json.*
 
 object JsonReaders:
@@ -32,15 +32,15 @@ object JsonReaders:
         currentPlayer <- (json \ "currentPlayer").validate[String]
       } yield GameState(shouldDice, diceNumber, Player.fromString(currentPlayer))
   
-  implicit val tokenReads: Reads[de.htwg.se.toybrokersludo.model.Token] = new Reads[Token]:
-    def reads(json: JsValue): JsResult[de.htwg.se.toybrokersludo.model.Token] =
+  implicit val tokenReads: Reads[Token] = new Reads[Token]:
+    def reads(json: JsValue): JsResult[Token] =
       for {
         player <- (json \ "player").validate[String]
         number <- (json \ "number").validate[Int]
       } yield Token(Player.fromString(player), number)
 
-  implicit val cellReads: Reads[Cell] = new Reads[de.htwg.se.toybrokersludo.model.Cell]:
-    def reads(json: JsValue): JsResult[de.htwg.se.toybrokersludo.model.Cell] =
+  implicit val cellReads: Reads[Cell] = new Reads[Cell]:
+    def reads(json: JsValue): JsResult[Cell] =
       for {
         isAPlayField <- (json \ "isAPlayField").validate[Boolean]
         index <- (json \ "index").validate[Int]

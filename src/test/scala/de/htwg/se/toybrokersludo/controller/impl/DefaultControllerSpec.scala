@@ -2,11 +2,10 @@ package de.htwg.se.toybrokersludo.controller.impl
 
 import de.htwg.se.toybrokersludo.FileIOStub
 import de.htwg.se.toybrokersludo.controller.impl.DefaultController
-import de.htwg.se.toybrokersludo.model.{GameField, GameState, Move, Player, Token}
+import model.*
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.toybrokersludo.model.possibleMoves
 
 import scala.util.{Failure, Success}
 

@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.util.json
 
-import de.htwg.se.toybrokersludo.model.{Cell, GameField, GameState, Token}
+import model.{Cell, GameField, GameState, Token}
 import play.api.libs.json.{JsValue, Json, Writes}
 
 object JsonWriters:
@@ -28,8 +28,8 @@ object JsonWriters:
         "currentPlayer" -> gameState.currentPlayer.toString
       )
 
-  implicit val cellWrites: Writes[de.htwg.se.toybrokersludo.model.Cell] = new Writes[Cell]:
-    def writes(cell: de.htwg.se.toybrokersludo.model.Cell): JsValue =
+  implicit val cellWrites: Writes[Cell] = new Writes[Cell]:
+    def writes(cell: Cell): JsValue =
       val tokenJson = cell.token.map(Json.toJson(_)).getOrElse(Json.obj())
       Json.obj(
         "isAPlayField" -> cell.isAPlayField,
@@ -37,8 +37,8 @@ object JsonWriters:
         "token" -> cell.token
       )
 
-  implicit val tokenWrites: Writes[de.htwg.se.toybrokersludo.model.Token] = new Writes[Token]:
-    def writes(token: de.htwg.se.toybrokersludo.model.Token): JsValue =
+  implicit val tokenWrites: Writes[Token] = new Writes[Token]:
+    def writes(token: Token): JsValue =
       Json.obj(
         "player" -> token.toString,
         "number" -> token.number

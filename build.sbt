@@ -14,7 +14,7 @@ lazy val root = project
   .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val model = project
-  .in(file(".Model"))
+  .in(file("Model"))
   .settings(
     name := "Model",
     commonSettings

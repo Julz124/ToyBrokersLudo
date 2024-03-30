@@ -1,8 +1,8 @@
-package de.htwg.se.toybrokersludo.model
+package model
 
-import org.scalatest.matchers.should.Matchers._
+import model.{Player, Token}
+import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.toybrokersludo.model.{Player, Token}
 
 class TokenSpec extends AnyWordSpec {
   "A Token" when {

@@ -1,19 +1,17 @@
 package de.htwg.se.toybrokersludo.FileIO.impl
 
 import de.htwg.se.toybrokersludo.FileIO.FileIO
-import de.htwg.se.toybrokersludo.model.GameField
+import de.htwg.se.toybrokersludo.util.json.JsonReaders.gameFieldReads
+import de.htwg.se.toybrokersludo.util.json.JsonWriters.gameFieldWrites
+import model.GameField
 import play.api.libs.json.{JsValue, Json, Writes}
 
 import java.io.{File, FileNotFoundException, IOException, PrintWriter}
 import java.nio.file.{Files, Paths}
-import de.htwg.se.toybrokersludo.util.json.JsonWriters.gameFieldWrites
-import de.htwg.se.toybrokersludo.util.json.JsonReaders.gameFieldReads
-
-import scala.concurrent.Future
-import scala.io.Source
 import java.util.concurrent.Executors
-import scala.concurrent.ExecutionContext
-import concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
+import scala.io.Source
 
 case class JsonFileIO() extends FileIO:
   private val path = "saveGameJson"

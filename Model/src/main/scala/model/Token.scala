@@ -1,6 +1,4 @@
-package de.htwg.se.toybrokersludo.model
-
-import de.htwg.se.toybrokersludo.model.Player
+package model
 
 case class Token(player: Player, number: Int):
   override def toString: String =

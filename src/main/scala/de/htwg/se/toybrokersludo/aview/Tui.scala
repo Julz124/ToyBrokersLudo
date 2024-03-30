@@ -1,8 +1,8 @@
 package de.htwg.se.toybrokersludo.aview
 
 import de.htwg.se.toybrokersludo.controller.Controller
-import de.htwg.se.toybrokersludo.model.Move
 import de.htwg.se.toybrokersludo.util.Observer
+import model.Move
 
 import scala.io.StdIn.readLine
 import scala.util.{Failure, Success, Try}

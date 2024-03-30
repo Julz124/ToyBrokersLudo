@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.model
+package model
 
 case class Cell(isAPlayField: Boolean, index: Int, token: Option[Token]):
   override def toString: String =

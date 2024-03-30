@@ -1,6 +1,4 @@
-package de.htwg.se.toybrokersludo.model
-
-import de.htwg.se.toybrokersludo.model.Cell
+package model
 
 case class Move(fromIndex: Int, toIndex: Int):
   def toCell(map: Map[(Int, Int), Cell]): Cell =

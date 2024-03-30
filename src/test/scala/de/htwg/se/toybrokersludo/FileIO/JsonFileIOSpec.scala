@@ -1,13 +1,13 @@
 package de.htwg.se.toybrokersludo.FileIO
 
 import de.htwg.se.toybrokersludo.FileIO.impl.JsonFileIO
-import de.htwg.se.toybrokersludo.model.GameField
+import model.GameField
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.BeforeAndAfterEach
 
-import concurrent.ExecutionContext.Implicits.global
 import java.io.{File, FileNotFoundException}
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {

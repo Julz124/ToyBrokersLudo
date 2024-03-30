@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.model
+package model
 
 object Player:
   case object Red extends Player("Red")

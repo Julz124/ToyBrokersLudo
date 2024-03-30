@@ -1,10 +1,10 @@
 package de.htwg.se.toybrokersludo
 
 import de.htwg.se.toybrokersludo.FileIO.FileIO
-import de.htwg.se.toybrokersludo.model.GameField
+import model.GameField
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import concurrent.ExecutionContext.Implicits.global
 
 class FileIOStub extends FileIO:
   var saveCalls: List[(GameField, String)] = List()

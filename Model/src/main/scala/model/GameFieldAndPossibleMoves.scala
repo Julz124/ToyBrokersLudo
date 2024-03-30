@@ -1,6 +1,6 @@
-package de.htwg.se.toybrokersludo.model
+package model
 
-import de.htwg.se.toybrokersludo.model.{Cell, GameField, GameState, Move, Player}
+import model.{Cell, GameField, GameState, Move, Player}
 
 extension (gameField: GameField)
   def possibleMoves(): List[Move] =

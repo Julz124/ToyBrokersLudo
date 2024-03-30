@@ -1,7 +1,7 @@
 package de.htwg.se.toybrokersludo.controller
 
-import de.htwg.se.toybrokersludo.model.{GameField, Move}
 import de.htwg.se.toybrokersludo.util.Observable
+import model.{GameField, Move}
 
 import scala.util.Try
 

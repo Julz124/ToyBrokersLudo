@@ -1,4 +1,4 @@
-package de.htwg.se.toybrokersludo.model
+package model
 
 import scala.util.Random
 

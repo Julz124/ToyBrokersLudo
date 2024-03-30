@@ -1,6 +1,6 @@
 package de.htwg.se.toybrokersludo.FileIO
 
-import de.htwg.se.toybrokersludo.model.GameField
+import model.GameField
 import play.api.libs.json.{JsValue, Json, Writes}
 
 import scala.concurrent.Future

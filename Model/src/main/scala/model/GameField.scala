@@ -1,8 +1,6 @@
-package de.htwg.se.toybrokersludo.model
+package model
 
-import de.htwg.se.toybrokersludo
-import de.htwg.se.toybrokersludo.model.Cell
-import Player.{Blue, Green, Red, Yellow}
+import model.Player.{Blue, Green, Red, Yellow}
 
 case class GameField(map: Map[(Int, Int), Cell], gameState: GameState):
   def move(move: Move): GameField =
