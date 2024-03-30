@@ -13,7 +13,7 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
   val sut = JsonFileIO()
 
   override def beforeEach(): Unit = {
-    val folder = new File("saveGameJson")
+    val folder = new File("Persistence/saveGameJson")
     if (folder.exists()) {
       folder.listFiles().foreach(_.delete())
       folder.delete()
@@ -63,7 +63,7 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
     }
 
     "create folder if it does not exist" in {
-      val folder = new File("saveGameJson")
+      val folder = new File("Persistence/saveGameJson")
       folder.exists() shouldBe false
 
       sut.save(GameField.init(), "test")
