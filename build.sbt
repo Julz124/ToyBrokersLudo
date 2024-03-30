@@ -19,7 +19,7 @@ lazy val ui = project
   .settings(
     name := "UI",
     commonSettings
-  ).enablePlugins(JacocoPlugin)
+  ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val core = project
   .in(file("Core"))
@@ -27,7 +27,7 @@ lazy val core = project
   .settings(
     name := "Core",
     commonSettings
-  ).enablePlugins(JacocoPlugin)
+  ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val persistence = project
   .in(file("Persistence"))
@@ -35,7 +35,7 @@ lazy val persistence = project
   .settings(
     name := "Persistence",
     commonSettings
-  ).enablePlugins(JacocoPlugin)
+  ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val tools = project
   .in(file("Tools"))
@@ -43,14 +43,14 @@ lazy val tools = project
   .settings(
     name := "Tools",
     commonSettings
-  ).enablePlugins(JacocoPlugin)
+  ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val model = project
   .in(file("Model"))
   .settings(
     name := "Model",
     commonSettings
-  ).enablePlugins(JacocoPlugin)
+  ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
   scalaVersion := scala3Version,
