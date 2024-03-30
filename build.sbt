@@ -11,7 +11,8 @@ lazy val root = project
   .dependsOn(model, tools, persistence, core, ui)
   .settings(
     name := "ToyBrokersLudo",
-    commonSettings
+    commonSettings,
+    coverage
   )
   .enablePlugins(JacocoCoverallsPlugin)
   .aggregate(ui, core, model, persistence, tools)
@@ -63,7 +64,10 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     "org.scalatest" %% "scalatest" % scalatestVersion % "test",
     "org.scala-lang.modules" %% "scala-swing" % scalaSwingVersion cross CrossVersion.for3Use2_13,
     "com.typesafe.play" %% "play-json" % playJsonVersion cross CrossVersion.for3Use2_13
-  ),
+  )
+)
+
+lazy val coverage: Seq[Def.Setting[_]] = Seq(
   jacocoReportSettings := JacocoReportSettings(
     "Jacoco Coverage Report",
     None,
