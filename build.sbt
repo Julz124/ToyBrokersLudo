@@ -28,22 +28,7 @@ lazy val core = project
   .dependsOn(model, tools, persistence)
   .settings(
     name := "Core",
-    commonSettings,
-      jacocoReportSettings := JacocoReportSettings(
-      "Jacoco Coverage Report",
-      None,
-      JacocoThresholds(),
-      Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
-      "utf-8"
-    ),
-    jacocoExcludes := Seq(
-      "de.htwg.se.mill.Mill*",
-      "de.htwg.se.mill.util*"
-    ),
-    jacocoCoverallsServiceName := "github-actions",
-    jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
-    jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
-    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
+    commonSettings
   ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val persistence = project
@@ -77,5 +62,20 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     "org.scalatest" %% "scalatest" % scalatestVersion % "test",
     "org.scala-lang.modules" %% "scala-swing" % scalaSwingVersion cross CrossVersion.for3Use2_13,
     "com.typesafe.play" %% "play-json" % playJsonVersion cross CrossVersion.for3Use2_13
-  )
+  ),
+  jacocoReportSettings := JacocoReportSettings(
+    "Jacoco Coverage Report",
+    None,
+    JacocoThresholds(),
+    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
+    "utf-8"
+  ),
+  jacocoExcludes := Seq(
+    "de.htwg.se.mill.Mill*",
+    "de.htwg.se.mill.util*"
+  ),
+  jacocoCoverallsServiceName := "github-actions",
+  jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
+  jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
+  jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
 )
