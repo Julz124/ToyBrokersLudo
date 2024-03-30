@@ -65,6 +65,17 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     "Jacoco Coverage Report",
     None,
     JacocoThresholds(),
-    Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
-    "utf-8")
+    Seq(
+      JacocoReportFormats.ScalaHTML,
+      JacocoReportFormats.XML
+    ), // note XML formatter
+    "utf-8"
+  ),
+  jacocoExcludes := Seq(
+    "*aview.*",
+  ),
+  jacocoCoverallsServiceName := "github-actions",
+  jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
+  jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
+  jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
 )
