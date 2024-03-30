@@ -1,3 +1,5 @@
+import com.github.sbt.jacoco.JacocoPlugin.autoImport.{JacocoReportSettings, jacocoReportSettings}
+
 val scala3Version = "3.1.1"
 val scalacticVersion = "3.2.17"
 val scalatestVersion = "3.2.17"
@@ -9,22 +11,7 @@ lazy val root = project
   .dependsOn(model, tools, persistence, core, ui)
   .settings(
     name := "ToyBrokersLudo",
-    commonSettings,
-    jacocoReportSettings := JacocoReportSettings(
-      "Jacoco Coverage Report",
-      None,
-      JacocoThresholds(),
-      Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
-      "utf-8"
-    ),
-    jacocoExcludes := Seq(
-      "de.htwg.se.mill.Mill*",
-      "de.htwg.se.mill.util*"
-    ),
-    jacocoCoverallsServiceName := "github-actions",
-    jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
-    jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
-    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
+    commonSettings
   )
   .enablePlugins(JacocoCoverallsPlugin)
 
@@ -41,7 +28,22 @@ lazy val core = project
   .dependsOn(model, tools, persistence)
   .settings(
     name := "Core",
-    commonSettings
+    commonSettings,
+      jacocoReportSettings := JacocoReportSettings(
+      "Jacoco Coverage Report",
+      None,
+      JacocoThresholds(),
+      Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
+      "utf-8"
+    ),
+    jacocoExcludes := Seq(
+      "de.htwg.se.mill.Mill*",
+      "de.htwg.se.mill.util*"
+    ),
+    jacocoCoverallsServiceName := "github-actions",
+    jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
+    jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
+    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN")
   ).enablePlugins(JacocoCoverallsPlugin)
 
 lazy val persistence = project
