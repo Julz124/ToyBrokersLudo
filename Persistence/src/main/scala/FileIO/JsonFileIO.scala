@@ -13,7 +13,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.io.Source
 
 case class JsonFileIO() extends FileIO:
-  private val path = "saveGameJson"
+  private val path = "Persistence/saveGameJson"
   override def save(gameField: GameField, target: String): Unit =
     createFolderIfNotExists()
     val pw = new PrintWriter(new File(path + "/" + target + ".json"))
