@@ -69,8 +69,7 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     "utf-8",
   ),
   jacocoExcludes := Seq(
-    "aview*",
-    "de.htwg.se.toybrokersludo*"
+    "aview*"
   ),
   jacocoCoverallsServiceName := "github-actions",
   jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
