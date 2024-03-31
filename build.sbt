@@ -80,10 +80,7 @@ lazy val coverage: Seq[Def.Setting[_]] = Seq(
     Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML),
     "utf-8"
   ),
-  jacocoExcludes := Seq(
-    "de.htwg.se.mill.Mill*",
-    "de.htwg.se.mill.util*"
-  ),
+  jacocoExcludes := Seq(),
   jacocoCoverallsServiceName := "github-actions",
   jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
   jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
