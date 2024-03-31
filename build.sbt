@@ -19,7 +19,7 @@ lazy val root = project
 
 lazy val ui = project
   .in(file("UI"))
-  .dependsOn(model, tools, persistence, core)
+  .dependsOn(model, tools)
   .settings(
     name := "UI",
     commonSettings
@@ -27,7 +27,7 @@ lazy val ui = project
 
 lazy val core = project
   .in(file("Core"))
-  .dependsOn(model, tools, persistence)
+  .dependsOn(model, tools)
   .settings(
     name := "Core",
     commonSettings,
@@ -69,8 +69,8 @@ lazy val commonSettings: Seq[Def.Setting[?]] = Seq(
     "com.typesafe.akka" %% "akka-http-core" % akkaHttp,
     "com.typesafe.akka" %% "akka-actor-typed" % akkaActor,
     "com.typesafe.akka" %% "akka-stream" % akkaActor,
-    "com.typesafe.akka" %% "akka-actor" % akkaActor
-  )
+    "com.typesafe.akka" %% "akka-actor" % akkaActor,
+  ),
 )
 
 lazy val coverage: Seq[Def.Setting[?]] = Seq(

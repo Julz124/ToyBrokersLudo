@@ -16,13 +16,13 @@ import util.json.JsonWriters.*
 import scala.concurrent.ExecutionContextExecutor
 import scala.util.{Failure, Success}
 
-class RestPersistenceAPI {
+class RestPersistenceAPI:
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "my-system")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
-  val fileIO = new JsonFileIO
-  val RestUIPort = 8081
-  val routes: String =
+  private val fileIO = new JsonFileIO
+  private val RestUIPort = 8081
+  private val routes: String =
     """
       <h1>Welcome to the REST Persistence API service!</h1>
       <h2>Available routes:</h2>
@@ -66,7 +66,7 @@ class RestPersistenceAPI {
       },
     )
 
-  def start(): Unit = {
+  def start(): Unit =
     val binding = Http().newServerAt("localhost", RestUIPort).bind(route)
 
     binding.onComplete {
@@ -75,5 +75,3 @@ class RestPersistenceAPI {
       case Failure(exception) =>
         println(s"PersistenceAPI service failed to start: ${exception.getMessage}")
     }
-  }
-}

@@ -1,17 +1,18 @@
 package aview
 
-import controller.Controller
-import model.Move
+import model.{GameField, Move}
 import util.Observer
 
+import scala.concurrent.{Await, Future}
 import scala.io.StdIn.readLine
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.DurationInt
 
-class Tui(using controller: Controller) extends Observer:
-  controller.add(this)
-  println(controller.getGameField.toString)
 
-  override def update(): Unit = println(controller.getGameField.toString)
+class Tui:
+  private val coreController = CoreController()
+  doAction(() => coreController.gameField)
 
   def inputLoop(): Unit =
     analyseInput(readLine())
@@ -19,18 +20,23 @@ class Tui(using controller: Controller) extends Observer:
 
   private def analyseInput(input: String): Unit =
     input match
-      case "undo" => doAction(controller.undo)
-      case "redo" => doAction(controller.redo)
-      case "dice" => doAction(controller.dice)
+      case "undo" => doAction(coreController.undo)
+      case "redo" => doAction(coreController.redo)
+      case "dice" => doAction(coreController.dice)
       case "move" => findMoves()
       case "load" => load()
       case "save" => save()
       case _ => println(input + " is not a valid command")
 
+
   private def findMoves(): Unit =
-    controller.possibleMoves match
-      case scala.util.Failure(exception) => println(exception.getMessage)
-      case Success(moves) => doMove(moves)
+    try {
+      val moves = Await.result(coreController.possibleMoves, 10.seconds)
+      doMove(moves)
+    } catch {
+      case ex: Exception =>
+        println(ex.getMessage)
+    }
 
   private def doMove(options: List[Move]): Unit =
     if (options.isEmpty) return
@@ -40,27 +46,32 @@ class Tui(using controller: Controller) extends Observer:
       println("choose one move")
       input = readLine().toIntOption
     }
-    doAction(() => controller.makeMove(options(input.get)))
+    doAction(() => { coreController.move(options(input.get)) } )
 
   private def load(): Unit =
-    doAction(
-      action = () => {
-        print("Choose between: ")
-        controller.getTargets
-      },
-      onSuccess = (list: List[String]) => {
-        println(list.mkString(", "))
-        doAction(() => controller.load(readLine()))
-      }
-    )
+    try {
+      val targets = Await.result(coreController.getTargets, 10.seconds)
+      print("Choose between: ")
+      println(targets.mkString(", "))
+      doAction(() => coreController.load(readLine()))
+    } catch {
+      case ex: Exception =>
+        println(ex.getMessage)
+    }
+
 
   private def save(): Unit =
-    print("target: ")
-    doAction(() => controller.save(readLine()))
+    val target = readLine()
+    doAction(() => coreController.save(target))
 
-  private def doAction[A](action: () => Try[A], onSuccess: A => Unit = (_: A) => ()): Unit =
-    action() match {
-      case scala.util.Success(result) => onSuccess(result)
-      case scala.util.Failure(exception) => println(exception.getMessage)
+  private def doAction[A](action: () => Future[A], onSuccess: A => Unit = (_: A) => ()): Unit =
+    action().onComplete {
+      case Success(result) =>
+        onSuccess(result)
+        coreController.gameField.onComplete {
+          case Success(value) => println(value)
+          case Failure(exception) => println(exception.getMessage)
+        }
+      case Failure(exception) => println(exception.getMessage)
     }
 

@@ -1,17 +1,18 @@
 package controller
 
-import FileIO.{FileIO, JsonFileIO}
 import controller.Controller
 import model.*
 import model.Player.{Blue, Green, Red, Yellow}
 import util.UndoManager
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success, Try}
 
-class DefaultController(using fileIO: FileIO) extends Controller:
+class DefaultController extends Controller:
   var gameField: GameField = GameField.init()
+  private val persistenceController: PersistenceController = PersistenceController()
   private val  undoManager = UndoManager[GameField]
 
   override def getGameField: GameField = gameField
@@ -53,15 +54,15 @@ class DefaultController(using fileIO: FileIO) extends Controller:
   }
 
   override def save(target: String): Try[Unit] = Try {
-    fileIO.save(gameField, target)
+    Await.result(persistenceController.save(gameField, target), 10.seconds)
   }
   
   override def getTargets: Try[List[String]] = Try {
-    fileIO.getTargets
+    Await.result(persistenceController.getTargets, 10.seconds)
   }
 
   override def load(source: String): Try[Unit] = Try {
-    gameField = fileIO.load(source)
+    gameField = Await.result(persistenceController.load(source), 10.seconds)
     undoManager.clear()
     notifyObservers()
   }

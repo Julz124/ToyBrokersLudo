@@ -1,4 +1,3 @@
-import FileIO.FileIO
 import model.GameField
 
 import scala.concurrent.ExecutionContext.Implicits.global
