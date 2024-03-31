@@ -56,7 +56,7 @@ lazy val model = project
     commonSettings
   )
 
-lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
+lazy val commonSettings: Seq[Def.Setting[?]] = Seq(
   scalaVersion := scala3Version,
   javacOptions ++= Seq("-encoding", "UTF-8"),
   libraryDependencies ++= Seq(
@@ -64,15 +64,15 @@ lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     "org.scalatest" %% "scalatest" % scalatestVersion % "test",
     "org.scala-lang.modules" %% "scala-swing" % scalaSwingVersion cross CrossVersion.for3Use2_13,
     "com.typesafe.play" %% "play-json" % playJsonVersion cross CrossVersion.for3Use2_13
-  )
-)
-
-lazy val coverage: Seq[Def.Setting[_]] = Seq(
+  ),
   jacocoExcludes := Seq(),
   jacocoCoverallsServiceName := "github-actions",
   jacocoCoverallsBranch := sys.env.get("CI_BRANCH"),
   jacocoCoverallsPullRequest := sys.env.get("GITHUB_EVENT_NAME"),
   jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
+)
+
+lazy val coverage: Seq[Def.Setting[?]] = Seq(
   jacocoReportSettings := JacocoReportSettings(
     "Jacoco Coverage Report",
     None,
