@@ -14,8 +14,8 @@ lazy val root = project
     commonSettings,
     coverage
   )
-  .enablePlugins(JacocoCoverallsPlugin)
   .aggregate(ui, core, model, persistence, tools)
+  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val ui = project
   .in(file("UI"))
