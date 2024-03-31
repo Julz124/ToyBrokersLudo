@@ -7,6 +7,6 @@ import scala.concurrent.Future
 
 trait FileIO:
   def save(gameField: GameField, target: String): Unit
-  def load(source: String): Future[GameField]
+  def load(source: String): GameField
   def getTargets: List[String]
 

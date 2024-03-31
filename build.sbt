@@ -3,6 +3,8 @@ val scalacticVersion = "3.2.17"
 val scalatestVersion = "3.2.17"
 val scalaSwingVersion = "3.0.0"
 val playJsonVersion = "2.10.4"
+val akkaHttp = "10.5.0"
+val akkaActor = "2.8.0"
 
 lazy val root = project
   .in(file("."))
@@ -61,7 +63,13 @@ lazy val commonSettings: Seq[Def.Setting[?]] = Seq(
     "org.scalactic" %% "scalactic" % scalacticVersion,
     "org.scalatest" %% "scalatest" % scalatestVersion % "test",
     "org.scala-lang.modules" %% "scala-swing" % scalaSwingVersion cross CrossVersion.for3Use2_13,
-    "com.typesafe.play" %% "play-json" % playJsonVersion cross CrossVersion.for3Use2_13
+    "com.typesafe.play" %% "play-json" % playJsonVersion cross CrossVersion.for3Use2_13,
+    "com.typesafe.akka" %% "akka-http" % akkaHttp,
+    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttp,
+    "com.typesafe.akka" %% "akka-http-core" % akkaHttp,
+    "com.typesafe.akka" %% "akka-actor-typed" % akkaActor,
+    "com.typesafe.akka" %% "akka-stream" % akkaActor,
+    "com.typesafe.akka" %% "akka-actor" % akkaActor
   )
 )
 

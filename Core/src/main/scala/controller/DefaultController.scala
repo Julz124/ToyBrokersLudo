@@ -61,14 +61,9 @@ class DefaultController(using fileIO: FileIO) extends Controller:
   }
 
   override def load(source: String): Try[Unit] = Try {
-    fileIO.load(source).onComplete {
-      case Success(gameField) =>
-        this.gameField = gameField
-        undoManager.clear()
-        notifyObservers()
-      case Failure(exception) =>
-        throw RuntimeException("Cant load from fileIO " + exception.getMessage)
-    }
+    gameField = fileIO.load(source)
+    undoManager.clear()
+    notifyObservers()
   }
   
   private def generateValidMoveList(move: Move): List[Move] =

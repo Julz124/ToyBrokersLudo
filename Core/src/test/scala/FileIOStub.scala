@@ -12,9 +12,9 @@ class FileIOStub extends FileIO:
   def save(gameField: GameField, target: String): Unit =
     saveCalls = (gameField, target) :: saveCalls
 
-  def load(source: String): Future[GameField]=
+  def load(source: String): GameField =
     loadCalls = source :: loadCalls
-    Future(GameField.init())
+    GameField.init()
     
 
   def getTargets: List[String] =

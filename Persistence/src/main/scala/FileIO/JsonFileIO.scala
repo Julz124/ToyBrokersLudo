@@ -21,7 +21,7 @@ case class JsonFileIO() extends FileIO:
     pw.write(Json.stringify(json))
     pw.close()
 
-  def load(source: String): Future[GameField] = Future {
+  def load(source: String): GameField =
     createFolderIfNotExists()
     val filePath: String = path + "/" + source + ".json"
     if (!Files.exists(Paths.get(filePath))) {
@@ -29,7 +29,6 @@ case class JsonFileIO() extends FileIO:
     }
     val file = Source.fromFile(filePath)
     Json.fromJson(Json.parse(file.mkString)).get
-  }
 
   override def getTargets: List[String] =
     createFolderIfNotExists()
