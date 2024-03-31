@@ -12,7 +12,10 @@ lazy val root = project
   .settings(
     name := "ToyBrokersLudo",
     commonSettings,
+    coverage
   )
+  .enablePlugins(JacocoCoverallsPlugin)
+  .aggregate(ui, core, model, persistence, tools)
 
 lazy val ui = project
   .in(file("UI"))
@@ -28,9 +31,7 @@ lazy val core = project
   .settings(
     name := "Core",
     commonSettings,
-    coverage
-  ).enablePlugins(JacocoCoverallsPlugin)
-  .aggregate(model, persistence, tools)
+  )
 
 lazy val persistence = project
   .in(file("Persistence"))
@@ -38,9 +39,7 @@ lazy val persistence = project
   .settings(
     name := "Persistence",
     commonSettings,
-    coverage
-  ).enablePlugins(JacocoCoverallsPlugin)
-  .aggregate(model, tools)
+  )
 
 lazy val tools = project
   .in(file("Tools"))
@@ -54,9 +53,8 @@ lazy val model = project
   .in(file("Model"))
   .settings(
     name := "Model",
-    commonSettings,
-    coverage
-  ).enablePlugins(JacocoCoverallsPlugin)
+    commonSettings
+  )
 
 lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
   scalaVersion := scala3Version,
