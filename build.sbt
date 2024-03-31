@@ -12,10 +12,7 @@ lazy val root = project
   .settings(
     name := "ToyBrokersLudo",
     commonSettings,
-    coverage
   )
-  .enablePlugins(JacocoCoverallsPlugin)
-  .aggregate(ui, core, model, persistence, tools)
 
 lazy val ui = project
   .in(file("UI"))
