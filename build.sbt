@@ -1,5 +1,3 @@
-import com.github.sbt.jacoco.JacocoPlugin.autoImport.{JacocoReportSettings, jacocoReportSettings}
-
 val scala3Version = "3.1.1"
 val scalacticVersion = "3.2.17"
 val scalatestVersion = "3.2.17"
