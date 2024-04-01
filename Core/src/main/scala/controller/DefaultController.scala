@@ -53,19 +53,20 @@ class DefaultController extends Controller:
     notifyObservers()
   }
 
-  override def save(target: String): Try[Unit] = Try {
-    Await.result(persistenceController.save(gameField, target), 10.seconds)
-  }
+  override def save(target: String): Future[Unit] = 
+    persistenceController.save(gameField, target)
   
-  override def getTargets: Try[List[String]] = Try {
-    Await.result(persistenceController.getTargets, 10.seconds)
-  }
+  
+  override def getTargets: Future[List[String]] = 
+    persistenceController.getTargets
 
-  override def load(source: String): Try[Unit] = Try {
-    gameField = Await.result(persistenceController.load(source), 10.seconds)
-    undoManager.clear()
-    notifyObservers()
-  }
+
+  override def load(source: String): Future[Unit] =
+    persistenceController.load(source).map { loadedGameField =>
+      gameField = loadedGameField
+      undoManager.clear()
+      notifyObservers()
+    }
   
   private def generateValidMoveList(move: Move): List[Move] =
     move.toCell(gameField.map).token match

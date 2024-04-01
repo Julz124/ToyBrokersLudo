@@ -43,6 +43,7 @@ class RestPersistenceAPI:
         post {
           entity(as[String]) { saveRequest =>
             parameter("file".as[String]) { fileName =>
+              println(fileName)
               val gameField: GameField = Json.fromJson(Json.parse(saveRequest)).get
               fileIO.save(gameField, fileName)
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game saved"))

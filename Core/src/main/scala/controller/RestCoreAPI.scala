@@ -11,8 +11,9 @@ import model.{GameField, Move}
 import play.api.libs.json.Json
 import util.json.JsonReaders.*
 import util.json.JsonWriters.*
+import scala.concurrent.duration.DurationInt
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{Await, ExecutionContextExecutor}
 import scala.util.{Failure, Success}
 
 class RestCoreAPI:
@@ -60,11 +61,12 @@ class RestCoreAPI:
       },
       get {
         path("core" / "getTargets") {
-          controller.getTargets match {
-            case Success(result) =>
-              complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(result).toString()))
-            case Failure(exception) =>
-              complete(HttpResponse(StatusCodes.Conflict, entity = exception.getMessage))
+          try {
+            val targets = Await.result(controller.getTargets, 10.seconds)
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(targets).toString()))
+          } catch {
+            case ex: Exception =>
+              complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
           }
         }
       },
@@ -110,22 +112,26 @@ class RestCoreAPI:
       path("core" / "save") {
         post {
           entity(as[String]) { target =>
-            controller.save(target) match
-              case Success(_) =>
-                complete(HttpResponse(StatusCodes.OK, entity = ""))
-              case Failure(exception) =>
-                complete(HttpResponse(StatusCodes.Conflict, entity = exception.getMessage))
+            try {
+              Await.result(controller.save(target), 10.seconds)
+              complete(HttpResponse(StatusCodes.OK, entity = ""))
+            } catch {
+              case ex: Exception =>
+                complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
+            }
           }
         }
       },
       path("core" / "load") {
         post {
           entity(as[String]) { target =>
-            controller.load(target) match
-              case Success(_) =>
-                complete(HttpResponse(StatusCodes.OK, entity = ""))
-              case Failure(exception) =>
-                complete(HttpResponse(StatusCodes.Conflict, entity = exception.getMessage))
+            try {
+              Await.result(controller.load(target), 10.seconds)
+              complete(HttpResponse(StatusCodes.OK, entity = ""))
+            } catch {
+              case ex: Exception =>
+                complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
+            }
           }
         }
       },

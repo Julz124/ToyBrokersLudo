@@ -23,7 +23,7 @@ sealed abstract class Player(val color: String):
       case Player.Green => Player.Red
       case Player.Red => Player.Blue
       case Player.Blue => Player.Yellow
-      case Player.Yellow => Player.Red
+      case Player.Yellow => Player.Green
     }
 
   def firstCellIndex: Int =

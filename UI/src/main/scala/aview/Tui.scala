@@ -59,7 +59,6 @@ class Tui:
         println(ex.getMessage)
     }
 
-
   private def save(): Unit =
     val target = readLine()
     doAction(() => coreController.save(target))

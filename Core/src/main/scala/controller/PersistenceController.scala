@@ -40,9 +40,7 @@ class PersistenceController:
       entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
     )
     sendHttpRequest(request).map { response =>
-      if (response.status != StatusCodes.OK) {
-        throw new RuntimeException(s"HTTP request failed with status ${response.status}")
-      }
+      handleResponse(response)(jsonStr => Json.parse(jsonStr))
     }
 
 

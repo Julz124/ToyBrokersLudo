@@ -3,6 +3,7 @@ package controller
 import model.{GameField, Move}
 import util.Observable
 
+import scala.concurrent.Future
 import scala.util.Try
 
 trait Controller extends Observable:
@@ -12,6 +13,6 @@ trait Controller extends Observable:
   def undo(): Try[Unit]
   def redo(): Try[Unit]
   def dice(): Try[Unit]
-  def save(target: String): Try[Unit]
-  def getTargets: Try[List[String]]
-  def load(source: String): Try[Unit]
+  def save(target: String): Future[Unit]
+  def getTargets: Future[List[String]]
+  def load(source: String): Future[Unit]

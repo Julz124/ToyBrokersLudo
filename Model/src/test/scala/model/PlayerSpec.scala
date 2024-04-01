@@ -24,7 +24,7 @@ class PlayerSpec extends AnyWordSpec {
         Player.Green.next shouldEqual Player.Red
         Player.Red.next shouldEqual Player.Blue
         Player.Blue.next shouldEqual Player.Yellow
-        Player.Yellow.next shouldEqual Player.Red
+        Player.Yellow.next shouldEqual Player.Green
       }
     }
 

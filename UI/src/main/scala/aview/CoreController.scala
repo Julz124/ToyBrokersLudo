@@ -68,19 +68,24 @@ class CoreController:
       handleResponse(response)(jsonStr => Json.parse(jsonStr))
     }
 
-  def save(fileName: String): Future[Unit] =
+  def save(fileName: String): Future[Unit] = {
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8082/core/save?file=$fileName"
+      uri = "http://localhost:8082/core/save",
+      entity = HttpEntity(ContentTypes.`application/json`, fileName)
     )
     sendHttpRequest(request).map { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr))
     }
+  }
 
-  def load(fileName: String): Future[GameField] =
-    val request = HttpRequest(uri = s"http://localhost:8082/core/load?file=$fileName")
-    sendHttpRequest(request).flatMap { response =>
-      handleResponse(response)(jsonStr => Json.parse(jsonStr).as[GameField])
+  def load(fileName: String): Future[Unit] =
+    val request = HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://localhost:8082/core/load?target=$fileName"
+    )
+    sendHttpRequest(request).map { response =>
+      handleResponse(response)(jsonStr => Json.parse(jsonStr))
     }
 
   def getTargets: Future[List[String]] =
