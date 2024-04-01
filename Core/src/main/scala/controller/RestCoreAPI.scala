@@ -21,10 +21,10 @@ class RestCoreAPI:
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "RestCoreAPI")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
-  private val controller = new Controller(
-    persistenceController = PersistenceController(),
-    uiController = UIController()
-  )
+  val persistenceController: PersistenceController = PersistenceController()
+  val uiController: UIController = UIController()
+  
+  private val controller = new Controller(using persistenceController)(using uiController)
   private val RestUIPort = 8082
   private val routes: String =
     """
