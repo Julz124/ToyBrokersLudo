@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContextExecutor
 import scala.util.{Failure, Success}
 
 class RestPersistenceAPI:
-  implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "my-system")
+  implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "RestPersistenceAPI")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   private val fileIO = new JsonFileIO

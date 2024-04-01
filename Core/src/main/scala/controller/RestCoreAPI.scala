@@ -17,10 +17,13 @@ import scala.concurrent.{Await, ExecutionContextExecutor}
 import scala.util.{Failure, Success}
 
 class RestCoreAPI:
-  implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "my-system")
+  implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "RestCoreAPI")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
-  private val controller = new DefaultController
+  private val controller = new DefaultController(
+    persistenceController = PersistenceController(),
+    uiController = UIController()
+  )
   private val RestUIPort = 8082
   private val routes: String =
     """

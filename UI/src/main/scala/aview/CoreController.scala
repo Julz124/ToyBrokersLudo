@@ -15,7 +15,7 @@ import util.{handleResponse, sendHttpRequest}
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 class CoreController:
-  implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "system")
+  implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "CoreController")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   def gameField: Future[GameField] =

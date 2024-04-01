@@ -1,7 +1,7 @@
 package aview
 
 import model.{GameField, Move}
-import util.Observer
+import util.{Observable, Observer}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
@@ -10,10 +10,19 @@ import scala.io.StdIn.readLine
 import scala.util.{Failure, Success}
 
 
-class Tui:
-  private val coreController = CoreController()
-  doAction(() => coreController.gameField)
+class Tui(coreController: CoreController, observable: Observable) extends Observer:
+  observable.add(this)
+  printField()
 
+  override def update(): Unit = printField()
+  
+  private def printField(): Unit = {
+    coreController.gameField.onComplete {
+      case Success(value) => println(value)
+      case Failure(exception) => println(exception.getMessage)
+    }
+  }
+  
   def inputLoop(): Unit =
     analyseInput(readLine())
     inputLoop()
@@ -67,10 +76,6 @@ class Tui:
     action().onComplete {
       case Success(result) =>
         onSuccess(result)
-        coreController.gameField.onComplete {
-          case Success(value) => println(value)
-          case Failure(exception) => println(exception.getMessage)
-        }
       case Failure(exception) => println(exception.getMessage)
     }
 

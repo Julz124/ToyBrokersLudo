@@ -6,7 +6,7 @@ import util.Observable
 import scala.concurrent.Future
 import scala.util.Try
 
-trait Controller extends Observable:
+trait Controller:
   def getGameField: GameField
   def possibleMoves: Try[List[Move]]
   def makeMove(move: Move): Try[Unit]

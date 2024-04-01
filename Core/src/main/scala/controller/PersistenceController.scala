@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
 class PersistenceController:
-  implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "system")
+  implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "PersistenceController")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   def getTargets: Future[List[String]] =
