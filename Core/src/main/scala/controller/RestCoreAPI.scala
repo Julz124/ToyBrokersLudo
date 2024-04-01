@@ -7,6 +7,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives.{entity, *}
 import akka.stream.ActorMaterializer
+import controller.impl.{Controller, PersistenceController, UIController}
 import model.{GameField, Move}
 import play.api.libs.json.Json
 import util.json.JsonReaders.*
@@ -20,7 +21,7 @@ class RestCoreAPI:
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "RestCoreAPI")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
-  private val controller = new DefaultController(
+  private val controller = new Controller(
     persistenceController = PersistenceController(),
     uiController = UIController()
   )
@@ -49,7 +50,7 @@ class RestCoreAPI:
       },
       get {
         path("core" / "gameField") {
-          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(controller.gameField).toString()))
+          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(controller.getGameField).toString()))
         }
       },
       get {

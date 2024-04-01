@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
-  val sut = JsonFileIO()
+  val sut: JsonFileIO = JsonFileIO()
 
   override def beforeEach(): Unit = {
     val folder = new File("Persistence/saveGameJson")
