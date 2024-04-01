@@ -10,7 +10,7 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 def handleResponse[T](response: HttpResponse)(block: String => T): Future[T] = {
   implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "SingleRequest")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
-  
+
   response.status match {
     case StatusCodes.OK =>
       Unmarshal(response.entity).to[String].map { jsonStr =>
@@ -20,5 +20,3 @@ def handleResponse[T](response: HttpResponse)(block: String => T): Future[T] = {
       Future.failed(new RuntimeException(s"HTTP request failed with status ${response.status}"))
   }
 }
-
- 

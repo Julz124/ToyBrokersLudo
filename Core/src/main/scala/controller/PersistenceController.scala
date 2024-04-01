@@ -10,7 +10,7 @@ import model.GameField
 import play.api.libs.json.Json
 import util.json.JsonReaders.*
 import util.json.JsonWriters.*
-import util.{handleResponse, sendHttpRequest}
+import util.{handleResponse, sendHttpRequest, sendRequestAndHandleResponse}
 
 import scala.concurrent.duration.*
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -22,15 +22,11 @@ class PersistenceController:
 
   def getTargets: Future[List[String]] =
     val request = HttpRequest(uri = "http://localhost:8081/persistence/getTargets")
-    sendHttpRequest(request).flatMap { response =>
-      handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[String]])
-    }
+    sendRequestAndHandleResponse(request)(jsonStr => Json.parse(jsonStr).as[List[String]])
 
   def load(fileName: String): Future[GameField] =
     val request = HttpRequest(uri = s"http://localhost:8081/persistence/load?file=$fileName")
-    sendHttpRequest(request).flatMap { response =>
-      handleResponse(response)(jsonStr => Json.parse(jsonStr).as[GameField])
-    }
+    sendRequestAndHandleResponse(request)(jsonStr => Json.parse(jsonStr).as[GameField])
 
   def save(gameField: GameField, fileName: String): Future[Unit] =
     val jsonBody = Json.toJson(gameField).toString()
@@ -39,9 +35,7 @@ class PersistenceController:
       uri = s"http://localhost:8081/persistence/save?file=$fileName",
       entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
     )
-    sendHttpRequest(request).map { response =>
-      handleResponse(response)(jsonStr => Json.parse(jsonStr))
-    }
+    sendRequestAndHandleResponse(request)(jsonStr => Json.parse(jsonStr))
 
 
 
