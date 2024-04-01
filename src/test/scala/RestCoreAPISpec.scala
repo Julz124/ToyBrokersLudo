@@ -22,7 +22,8 @@ import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
 
-class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
+class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
+
   implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "RestCoreAPISpec")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
@@ -38,7 +39,6 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
   }
 
   "The RestCoreAPI" should {
-
     "return a welcome message for the root path" in {
       val request = HttpRequest(uri = "http://localhost:8082")
       val response = sendHttpRequest(request).flatMap { response =>
@@ -69,7 +69,9 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
 
       Await.result(response, 10.seconds).replaceAll("\\s+", "") shouldEqual expectedResponse.replaceAll("\\s+", "")
     }
+  }
 
+  "GET /core/gameField" should {
     "return the game field for GET /core/gameField" in {
       val request = HttpRequest(uri = "http://localhost:8082/core/gameField")
       val response = sendHttpRequest(request).flatMap { response =>
@@ -77,49 +79,9 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
       }
       Await.result(response, 10.seconds) shouldBe GameField.init()
     }
+  }
 
-    "return error for possibleMoves if player have to dice" in {
-      val request = HttpRequest(uri = "http://localhost:8082/core/possibleMoves")
-      val response = sendHttpRequest(request).flatMap { response =>
-        handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[String]])
-      }
-      response.onComplete {
-        case Success(value) => throw IllegalStateException()
-        case Failure(exception) =>
-          exception shouldBe  RuntimeException("409 Conflict: You have to Dice")
-      }
-    }
-
-    "return possibleMoves" in {
-      restCoreAPI.controller.gameField = restCoreAPI.controller.gameField.copy(
-        gameState = GameState(shouldDice = false, currentPlayer = Player.Green, diceNumber = 6)
-      )
-      val request = HttpRequest(uri = "http://localhost:8082/core/possibleMoves")
-      val response = sendHttpRequest(request).flatMap { response =>
-        handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[Move]])
-      }
-      Await.result(response, 10.seconds) should contain theSameElementsAs List(
-        Move(20, 0), Move(20, 1), Move(20, 2), Move(20, 3)
-      )
-    }
-
-    "return error for move if player have to dice" in {
-      val jsonBody = Json.toJson(Move(20, 0)).toString()
-      val request = HttpRequest(
-        method = HttpMethods.POST,
-        uri = s"http://localhost:8082/core/move",
-        entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
-      )
-      val response = sendHttpRequest(request).map { response =>
-        handleResponse(response)(jsonStr => Json.parse(jsonStr))
-      }
-      response.onComplete {
-        case Success(value) => throw IllegalStateException()
-        case Failure(exception) =>
-          exception shouldBe RuntimeException("409 Conflict: You have to Dice")
-      }
-    }
-
+  "POST /core/move" should {
     "make move" in {
       restCoreAPI.controller.gameField = restCoreAPI.controller.gameField.copy(
         gameState = GameState(shouldDice = false, currentPlayer = Player.Green, diceNumber = 6)
@@ -136,7 +98,42 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
       Await.result(response, 10.seconds)
       restCoreAPI.controller.gameField.map.get(0, 0).get.token shouldBe None
     }
+  }
 
+  "POST /core/move" should {
+    "return error for move if player have to dice" in {
+      val jsonBody = Json.toJson(Move(20, 0)).toString()
+      val request = HttpRequest(
+        method = HttpMethods.POST,
+        uri = s"http://localhost:8082/core/move",
+        entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
+      )
+      val response = sendHttpRequest(request).map { response =>
+        handleResponse(response)(jsonStr => Json.parse(jsonStr))
+      }
+      response.onComplete {
+        case Success(value) => throw IllegalStateException()
+        case Failure(exception) =>
+          exception shouldBe RuntimeException("409 Conflict: You have to Dice")
+      }
+    }
+  }
+
+  "POST /core/dice" should {
+    "make dice" in {
+      val request = HttpRequest(
+        method = HttpMethods.POST,
+        uri = s"http://localhost:8082/core/dice"
+      )
+      val response = sendHttpRequest(request).map { response =>
+        handleResponse(response)(jsonStr => Json.parse(jsonStr))
+      }
+      Await.result(response, 10.seconds)
+      restCoreAPI.controller.gameField.gameState.diceNumber should not be 0
+    }
+  }
+
+  "POST /core/dice" should {
     "return error for dice if player have to move" in {
       restCoreAPI.controller.gameField = restCoreAPI.controller.gameField.copy(
         gameState = GameState(shouldDice = false, currentPlayer = Player.Green, diceNumber = 6)
@@ -154,41 +151,9 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
           exception shouldEqual RuntimeException("409 Conflict: You have to Move")
       }
     }
+  }
 
-    "make dice" in {
-      val request = HttpRequest(
-        method = HttpMethods.POST,
-        uri = s"http://localhost:8082/core/dice"
-      )
-      val response = sendHttpRequest(request).map { response =>
-        handleResponse(response)(jsonStr => Json.parse(jsonStr))
-      }
-      Await.result(response, 10.seconds)
-      restCoreAPI.controller.gameField.gameState.diceNumber should not be 0
-    }
-
-    "undo" in {
-      val requestDice = HttpRequest(
-        method = HttpMethods.POST,
-        uri = s"http://localhost:8082/core/dice"
-      )
-      val responseDice = sendHttpRequest(requestDice).map { response =>
-        handleResponse(response)(jsonStr => Json.parse(jsonStr))
-      }
-      Await.result(responseDice, 10.seconds)
-
-      val requestUndo = HttpRequest(
-        method = HttpMethods.POST,
-        uri = s"http://localhost:8082/core/undo"
-      )
-      val responseUndo = sendHttpRequest(requestUndo).map { response =>
-        handleResponse(response)(jsonStr => Json.parse(jsonStr))
-      }
-      Await.result(responseUndo, 10.seconds)
-
-      restCoreAPI.controller.gameField.gameState.diceNumber should be (0)
-    }
-
+  "POST /core/redo" should {
     "redo" in {
       val requestDice = HttpRequest(
         method = HttpMethods.POST,
@@ -217,7 +182,61 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach{
       }
       Await.result(responseRedo, 10.seconds)
 
-      restCoreAPI.controller.gameField.gameState.diceNumber should be (0)
+      restCoreAPI.controller.gameField.gameState.diceNumber should be(0)
     }
   }
+
+  "POST /core/possibleMoves" should {
+    "return error for possibleMoves if player have to dice" in {
+      val request = HttpRequest(uri = "http://localhost:8082/core/possibleMoves")
+      val response = sendHttpRequest(request).flatMap { response =>
+        handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[String]])
+      }
+      response.onComplete {
+        case Success(value) => throw IllegalStateException()
+        case Failure(exception) =>
+          exception shouldBe RuntimeException("409 Conflict: You have to Dice")
+      }
+    }
+  }
+
+  "POST /core/possibleMoves" should {
+    "return possibleMoves" in {
+      restCoreAPI.controller.gameField = restCoreAPI.controller.gameField.copy(
+        gameState = GameState(shouldDice = false, currentPlayer = Player.Green, diceNumber = 6)
+      )
+      val request = HttpRequest(uri = "http://localhost:8082/core/possibleMoves")
+      val response = sendHttpRequest(request).flatMap { response =>
+        handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[Move]])
+      }
+      Await.result(response, 10.seconds) should contain theSameElementsAs List(
+        Move(20, 0), Move(20, 1), Move(20, 2), Move(20, 3)
+      )
+    }
+  }
+
+  "POST /core/undo" should {
+    "undo" in {
+      val requestDice = HttpRequest(
+        method = HttpMethods.POST,
+        uri = s"http://localhost:8082/core/dice"
+      )
+      val responseDice = sendHttpRequest(requestDice).map { response =>
+        handleResponse(response)(jsonStr => Json.parse(jsonStr))
+      }
+      Await.result(responseDice, 10.seconds)
+
+      val requestUndo = HttpRequest(
+        method = HttpMethods.POST,
+        uri = s"http://localhost:8082/core/undo"
+      )
+      val responseUndo = sendHttpRequest(requestUndo).map { response =>
+        handleResponse(response)(jsonStr => Json.parse(jsonStr))
+      }
+      Await.result(responseUndo, 10.seconds)
+
+      restCoreAPI.controller.gameField.gameState.diceNumber should be(0)
+    }
+  }
+
 }
