@@ -3,11 +3,11 @@ package aview
 import model.{GameField, Move}
 import util.Observer
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
 import scala.io.StdIn.readLine
 import scala.util.{Failure, Success}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.DurationInt
 
 
 class Tui:

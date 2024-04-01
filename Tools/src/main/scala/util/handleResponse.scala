@@ -2,7 +2,7 @@ package util
 
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
+import akka.http.scaladsl.model.{HttpEntity, HttpResponse, StatusCodes}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -17,8 +17,10 @@ def handleResponse[T](response: HttpResponse)(block: String => T): Future[T] = {
         block(jsonStr)
       }
     case _ =>
-      Future.failed(new RuntimeException(s"HTTP request failed with status ${response.status}"))
+      val errorMessage = response.entity match {
+        case HttpEntity.Strict(_, data) => data.utf8String
+        case _ => "Unknown error occurred"
+      }
+      Future.failed(new RuntimeException(s"${response.status}: $errorMessage"))
   }
 }
-
- 

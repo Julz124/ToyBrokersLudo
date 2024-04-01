@@ -1,6 +1,6 @@
 package util.json
 
-import model.{Cell, GameField, GameState, Move, Token}
+import model.*
 import play.api.libs.json.{JsValue, Json, Writes}
 
 object JsonWriters:

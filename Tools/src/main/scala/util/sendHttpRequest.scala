@@ -3,7 +3,7 @@ package util
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, HttpResponse, StatusCodes}
+import akka.http.scaladsl.model.{HttpEntity, HttpRequest, HttpResponse, StatusCodes}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
@@ -18,7 +18,12 @@ def sendHttpRequest(request: HttpRequest, retries: Int = 3): Future[HttpResponse
       case _ if retries > 0 =>
         response.discardEntityBytes()
         sendHttpRequest(request, retries - 1)
-      case _ => Future.failed(new RuntimeException(s"HTTP request failed with status ${response.status}"))
+      case _ =>
+        val errorMessage = response.entity match {
+          case HttpEntity.Strict(_, data) => data.utf8String
+          case _ => "Unknown error occurred"
+        }
+        Future.failed(new RuntimeException(s"${response.status}: $errorMessage"))
     }
   }
 }

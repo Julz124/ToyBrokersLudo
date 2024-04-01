@@ -1,7 +1,7 @@
 package util.json
 
-import model.Player.Red
 import model.*
+import model.Player.Red
 import play.api.libs.json.*
 
 object JsonReaders:

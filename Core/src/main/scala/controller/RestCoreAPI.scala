@@ -11,8 +11,8 @@ import model.{GameField, Move}
 import play.api.libs.json.Json
 import util.json.JsonReaders.*
 import util.json.JsonWriters.*
-import scala.concurrent.duration.DurationInt
 
+import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, ExecutionContextExecutor}
 import scala.util.{Failure, Success}
 
