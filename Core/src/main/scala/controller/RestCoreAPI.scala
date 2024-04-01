@@ -24,7 +24,7 @@ class RestCoreAPI:
   val persistenceController: PersistenceController = PersistenceController()
   val uiController: UIController = UIController()
   
-  private val controller = new Controller(using persistenceController)(using uiController)
+  var controller = new Controller(using persistenceController)(using uiController)
   private val RestUIPort = 8082
   private val routes: String =
     """

@@ -20,7 +20,7 @@ class RestPersistenceAPI:
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "RestPersistenceAPI")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
-  private val fileIO = new JsonFileIO
+  var fileIO = new JsonFileIO
   private val RestUIPort = 8081
   private val routes: String =
     """
