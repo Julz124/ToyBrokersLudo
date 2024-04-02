@@ -66,7 +66,7 @@ class RestCoreAPI:
       get {
         path("core" / "getTargets") {
           try {
-            val targets = Await.result(controller.getTargets, 10.seconds)
+            val targets = Await.result(controller.getTargets, 3.seconds)
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(targets).toString()))
           } catch {
             case ex: Exception =>
@@ -117,7 +117,7 @@ class RestCoreAPI:
         post {
           entity(as[String]) { target =>
             try {
-              Await.result(controller.save(target), 10.seconds)
+              Await.result(controller.save(target), 3.seconds)
               complete(HttpResponse(StatusCodes.OK, entity = ""))
             } catch {
               case ex: Exception =>
@@ -130,7 +130,7 @@ class RestCoreAPI:
         post {
           entity(as[String]) { target =>
             try {
-              Await.result(controller.load(target), 10.seconds)
+              Await.result(controller.load(target), 3.seconds)
               complete(HttpResponse(StatusCodes.OK, entity = ""))
             } catch {
               case ex: Exception =>
