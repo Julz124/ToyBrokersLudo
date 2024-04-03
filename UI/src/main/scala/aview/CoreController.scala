@@ -5,18 +5,23 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.model.headers.RawHeader
+import akka.http.scaladsl.model.ws.{Message, TextMessage, WebSocketRequest}
 import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.stream.OverflowStrategy
+import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
 import model.{GameField, Move}
 import play.api.libs.json.Json
 import util.json.JsonReaders.*
 import util.json.JsonWriters.*
-import util.{handleResponse, sendHttpRequest}
+import util.{Observable, handleResponse, sendHttpRequest}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
-class CoreController:
+class CoreController extends Observable:
   implicit val system: ActorSystem[Any] = ActorSystem(Behaviors.empty, "CoreController")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
+
+  establishWebSocketConnection()
 
   def gameField: Future[GameField] =
     val request = HttpRequest(uri = "http://localhost:8082/core/gameField")
@@ -93,3 +98,32 @@ class CoreController:
     sendHttpRequest(request).flatMap { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[String]])
     }
+
+  private def establishWebSocketConnection(): Future[Unit] = {
+    val wsUrl = "ws://localhost:8082/core/changes"
+
+    val (webSocketUpgradeResponse, webSocketOut) =
+      Http().singleWebSocketRequest(
+        WebSocketRequest(uri = wsUrl),
+        Flow.fromSinkAndSourceMat(
+          Sink.foreach[Message] {
+            _ => notifyObservers()
+          },
+          Source.actorRef[TextMessage](bufferSize = 10, OverflowStrategy.fail)
+            .mapMaterializedValue { webSocketIn =>
+              system.log.info("WebSocket connected")
+              webSocketIn
+            }
+        )(Keep.both)
+      )
+
+    webSocketUpgradeResponse.flatMap { upgrade =>
+      if (upgrade.response.status == StatusCodes.SwitchingProtocols) {
+        println("WebSocket connection established")
+        Future.successful(())
+      } else {
+        println(s"WebSocket connection failed: ${upgrade.response.status}")
+        throw new RuntimeException(s"WebSocket connection failed: ${upgrade.response.status}")
+      }
+    }
+  }

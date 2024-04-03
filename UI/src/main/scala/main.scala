@@ -1,11 +1,6 @@
-import aview.{CoreController, RestUIAPI, Tui}
+import aview.{CoreController, Tui}
 
 @main def ui(): Unit =
   val coreController = CoreController()
-  val observable = RestUIAPI()
-  observable.start()
-  
-  val tui = Tui(coreController, observable)
+  val tui = Tui(coreController)
   tui.inputLoop()
-
-

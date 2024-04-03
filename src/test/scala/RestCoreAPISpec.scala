@@ -35,7 +35,7 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach 
 
   override def beforeEach(): Unit = {
     restPersistenceAPI.fileIO = JsonFileIO()
-    restCoreAPI.controller = Controller(using restCoreAPI.persistenceController)(using restCoreAPI.uiController)
+    restCoreAPI.controller = Controller(using restCoreAPI.persistenceController)
   }
 
   "The RestCoreAPI" should {
@@ -238,5 +238,4 @@ class RestCoreAPISpec extends AnyWordSpec with Matchers with BeforeAndAfterEach 
       restCoreAPI.controller.gameField.gameState.diceNumber should be(0)
     }
   }
-
 }

@@ -1,6 +1,6 @@
-import controller.{PersistenceControllerInterface, UIControllerInterface}
+import controller.PersistenceControllerInterface
 import controller.impl.Controller
-import model.{GameField, *}
+import model.*
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -11,13 +11,11 @@ import scala.util.{Failure, Success}
 
 class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
   var persistenceControllerStub: PersistenceControllerStub = PersistenceControllerStub()
-  var uiControllerStub: UIControllerStub = UIControllerStub()
-  var sut: Controller = Controller(using persistenceControllerStub)(using uiControllerStub)
+  var sut: Controller = Controller(using persistenceControllerStub)
 
   override def beforeEach(): Unit = {
     persistenceControllerStub = PersistenceControllerStub()
-    uiControllerStub = UIControllerStub()
-    sut = Controller(using persistenceControllerStub)(using uiControllerStub)
+    sut = Controller(using persistenceControllerStub)
   }
 
   "The Controller" should {
@@ -201,10 +199,5 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 4, currentPlayer = Player.Red))
       sut.gameField = gameField
       sut.possibleMoves shouldBe Success(gameField.possibleMoves())
-    }
-
-    "should notify observer" in {
-      sut.dice()
-      uiControllerStub.notifyObserversCalls should be (1)
     }
   }}

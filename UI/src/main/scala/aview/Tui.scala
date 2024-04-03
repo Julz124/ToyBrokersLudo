@@ -10,8 +10,8 @@ import scala.io.StdIn.readLine
 import scala.util.{Failure, Success}
 
 
-class Tui(coreController: CoreController, observable: Observable) extends Observer:
-  observable.add(this)
+class Tui(coreController: CoreController) extends Observer:
+  coreController.add(this)
   printField()
 
   override def update(): Unit = printField()
