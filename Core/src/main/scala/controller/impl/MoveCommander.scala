@@ -1,4 +1,4 @@
-package controller
+package controller.impl
 
 import model.{GameField, GameState, Move}
 import util.Command

@@ -1,20 +1,24 @@
-package controller
+package controller.impl
 
-import FileIO.{FileIO, JsonFileIO}
-import controller.Controller
+import controller.{PersistenceControllerInterface, UIControllerInterface}
+import controller.impl.PersistenceController
 import model.*
 import model.Player.{Blue, Green, Red, Yellow}
 import util.UndoManager
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success, Try}
 
-class DefaultController(using fileIO: FileIO) extends Controller:
+class Controller
+(using persistenceController: PersistenceControllerInterface)
+(using uiController: UIControllerInterface):
+  
   var gameField: GameField = GameField.init()
-  private val  undoManager = UndoManager[GameField]
+  private val undoManager = UndoManager[GameField]
 
-  override def getGameField: GameField = gameField
+  def getGameField: GameField = gameField
 
   def possibleMoves: Try[List[Move]] = Try {
     if (gameField.gameState.shouldDice) {
@@ -24,52 +28,48 @@ class DefaultController(using fileIO: FileIO) extends Controller:
     }
   }
 
-  override def makeMove(move: Move): Try[Unit] = Try {
+  def makeMove(move: Move): Try[Unit] = Try {
     if (gameField.gameState.shouldDice) {
       throw new IllegalStateException("You have to Dice")
     } else {
       gameField = undoManager.doStep(gameField, MoveCommander(generateValidMoveList(move), gameField.gameState))
-      notifyObservers()
+      uiController.notifyObservers()
     }
   }
 
-  override def dice(): Try[Unit] = Try {
+  def dice(): Try[Unit] = Try {
     if (!gameField.gameState.shouldDice) {
       throw new IllegalStateException("You have to Move")
     } else {
       gameField = undoManager.doStep(gameField, DiceCommander(gameField.gameState))
-      notifyObservers()
+      uiController.notifyObservers()
     }
   }
 
-  override def undo(): Try[Unit] = Try {
+  def undo(): Try[Unit] = Try {
     gameField = undoManager.undoStep(gameField)
-    notifyObservers()
+    uiController.notifyObservers()
   }
   
-  override def redo(): Try[Unit] = Try {
+  def redo(): Try[Unit] = Try {
     gameField = undoManager.redoStep(gameField)
-    notifyObservers()
+    uiController.notifyObservers()
   }
 
-  override def save(target: String): Try[Unit] = Try {
-    fileIO.save(gameField, target)
-  }
+  def save(target: String): Future[Unit] = 
+    persistenceController.save(gameField, target)
   
-  override def getTargets: Try[List[String]] = Try {
-    fileIO.getTargets
-  }
+  
+  def getTargets: Future[List[String]] = 
+    persistenceController.getTargets
 
-  override def load(source: String): Try[Unit] = Try {
-    fileIO.load(source).onComplete {
-      case Success(gameField) =>
-        this.gameField = gameField
-        undoManager.clear()
-        notifyObservers()
-      case Failure(exception) =>
-        throw RuntimeException("Cant load from fileIO " + exception.getMessage)
+
+  def load(source: String): Future[Unit] =
+    persistenceController.load(source).map { loadedGameField =>
+      gameField = loadedGameField
+      undoManager.clear()
+      uiController.notifyObservers()
     }
-  }
   
   private def generateValidMoveList(move: Move): List[Move] =
     move.toCell(gameField.map).token match

@@ -1,18 +1,23 @@
-import controller.DefaultController
-import model.*
+import controller.{PersistenceControllerInterface, UIControllerInterface}
+import controller.impl.Controller
+import model.{GameField, *}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.concurrent.Await
+import concurrent.duration.DurationInt
 import scala.util.{Failure, Success}
 
 class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
-  var fileIO: FileIOStub = FileIOStub()
-  var sut: DefaultController = DefaultController(using fileIO)
+  var persistenceControllerStub: PersistenceControllerStub = PersistenceControllerStub()
+  var uiControllerStub: UIControllerStub = UIControllerStub()
+  var sut: Controller = Controller(using persistenceControllerStub)(using uiControllerStub)
 
   override def beforeEach(): Unit = {
-    fileIO = FileIOStub()
-    sut = DefaultController(using fileIO)
+    persistenceControllerStub = PersistenceControllerStub()
+    uiControllerStub = UIControllerStub()
+    sut = Controller(using persistenceControllerStub)(using uiControllerStub)
   }
 
   "The Controller" should {
@@ -138,19 +143,19 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
 
     "save successfully" in {
       val target = "test.txt"
-      sut.save(target) shouldBe Success(())
-      fileIO.saveCalls.last shouldBe((sut.gameField, target))
+      Await.result(sut.save(target), 3.seconds)
+      persistenceControllerStub.saveCalls.last shouldBe((sut.gameField, target))
     }
 
     "get targets successfully" in {
-      fileIO.getTargetsResult = List("example")
-      sut.getTargets shouldBe Success(List("example"))
+      persistenceControllerStub.getTargetsResult = List("example")
+      Await.result(sut.getTargets, 3.seconds) shouldBe List("example")
     }
 
     "load successfully" in {
       val source = "test.txt"
-      sut.load(source) shouldBe Success(())
-      fileIO.loadCalls.last shouldBe("test.txt")
+      Await.result(sut.load(source), 3.seconds)
+      persistenceControllerStub.loadCalls.last shouldBe("test.txt")
     }
 
     "getGameFiled return gameField" in {
@@ -196,5 +201,10 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 4, currentPlayer = Player.Red))
       sut.gameField = gameField
       sut.possibleMoves shouldBe Success(gameField.possibleMoves())
+    }
+
+    "should notify observer" in {
+      sut.dice()
+      uiControllerStub.notifyObserversCalls should be (1)
     }
   }}

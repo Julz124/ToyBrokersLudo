@@ -1,7 +1,7 @@
 package util.json
 
-import model.Player.Red
 import model.*
+import model.Player.Red
 import play.api.libs.json.*
 
 object JsonReaders:
@@ -46,3 +46,10 @@ object JsonReaders:
         index <- (json \ "index").validate[Int]
         token <- (json \ "token").validateOpt[Token]
       } yield Cell(isAPlayField, index, token)
+
+  implicit val moveReads: Reads[Move] = new Reads[Move]:
+    def reads(json: JsValue): JsResult[Move] =
+      for {
+        toIndex <- (json \ "toIndex").validate[Int]
+        fromIndex <- (json \ "fromIndex").validate[Int]
+      } yield Move(toIndex, fromIndex)

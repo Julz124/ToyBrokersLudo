@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
-  val sut = JsonFileIO()
+  val sut: JsonFileIO = JsonFileIO()
 
   override def beforeEach(): Unit = {
     val folder = new File("Persistence/saveGameJson")
@@ -27,24 +27,19 @@ class JsonFileIOSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
 
       sut.save(gameField, target)
       val loadedGameField = sut.load(target)
-      loadedGameField.onComplete {
-        case Success(loadedGameField) =>
-          loadedGameField shouldBe gameField
-        case Failure(exception) =>
-          throw RuntimeException("Cant load from fileIO " + exception.getMessage)
-      }
+      loadedGameField shouldBe gameField
     }
 
     "load method should throw FileNotFoundException when file not found" in {
       val nonExistentFile = "nonExistentFile"
 
-      val futureResult = sut.load(nonExistentFile)
-
-      futureResult.failed.map {
+      try {
+        sut.load(nonExistentFile)
+        fail("Expected FileNotFoundException but no exception was thrown")
+      } catch {
         case e: FileNotFoundException =>
           assert(e.getMessage.startsWith("File not found:"))
           assert(e.getMessage.contains(nonExistentFile))
-        case _ => fail("Expected FileNotFoundException but no exception was thrown")
       }
     }
 
