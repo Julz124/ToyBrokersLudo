@@ -1,19 +1,17 @@
 package controller.impl
 
-import controller.{PersistenceControllerInterface, UIControllerInterface}
+import controller.PersistenceControllerInterface
 import controller.impl.PersistenceController
 import model.*
 import model.Player.{Blue, Green, Red, Yellow}
-import util.UndoManager
+import util.{Observable, UndoManager}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Success, Try}
 
-class Controller
-(using persistenceController: PersistenceControllerInterface)
-(using uiController: UIControllerInterface):
+class Controller(using persistenceController: PersistenceControllerInterface) extends Observable: 
   
   var gameField: GameField = GameField.init()
   private val undoManager = UndoManager[GameField]
@@ -33,7 +31,7 @@ class Controller
       throw new IllegalStateException("You have to Dice")
     } else {
       gameField = undoManager.doStep(gameField, MoveCommander(generateValidMoveList(move), gameField.gameState))
-      uiController.notifyObservers()
+      notifyObservers()
     }
   }
 
@@ -42,18 +40,18 @@ class Controller
       throw new IllegalStateException("You have to Move")
     } else {
       gameField = undoManager.doStep(gameField, DiceCommander(gameField.gameState))
-      uiController.notifyObservers()
+      notifyObservers()
     }
   }
 
   def undo(): Try[Unit] = Try {
     gameField = undoManager.undoStep(gameField)
-    uiController.notifyObservers()
+    notifyObservers()
   }
   
   def redo(): Try[Unit] = Try {
     gameField = undoManager.redoStep(gameField)
-    uiController.notifyObservers()
+    notifyObservers()
   }
 
   def save(target: String): Future[Unit] = 
@@ -68,7 +66,7 @@ class Controller
     persistenceController.load(source).map { loadedGameField =>
       gameField = loadedGameField
       undoManager.clear()
-      uiController.notifyObservers()
+      notifyObservers()
     }
   
   private def generateValidMoveList(move: Move): List[Move] =

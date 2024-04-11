@@ -43,7 +43,6 @@ class RestPersistenceAPI:
         post {
           entity(as[String]) { saveRequest =>
             parameter("file".as[String]) { fileName =>
-              println(fileName)
               val gameField: GameField = Json.fromJson(Json.parse(saveRequest)).get
               fileIO.save(gameField, fileName)
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game saved"))
@@ -54,8 +53,12 @@ class RestPersistenceAPI:
       get {
         path("persistence" / "load") {
           parameter("file".as[String]) { fileName =>
-            val game = fileIO.load(fileName)
-            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
+            try {
+              val game = fileIO.load(fileName)
+              complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
+            } catch
+              case ex: Exception =>
+                complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
           }
         }
       },
@@ -68,7 +71,7 @@ class RestPersistenceAPI:
     )
 
   def start(): Unit =
-    val binding = Http().newServerAt("localhost", RestUIPort).bind(route)
+    val binding = Http().newServerAt("0.0.0.0", RestUIPort).bind(route)
 
     binding.onComplete {
       case Success(binding) =>

@@ -1,20 +1,24 @@
 package controller
 
+import akka.Done
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.javadsl.server.RequestEntityExpectedRejection
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCodes}
-import akka.http.scaladsl.server.Directives.{entity, *}
-import akka.stream.ActorMaterializer
-import controller.impl.{Controller, PersistenceController, UIController}
+import akka.http.scaladsl.server.Directives.*
+import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
+import akka.stream.{ActorMaterializer, OverflowStrategy}
+import controller.impl.{Controller, PersistenceController}
 import model.{GameField, Move}
 import play.api.libs.json.Json
+import util.Observer
 import util.json.JsonReaders.*
 import util.json.JsonWriters.*
 
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{Await, ExecutionContextExecutor}
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
 class RestCoreAPI:
@@ -22,9 +26,9 @@ class RestCoreAPI:
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   val persistenceController: PersistenceController = PersistenceController()
-  val uiController: UIController = UIController()
   
-  var controller = new Controller(using persistenceController)(using uiController)
+  var controller = new Controller(using persistenceController)
+
   private val RestUIPort = 8082
   private val routes: String =
     """
@@ -139,10 +143,13 @@ class RestCoreAPI:
           }
         }
       },
+      path("core" / "changes") {
+        handleWebSocketMessages(websocketChanges)
+      }
     )
 
   def start(): Unit =
-    val binding = Http().newServerAt("localhost", RestUIPort).bind(route)
+    val binding = Http().newServerAt("0.0.0.0", RestUIPort).bind(route)
 
     binding.onComplete {
       case Success(binding) =>
@@ -150,4 +157,23 @@ class RestCoreAPI:
       case Failure(exception) =>
         println(s"CoreAPI service failed to start: ${exception.getMessage}")
     }
+
+  private def websocketChanges: Flow[Message, Message, Any] =
+    val incomingMessages: Sink[Message, Any] =
+      Sink.foreach {
+        case message: TextMessage.Strict =>
+        case _ =>
+      }
+    val outgoingMessages: Source[Message, Any] =
+      Source.queue[Message](bufferSize = 10, OverflowStrategy.fail)
+        .mapMaterializedValue { queue =>
+          controller.add(new Observer {
+            override def update(): Unit = {
+              val message = TextMessage.Strict("Notify")
+              queue.offer(message)
+            }
+          })
+        }
+    Flow.fromSinkAndSource(incomingMessages, outgoingMessages)
+
 
