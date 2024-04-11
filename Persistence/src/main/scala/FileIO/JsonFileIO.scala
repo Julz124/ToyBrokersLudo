@@ -35,9 +35,10 @@ case class JsonFileIO() extends FileIO:
     val files: List[File] = File(path).listFiles().toList
     files.map(file => file.toString.replaceAll(".json", "").replaceAll(path + "/", ""))
 
-  private def createFolderIfNotExists(): Unit =
+  def createFolderIfNotExists(): Unit = {
     val folder = new File(path)
-    if (!folder.exists) {
-      Files.createDirectory(Paths.get(path))
+    if (!folder.exists()) {
+      Files.createDirectories(Paths.get(path))
     }
+  }
 
