@@ -22,13 +22,13 @@ class PersistenceController extends PersistenceControllerInterface:
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   override def getTargets: Future[List[String]] =
-    val request = HttpRequest(uri = "http://localhost:8081/persistence/getTargets")
+    val request = HttpRequest(uri = "http://persistence-service:8081/persistence/getTargets")
     sendHttpRequest(request).flatMap { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[String]])
     }
 
   override def load(fileName: String): Future[GameField] =
-    val request = HttpRequest(uri = s"http://localhost:8081/persistence/load?file=$fileName")
+    val request = HttpRequest(uri = s"http://persistence-service:8081/persistence/load?file=$fileName")
     sendHttpRequest(request).flatMap { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr).as[GameField])
     }
@@ -37,7 +37,7 @@ class PersistenceController extends PersistenceControllerInterface:
     val jsonBody = Json.toJson(gameField).toString()
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8081/persistence/save?file=$fileName",
+      uri = s"http://persistence-service:8081/persistence/save?file=$fileName",
       entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
     )
     sendHttpRequest(request).map { response =>

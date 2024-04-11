@@ -24,13 +24,13 @@ class CoreController extends Observable:
   establishWebSocketConnection()
 
   def gameField: Future[GameField] =
-    val request = HttpRequest(uri = "http://localhost:8082/core/gameField")
+    val request = HttpRequest(uri = "http://core-service:8082/core/gameField")
     sendHttpRequest(request).flatMap { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr).as[GameField])
     }
 
   def possibleMoves: Future[List[Move]] =
-    val request = HttpRequest(uri = "http://localhost:8082/core/possibleMoves")
+    val request = HttpRequest(uri = "http://core-service:8082/core/possibleMoves")
     sendHttpRequest(request).flatMap { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[Move]])
     }
@@ -39,7 +39,7 @@ class CoreController extends Observable:
     val jsonBody = Json.toJson(move).toString()
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8082/core/move",
+      uri = s"http://core-service:8082/core/move",
       entity = HttpEntity(ContentTypes.`application/json`, jsonBody)
     )
     sendHttpRequest(request).map { response =>
@@ -49,7 +49,7 @@ class CoreController extends Observable:
   def dice(): Future[Unit] =
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8082/core/dice"
+      uri = s"http://core-service:8082/core/dice"
     )
     sendHttpRequest(request).map { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr))
@@ -58,7 +58,7 @@ class CoreController extends Observable:
   def undo(): Future[Unit] =
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8082/core/undo"
+      uri = s"http://core-service:8082/core/undo"
     )
     sendHttpRequest(request).map { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr))
@@ -67,7 +67,7 @@ class CoreController extends Observable:
   def redo(): Future[Unit] =
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8082/core/redo"
+      uri = s"http://core-service:8082/core/redo"
     )
     sendHttpRequest(request).map { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr))
@@ -76,7 +76,7 @@ class CoreController extends Observable:
   def save(fileName: String): Future[Unit] = {
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8082/core/save",
+      uri = "http://core-service:8082/core/save",
       entity = HttpEntity(ContentTypes.`application/json`, fileName)
     )
     sendHttpRequest(request).map { response =>
@@ -87,20 +87,20 @@ class CoreController extends Observable:
   def load(fileName: String): Future[Unit] =
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://localhost:8082/core/load?target=$fileName"
+      uri = s"http://core-service:8082/core/load?target=$fileName"
     )
     sendHttpRequest(request).map { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr))
     }
 
   def getTargets: Future[List[String]] =
-    val request = HttpRequest(uri = "http://localhost:8082/core/getTargets")
+    val request = HttpRequest(uri = "http://core-service:8082/core/getTargets")
     sendHttpRequest(request).flatMap { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr).as[List[String]])
     }
 
   private def establishWebSocketConnection(): Future[Unit] = {
-    val wsUrl = "ws://localhost:8082/core/changes"
+    val wsUrl = "ws://core-service:8082/core/changes"
 
     val (webSocketUpgradeResponse, webSocketOut) =
       Http().singleWebSocketRequest(

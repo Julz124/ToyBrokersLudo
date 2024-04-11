@@ -149,7 +149,7 @@ class RestCoreAPI:
     )
 
   def start(): Unit =
-    val binding = Http().newServerAt("localhost", RestUIPort).bind(route)
+    val binding = Http().newServerAt("0.0.0.0", RestUIPort).bind(route)
 
     binding.onComplete {
       case Success(binding) =>

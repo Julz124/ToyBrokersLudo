@@ -24,7 +24,7 @@ lazy val root = project
     coverage,
   )
   .aggregate(ui, core, model, persistence, tools)
-  .enablePlugins(JacocoCoverallsPlugin, DockerPlugin)
+  .enablePlugins(JacocoCoverallsPlugin)
 
 lazy val ui = project
   .in(file("UI"))
@@ -32,10 +32,10 @@ lazy val ui = project
   .settings(
     name := "UI",
     version:="0.1.0-SNAPSHOT",
-    dockerBaseImage := "hseeberger/scala-sbt:17.0.2_1.6.2_3.1.1",
+    dockerBaseImage := "adoptopenjdk:11-jre-hotspot",
     dockerExposedPorts := Seq(8090),
     commonSettings,
-  ).enablePlugins(DockerPlugin)
+  ).enablePlugins(JavaAppPackaging)
 
 lazy val core = project
   .in(file("Core"))
@@ -43,10 +43,10 @@ lazy val core = project
   .settings(
     name := "Core",
     version:="0.1.0-SNAPSHOT",
-    dockerBaseImage := "hseeberger/scala-sbt:17.0.2_1.6.2_3.1.1",
+    dockerBaseImage := "adoptopenjdk:11-jre-hotspot",
     dockerExposedPorts := Seq(8082),
     commonSettings,
-  ).enablePlugins(DockerPlugin)
+  ).enablePlugins(JavaAppPackaging)
 
 lazy val persistence = project
   .in(file("Persistence"))
@@ -54,10 +54,10 @@ lazy val persistence = project
   .settings(
     name := "Persistence",
     version:="0.1.0-SNAPSHOT",
-    dockerBaseImage := "hseeberger/scala-sbt:17.0.2_1.6.2_3.1.1",
+    dockerBaseImage := "adoptopenjdk:11-jre-hotspot",
     dockerExposedPorts := Seq(8081),
     commonSettings,
-  ).enablePlugins(DockerPlugin)
+  ).enablePlugins(JavaAppPackaging)
 
 lazy val tools = project
   .in(file("Tools"))

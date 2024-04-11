@@ -5,37 +5,35 @@ services:
     image: persistence:0.1.0-SNAPSHOT
     ports:
       - "8081:8081"
-    stdin_open: true
-    tty: true
     container_name: persistence-service
-    environment:
-      PERSISTENCE_SERVICE_HOST: persistence-service
-      PERSISTENCE_SERVICE_PORT: 8081
-
+    networks:
+      - my_network
 
   core:
     image: core:0.1.0-SNAPSHOT
     ports:
       - "8082:8082"
-    stdin_open: true
-    tty: true
     container_name: core-service
     depends_on:
       - persistence
+    networks:
+      - my_network
     environment:
-      CORE_SERVICE_HOST: core-service
-      CORE_SERVICE_PORT: 8080
+      - PERSISTENCE_HOST=persistence
+      - PERSISTENCE_PORT=8081
 
   ui:
     image: ui:0.1.0-SNAPSHOT
-    ports:
-      - "8090:8090"
     stdin_open: true
     tty: true
     container_name: ui-service
     depends_on:
       - core
+    networks:
+      - my_network
     environment:
-      CORE_SERVICE_HOST: core-service
-      CORE_SERVICE_PORT: 8080
+      - CORE_HOST=core
+      - CORE_PORT=8082
 
+networks:
+  my_network:
