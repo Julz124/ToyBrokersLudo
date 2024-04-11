@@ -54,8 +54,12 @@ class RestPersistenceAPI:
       get {
         path("persistence" / "load") {
           parameter("file".as[String]) { fileName =>
-            val game = fileIO.load(fileName)
-            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
+            try {
+              val game = fileIO.load(fileName)
+              complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
+            } catch
+              case ex: Exception =>
+                complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage + " " + fileName))
           }
         }
       },

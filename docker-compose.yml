@@ -8,6 +8,9 @@ services:
     container_name: persistence-service
     networks:
       - my_network
+    working_dir: /fileio
+    volumes:
+        - ./:/fileio:xro
 
   core:
     image: core:0.1.0-SNAPSHOT
