@@ -87,7 +87,8 @@ class CoreController extends Observable:
   def load(fileName: String): Future[Unit] =
     val request = HttpRequest(
       method = HttpMethods.POST,
-      uri = s"http://core-service:8082/core/load?target=$fileName"
+      uri = s"http://core-service:8082/core/load",
+      entity = HttpEntity(ContentTypes.`application/json`, fileName)
     )
     sendHttpRequest(request).map { response =>
       handleResponse(response)(jsonStr => Json.parse(jsonStr))

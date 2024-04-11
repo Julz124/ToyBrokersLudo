@@ -3,6 +3,7 @@ package aview
 import model.{GameField, Move}
 import util.{Observable, Observer}
 
+import scala.compat.Platform
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
@@ -14,7 +15,13 @@ class Tui(coreController: CoreController) extends Observer:
   coreController.add(this)
   printField()
 
-  override def update(): Unit = printField()
+  override def update(): Unit = printFieldOnMainThread()
+
+  private def printFieldOnMainThread(): Unit = {
+    Future {
+      printField()
+    }
+  }
   
   private def printField(): Unit = {
     coreController.gameField.onComplete {

@@ -21,9 +21,6 @@ services:
       - persistence
     networks:
       - my_network
-    environment:
-      - PERSISTENCE_HOST=persistence
-      - PERSISTENCE_PORT=8081
 
   ui:
     image: ui:0.1.0-SNAPSHOT
@@ -35,8 +32,19 @@ services:
     networks:
       - my_network
     environment:
-      - CORE_HOST=core
-      - CORE_PORT=8082
+      DISPLAY: $DISPLAY
+
+  ui2:
+    image: ui:0.1.0-SNAPSHOT
+    stdin_open: true
+    tty: true
+    container_name: ui-service2
+    depends_on:
+      - core
+    networks:
+      - my_network
+    environment:
+      DISPLAY: $DISPLAY
 
 networks:
   my_network:
