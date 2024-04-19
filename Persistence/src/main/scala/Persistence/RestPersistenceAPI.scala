@@ -1,12 +1,12 @@
-package FileIO
-
+package Persistence
 
 import FileIO.JsonFileIO
+import Persistence.DB.Slick
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCodes}
-import akka.http.scaladsl.server.Directives.{entity, *}
+import akka.http.scaladsl.server.Directives.*
 import akka.stream.ActorMaterializer
 import model.GameField
 import play.api.libs.json.Json
@@ -21,6 +21,7 @@ class RestPersistenceAPI:
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   var fileIO = new JsonFileIO
+  var slick = new Slick()
   private val RestUIPort = 8081
   private val routes: String =
     """
@@ -44,6 +45,7 @@ class RestPersistenceAPI:
           entity(as[String]) { saveRequest =>
             parameter("file".as[String]) { fileName =>
               val gameField: GameField = Json.fromJson(Json.parse(saveRequest)).get
+              slick.save(gameField)
               fileIO.save(gameField, fileName)
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game saved"))
             }
@@ -54,7 +56,8 @@ class RestPersistenceAPI:
         path("persistence" / "load") {
           parameter("file".as[String]) { fileName =>
             try {
-              val game = fileIO.load(fileName)
+              //val game = fileIO.load(fileName)
+              val game = slick.load()
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
             } catch
               case ex: Exception =>
