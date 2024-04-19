@@ -48,7 +48,7 @@ class Slick extends DAOInterface:
     case Failure(exception) => println(exception.getMessage)
   }
 
-  def save(gameField: GameField): Unit = {
+  def save(gameField: GameField): Unit =
     val gameStateInsert = (gameStateTable returning gameStateTable.map(_.id)) += (
       None,
       gameField.gameState.shouldDice,
@@ -56,30 +56,55 @@ class Slick extends DAOInterface:
       gameField.gameState.currentPlayer.toString
     )
     val gameStateId = Await.result(database.run(gameStateInsert), 10.seconds)
-
     val mapInsert = (mapTable returning mapTable.map(_.id)) += (None, Json.toJson(gameField).toString())
     val mapId = Await.result(database.run(mapInsert), 10.seconds)
+    val gameFieldInsert = (gameFieldTable returning gameFieldTable.map(_.id)) into ((_, id) => id) += (
+      None,
+      gameStateId.get,
+      mapId.get
+    )
+    Await.result(database.run(gameFieldInsert), 10.seconds)
+    println("Database save")
 
-    val gameFieldInsert = (gameFieldTable returning gameFieldTable.map(_.id)) into ((_, id) => id) += (None, gameStateId.get, mapId.get)
-    val gameId = Await.result(database.run(gameFieldInsert), 10.seconds)
-    println(gameId)
-  }
+  def update(gameField: GameField): Unit =
+    val gameFieldQuery = gameFieldTable.result
+    val gameFieldResult = Await.result(database.run(gameFieldQuery), 10.seconds).head
+    val gameStateUpdate = gameStateTable
+      .filter(_.id === gameFieldResult._2)
+      .update(
+        None,
+        gameField.gameState.shouldDice,
+        gameField.gameState.diceNumber,
+        gameField.gameState.currentPlayer.toString
+      )
+    val mapUpdate = mapTable
+      .filter(_.id === gameFieldResult._3)
+      .update(None, Json.toJson(gameField).toString())
+    val updateActions = for {
+      _ <- gameStateUpdate
+      _ <- mapUpdate
+    } yield ()
+    Await.result(database.run(updateActions.transactionally), 10.seconds)
+    println("Database updated")
 
-  def load(): GameField = {
+  def load(): GameField =
     val gameFieldQuery = gameFieldTable
       .join(gameStateTable).on(_.stateId === _.id)
       .join(mapTable).on(_._1.mapId === _.id)
       .sortBy(_._1._1.id.desc)
       .take(1)
     val action = gameFieldQuery.result
-
     val result = Await.result(database.run(action), 10.seconds).head
-
     GameField(
       gameState = GameState(result._1._2._2, result._1._2._3, Player.fromString(result._1._2._4)),
       map = Json.parse(result._2._2).as[GameField].map
     )
-  }
+
+  def delete(): Unit =
+    val gameFieldDelete = gameFieldTable.delete
+    database.run(gameFieldDelete)
+    println("Database deleted")
+
 
 
 

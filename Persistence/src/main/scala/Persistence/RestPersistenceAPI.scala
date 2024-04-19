@@ -21,16 +21,21 @@ class RestPersistenceAPI:
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
   var fileIO = new JsonFileIO
-  var slick = new Slick()
+  var database = new Slick()
   private val RestUIPort = 8081
   private val routes: String =
     """
       <h1>Welcome to the REST Persistence API service!</h1>
       <h2>Available routes:</h2>
 
-      <p><a href="persistence/save">POST      ->     persistence/save</a></p>
-      <p><a href="persistence/load">GET       ->     persistence/load</a></p>
-      <p><a href="persistence/getTargets">GET ->     persistence/getTargets</a></p>
+      <p><a href="persistence/save">POST              ->     persistence/save</a></p>
+      <p><a href="persistence/load">GET               ->     persistence/load</a></p>
+      <p><a href="persistence/getTargets">GET         ->     persistence/getTargets</a></p>
+
+      <p><a href="persistence/databaseSave">POST      ->     persistence/databaseSave</a></p>
+      <p><a href="persistence/databaseLoad">GET       ->     persistence/databaseLoad</a></p>
+      <p><a href="persistence/databaseUpdate">POST    ->     persistence/databaseUpdate</a></p>
+      <p><a href="persistence/databaseDelete">POST    ->     persistence/databaseDelete</a></p>
 
       <br>
     """.stripMargin
@@ -45,7 +50,6 @@ class RestPersistenceAPI:
           entity(as[String]) { saveRequest =>
             parameter("file".as[String]) { fileName =>
               val gameField: GameField = Json.fromJson(Json.parse(saveRequest)).get
-              slick.save(gameField)
               fileIO.save(gameField, fileName)
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game saved"))
             }
@@ -56,8 +60,7 @@ class RestPersistenceAPI:
         path("persistence" / "load") {
           parameter("file".as[String]) { fileName =>
             try {
-              //val game = fileIO.load(fileName)
-              val game = slick.load()
+              val game = fileIO.load(fileName)
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
             } catch
               case ex: Exception =>
@@ -71,6 +74,45 @@ class RestPersistenceAPI:
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(targets).toString()))
         }
       },
+      path("persistence" / "databaseSave") {
+        post {
+          try {
+            entity(as[String]) { saveRequest =>
+              val gameField: GameField = Json.fromJson(Json.parse(saveRequest)).get
+              database.save(gameField)
+              complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game saved"))
+            }
+          } catch
+            case ex: Exception => complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
+        }
+      },
+      get {
+        path("persistence" / "databaseLoad") {
+          try {
+            val game = database.load()
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, Json.toJson(game).toString()))
+          } catch
+            case ex: Exception => complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
+          }
+      },
+      path("persistence" / "databaseUpdate") {
+        post {
+          entity(as[String]) { saveRequest =>
+            val gameField: GameField = Json.fromJson(Json.parse(saveRequest)).get
+            database.update(gameField)
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game saved"))
+          }
+        }
+      },
+      path("persistence" / "databaseDelete") {
+        post {
+          try {
+            database.delete()
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Game deleted"))
+          } catch
+            case ex: Exception => complete(HttpResponse(StatusCodes.Conflict, entity = ex.getMessage))
+        }
+      }
     )
 
   def start(): Unit =
