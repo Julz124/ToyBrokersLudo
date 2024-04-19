@@ -83,7 +83,6 @@ class Controller(using persistenceController: PersistenceControllerInterface) ex
     Await.result(persistenceController.databaseSave(GameField.init()), 5.seconds)
     gameField = GameField.init()
     notifyObservers()
-
   
   private def generateValidMoveList(move: Move): List[Move] =
     move.toCell(gameField.map).token match
