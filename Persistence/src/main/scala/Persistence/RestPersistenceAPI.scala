@@ -1,8 +1,8 @@
 package Persistence
 
-import FileIO.{FileIO, JsonFileIO}
 import Persistence.DB.DAOInterface
 import Persistence.DB.slick.Slick
+import Persistence.FileIO.{FileIO, JsonFileIO}
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http

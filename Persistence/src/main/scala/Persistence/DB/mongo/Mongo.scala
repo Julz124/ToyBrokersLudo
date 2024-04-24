@@ -4,25 +4,22 @@ import Persistence.DB.DAOInterface
 import com.mongodb.client.model.Updates.combine
 import model.{Cell, GameField, GameState, Player}
 import org.mongodb.scala.bson.BsonDocument
-import org.mongodb.scala.gridfs.ObservableFuture
+import org.mongodb.scala.gridfs.{ObservableFuture, SingleObservableFuture}
 import org.mongodb.scala.model.*
 import org.mongodb.scala.model.Aggregates.*
 import org.mongodb.scala.model.Filters.*
 import org.mongodb.scala.model.Sorts.*
 import org.mongodb.scala.result.{DeleteResult, InsertOneResult, UpdateResult}
-import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase, Observable, ObservableFuture, Observer, SingleObservable, result}
+import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase, Observable, ObservableFuture, Observer, SingleObservable, SingleObservableFuture, result}
 import play.api.libs.json.Json
-
-import scala.concurrent.duration.DurationInt
-import scala.concurrent.Await
-import scala.util.{Failure, Success}
-import concurrent.ExecutionContext.Implicits.global
 import util.json.JsonReaders.*
 import util.json.JsonWriters.*
-import org.mongodb.scala.SingleObservableFuture
-import org.mongodb.scala.gridfs.SingleObservableFuture
 
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration.Inf
+import scala.concurrent.duration.DurationInt
+import scala.util.{Failure, Success}
 
 class Mongo extends DAOInterface:
   private val database_pw = sys.env.getOrElse("MONGO_ROOT_PASSWORD", "mongo")
