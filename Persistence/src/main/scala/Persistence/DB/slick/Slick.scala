@@ -1,5 +1,6 @@
-package Persistence.DB
+package Persistence.DB.slick
 
+import Persistence.DB.DAOInterface
 import akka.japi.JAPI
 import model.{Cell, GameField, GameState, Player}
 import play.api.libs.json.Json
@@ -12,9 +13,9 @@ import util.json.JsonWriters.*
 
 import java.sql.SQLNonTransientException
 import scala.concurrent.Await
-import scala.util.{Failure, Success}
-import concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
+import scala.util.{Failure, Success}
 
 class Slick extends DAOInterface:
   private val databaseDB: String = sys.env.getOrElse("MYSQL_DATABASE", "tbl")

@@ -1,4 +1,4 @@
-package Persistence.DB
+package Persistence.DB.slick
 
 import slick.jdbc.PostgresProfile.api.*
 import slick.lifted.ForeignKeyQuery
