@@ -46,12 +46,16 @@ class Mongo extends DAOInterface:
     handleResult(gameCollection.insertOne(document))
 
   def load(): GameField =
-    val filter = equal("_id", getHighestId(gameCollection))
-    val future = gameCollection.find(filter).first().toFutureOption()
-    val gameDocument = Await.result(future, 10.seconds)
-    val map = Json.parse(gameDocument.get("map").asString().getValue).as[GameField].map
-    val state = queryState(gameDocument.get("state"))
-    GameField.init().copy(map = map, gameState = state)
+    try {
+      val filter = equal("_id", getHighestId(gameCollection))
+      val future = gameCollection.find(filter).first().toFutureOption()
+      val gameDocument = Await.result(future, 10.seconds)
+      val map = Json.parse(gameDocument.get("map").asString().getValue).as[GameField].map
+      val state = queryState(gameDocument.get("state"))
+      GameField.init().copy(map = map, gameState = state)
+    } catch
+      case ex: Exception =>
+        GameField.init()
 
   def update(gameField: GameField): Unit = {
     val filter = equal("_id", getHighestId(gameCollection))

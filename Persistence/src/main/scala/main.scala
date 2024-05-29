@@ -7,7 +7,7 @@ import model.GameField
 
 @main def persistence(): Unit = {
   val fileIO: FileIO = JsonFileIO()
-  val database: DAOInterface = Mongo()
+  val database: DAOInterface = Slick()
   
   val restPersistenceAPI = RestPersistenceAPI(using fileIO)(using database)
   restPersistenceAPI.start()
