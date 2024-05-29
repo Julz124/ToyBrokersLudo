@@ -1,4 +1,4 @@
-package Persistence.DB
+package Persistence.DB.slick
 
 import model.Player
 import slick.jdbc.PostgresProfile.api.*
