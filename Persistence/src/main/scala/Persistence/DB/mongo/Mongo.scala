@@ -34,16 +34,20 @@ class Mongo extends DAOInterface:
   private val gameCollection: MongoCollection[Document] = db.getCollection("game")
 
   def save(gameField: GameField): Unit =
-    val document = Document(
-      "_id" -> (getHighestId(gameCollection) + 1),
-      "state" -> Document(
-        "shouldDice" -> gameField.gameState.shouldDice,
-        "diceNumber" -> gameField.gameState.diceNumber,
-        "currentPlayer" -> gameField.gameState.currentPlayer.toString
-      ),
-      "map" -> Json.toJson(gameField).toString()
-    )
-    handleResult(gameCollection.insertOne(document))
+    try {
+      val document = Document(
+        "_id" -> (getHighestId(gameCollection) + 1),
+        "state" -> Document(
+          "shouldDice" -> gameField.gameState.shouldDice,
+          "diceNumber" -> gameField.gameState.diceNumber,
+          "currentPlayer" -> gameField.gameState.currentPlayer.toString
+        ),
+        "map" -> Json.toJson(gameField).toString()
+      )
+      handleResult(gameCollection.insertOne(document))
+    } catch
+      case ex: Exception => println(ex)
+
 
   def load(): GameField =
     try {

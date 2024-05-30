@@ -30,9 +30,9 @@ class PersistenceVolumeTest extends SimulationTemplate {
   )
 
   override def executeOperations(): Unit = {
-    var scn = buildScenario("Scenario 1")
-    var scn2 = buildScenario("Scenario 2")
-    var scn3 = buildScenario("Scenario 3")
+    val scn = buildScenario("Scenario 1")
+    val scn2 = buildScenario("Scenario 2")
+    val scn3 = buildScenario("Scenario 3")
 
     setUp(
       scn.inject(
