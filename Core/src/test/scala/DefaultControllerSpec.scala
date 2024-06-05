@@ -1,18 +1,21 @@
-import controller.DefaultController
+import controller.PersistenceControllerInterface
+import controller.impl.Controller
 import model.*
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.concurrent.Await
+import scala.concurrent.duration.DurationInt
 import scala.util.{Failure, Success}
 
 class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfterEach {
-  var fileIO: FileIOStub = FileIOStub()
-  var sut: DefaultController = DefaultController(using fileIO)
+  var persistenceControllerStub: PersistenceControllerStub = PersistenceControllerStub()
+  var sut: Controller = Controller(using persistenceControllerStub)
 
   override def beforeEach(): Unit = {
-    fileIO = FileIOStub()
-    sut = DefaultController(using fileIO)
+    persistenceControllerStub = PersistenceControllerStub()
+    sut = Controller(using persistenceControllerStub)
   }
 
   "The Controller" should {
@@ -138,19 +141,19 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
 
     "save successfully" in {
       val target = "test.txt"
-      sut.save(target) shouldBe Success(())
-      fileIO.saveCalls.last shouldBe((sut.gameField, target))
+      Await.result(sut.save(target), 3.seconds)
+      persistenceControllerStub.saveCalls.last shouldBe((sut.gameField, target))
     }
 
     "get targets successfully" in {
-      fileIO.getTargetsResult = List("example")
-      sut.getTargets shouldBe Success(List("example"))
+      persistenceControllerStub.getTargetsResult = List("example")
+      Await.result(sut.getTargets, 3.seconds) shouldBe List("example")
     }
 
     "load successfully" in {
       val source = "test.txt"
-      sut.load(source) shouldBe Success(())
-      fileIO.loadCalls.last shouldBe("test.txt")
+      Await.result(sut.load(source), 3.seconds)
+      persistenceControllerStub.loadCalls.last shouldBe("test.txt")
     }
 
     "getGameFiled return gameField" in {
@@ -196,5 +199,24 @@ class DefaultControllerSpec extends AnyWordSpec with Matchers with BeforeAndAfte
       gameField = gameField.copy(gameState = GameField.init().gameState.copy(shouldDice = false, diceNumber = 4, currentPlayer = Player.Red))
       sut.gameField = gameField
       sut.possibleMoves shouldBe Success(gameField.possibleMoves())
+    }
+
+    "deleteGame" in {
+      var gameField = GameField.init().copy(gameState = GameField.init().gameState.copy(shouldDice = false))
+      gameField = gameField.move(Move(4, 74))
+      sut.gameField = gameField
+      sut.deleteGame()
+      Thread.sleep(100)
+      val expected = "G1G2OOOR1R2OOOG3G4OOOR3R4OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOY1Y2OOOB1B2OOOY3Y4OOOB3B4Dice:0Greenhavetodice"
+      val actual = GameField.init().toString
+    }
+    
+    "init controller should read from database" in {
+      persistenceControllerStub.loadDatabaseCalls shouldBe 1
+    }
+    
+    "dice should write to database" in {
+      sut.dice()
+      persistenceControllerStub.updateDatabaseCalls.length shouldBe 1
     }
   }}
